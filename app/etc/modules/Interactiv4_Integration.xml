@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Integration
+ *
+ * @category    Interactiv4
+ * @package     Interactiv4_Integration
+ * @copyright   Copyright (c) 2013 Interactiv4 SL. (http://www.interactiv4.com)
+ */
+-->
+<config>
+    <modules>
+        <Interactiv4_Integration>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Interactiv4_Integration>
+    </modules>
+</config> 

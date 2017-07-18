@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<config>
+    <menu>
+        <system>
+            <children>
+                <onticsync module="onticsync">
+                    <title>Sincronización</title>
+                    <action>adminhtml/onticsync/index</action>
+                </onticsync>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <onticsync>
+                                <title>Sincronización</title>
+                            </onticsync>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,179 @@
+<?php /* @var $this Interactiv4_Mrw_Block_Adminhtml_Customer_Edit_Js */ ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    
+    var i4CAFBlockVars = {
+        tiposViasValues: <?php echo $this->getTiposViasValuesJsArray(); ?>,
+        tiposViasLabels: <?php echo $this->getTiposViasLabelsJsArray(); ?>,
+        tipoViaLabel: "<?php echo $this->__("Street Type"); ?>",
+        nombreViaLabel: "<?php echo $this->__("Street Name"); ?>",
+        numeroViaLabel: "<?php echo $this->__("House Number/Name"); ?>",
+        restoLabel: "<?php echo $this->__("Rest of Address"); ?>",
+        isActive: <?php echo $this->getIsActive() ? "true" : "false"; ?>,
+        nombreViaMaxLength: <?php echo Interactiv4_Mrw_Model_Shipping_Carrier_Mrw::SHIPPING_ADDRESS_MAX_LENGTH_NOMBRE_VIA; ?>,
+        restoMaxLength: <?php echo Interactiv4_Mrw_Model_Shipping_Carrier_Mrw::SHIPPING_ADDRESS_MAX_LENGTH_REST; ?>,
+        numeroViaMaxLength: <?php echo Interactiv4_Mrw_Model_Shipping_Carrier_Mrw::SHIPPING_ADDRESS_MAX_LENGTH_NUMERO; ?>,
+        existingAddressesBlockSelector: "<?php echo $this->getExistingAddressesBlock(); ?>",
+        newAddressesBlockSelector: "<?php echo $this->getNewAddressesBlock(); ?>",
+        addressLineNameTemplate: "<?php echo $this->getAddressLineNameTemplate(); ?>",
+        newAddressLineNameTemplate: "<?php echo $this->getNewAddressLineNameTemplate(); ?>",
+        addressLineIdTemplate: "<?php echo $this->getAddressLineIdTemplate(); ?>",
+        addressIndexPlaceholder: "<?php echo $this->getAddressIndexPlaceholder(); ?>",
+        streetLinePlaceholder: "<?php echo $this->getStreetLinePlaceholder(); ?>",
+        showIfAddressInvalid: <?php echo $this->getShowIfAddressInvalid() ? "true" : "false"; ?>
+    }
+    var i4CustomerAddressFormat = {
+        _fomattedAddressIndexes: [],
+        _useNewAddressLineNameTemplate: false,
+        
+        init: function() {
+            if (!i4CAFBlockVars.isActive) {
+                return;
+            }
+ 
+            this.formatAddressBlocks();   
+            if ($('add_address_button')) {
+                var oldAddAddressOnClick = $('add_address_button').onclick;
+                $('add_address_button').onclick = function (event) {
+                    if (oldAddAddressOnClick) {
+                        oldAddAddressOnClick(event);
+                        this._useNewAddressLineNameTemplate = true;
+                        this.formatAddressBlocks();   
+                    }
+                }.bind(this);
+            }
+        },
+        
+        formatAddressBlocks: function() {
+            var addressIndexes = this.getAddressIndexes();
+            for (var i = 0; i < addressIndexes.length; i++) {
+                this.formatAddressFields(addressIndexes[i]);
+            }
+        },
+        
+        formatAddressFields: function(addressIndex) {
+            if (this._fomattedAddressIndexes.indexOf(addressIndex) >= 0) {
+                return;
+            }
+            this._fomattedAddressIndexes.push(addressIndex);
+            
+            if ((i4CAFBlockVars.existingAddressesBlockSelector && !this.getAddressBlock(addressIndex)) || (!this.isEmptyAddress(addressIndex) && !this.isValidTipoVia(this.getTipoVia(addressIndex)) && !i4CAFBlockVars.showIfAddressInvalid)) {
+                return;
+            }
+            
+            
+            
+            var newAddressBlock = '<tr><td class="label"><label for="' + this.getAddressLineId(addressIndex, 0) + '">' + i4CAFBlockVars.tipoViaLabel + ' <span class="required">*</span></label></td>' +
+                '<td class="value">' + this.getTipoViaHtmlSelect(addressIndex) + '</td></tr>' +
+                '<tr><td class="label"><label for="' + this.getAddressLineId(addressIndex, 1) + '">' + i4CAFBlockVars.nombreViaLabel + ' <span class="required">*</span></label></td>' +
+                '<td class="value"><input id="' + this.getAddressLineId(addressIndex, 1) + '" name="' + this.getAddressLineName(addressIndex, 1) + '" value="' + this.getNombreVia(addressIndex) +'" class="input-text required-entry" type="text" maxlength="' + i4CAFBlockVars.nombreViaMaxLength + '"/></td></tr>' +
+                '<tr><td class="label"><label for="' + this.getAddressLineId(addressIndex, 2) + '">' + i4CAFBlockVars.numeroViaLabel + ' <span class="required">*</span></label></td>' +
+                '<td class="value"><input id="' + this.getAddressLineId(addressIndex, 2) + '" name="' + this.getAddressLineName(addressIndex, 2) + '" value="' + this.getNumeroVia(addressIndex) +'" class="input-text required-entry" type="text"  maxlength="' + i4CAFBlockVars.numeroViaMaxLength + '" /></td></tr>' +
+                '<tr><td class="label"><label for="' + this.getAddressLineId(addressIndex, 3) + '">' + i4CAFBlockVars.restoLabel + ' </label></td>' +
+                '<td class="value"><input id="' + this.getAddressLineId(addressIndex, 3) + '" name="' + this.getAddressLineName(addressIndex, 3) + '" value="' + this.getResto(addressIndex) +'" class="input-text " type="text" maxlength="' + i4CAFBlockVars.restoMaxLength + '" /></td></tr>';
+            Element.replace(this.getAddressBlock(addressIndex), newAddressBlock);            
+        },
+        
+        getAddressLineName: function (addressIndex, streetLineNum) {
+            var addressLineNameTemplate = this._useNewAddressLineNameTemplate ? i4CAFBlockVars.newAddressLineNameTemplate : i4CAFBlockVars.addressLineNameTemplate;
+            var addressLineName = addressLineNameTemplate.replace(i4CAFBlockVars.addressIndexPlaceholder, addressIndex);
+            addressLineName = addressLineName.replace(i4CAFBlockVars.streetLinePlaceholder, streetLineNum);
+            return addressLineName;
+        }, 
+        
+        getAddressLineId: function(addressIndex, streetLineNum) {
+            var addressLineId = i4CAFBlockVars.addressLineIdTemplate.replace(i4CAFBlockVars.addressIndexPlaceholder, addressIndex);
+            addressLineId = addressLineId.replace(i4CAFBlockVars.streetLinePlaceholder, streetLineNum);
+            return addressLineId;
+        },
+        
+        getAddressBlock: function(addressIndex) {
+            return this.getTipoViaInput(addressIndex) ? this.getTipoViaInput(addressIndex).up(2) : false;
+        },
+        
+        getAddressIndexes: function() {
+            if (!i4CAFBlockVars.existingAddressesBlockSelector && !i4CAFBlockVars.newAddressesBlockSelector) {
+                return [1];
+            }
+            var addressIndexes = [];
+            if (i4CAFBlockVars.existingAddressesBlockSelector) {
+                var existingAddressBlocks = $$("div[id^='" + i4CAFBlockVars.existingAddressesBlockSelector +"']");
+                existingAddressBlocks.each(function(block) {
+                    addressIndexes.push(this.getBlockIndex(i4CAFBlockVars.existingAddressesBlockSelector, block.id));
+                }.bind(this));
+            }
+            if (i4CAFBlockVars.newAddressesBlockSelector) {
+                var newAddressBlocks = $$("div[id^='" + i4CAFBlockVars.newAddressesBlockSelector +"']");
+                newAddressBlocks.each(function(block) {
+                    addressIndexes.push(this.getBlockIndex(i4CAFBlockVars.newAddressesBlockSelector, block.id));
+                }.bind(this));
+            }
+            return  addressIndexes;
+        },
+        
+        getBlockIndex: function(blockPrefix, blockId) {
+            return blockId.substr(blockPrefix.length);
+        },
+        
+       
+        
+        getTipoVia: function(addressIndex) {
+        
+            return this.isValidTipoVia(this.getStreetLineValue(addressIndex, 0)) ? this.getStreetLineValue(addressIndex, 0) : 'C';
+        },
+        
+        getTipoViaInput: function(addressIndex) {
+            return this.getStreetLineInput(addressIndex, 0);
+        },
+        
+        getNombreVia: function(addressIndex) {
+            return this.isValidTipoVia(this.getStreetLineValue(addressIndex, 0)) ?   this.getStreetLineValue(addressIndex, 1)  : ((this.getStreetLineValue(addressIndex, 0) ? this.getStreetLineValue(addressIndex, 0) + ' ' : '') + this.getStreetLineValue(addressIndex, 1));
+        },
+        
+        getNumeroVia: function(addressIndex) {
+            return this.getStreetLineValue(addressIndex, 2);
+        },
+        
+        getResto: function(addressIndex) {
+            return this.getStreetLineValue(addressIndex, 3);
+        },       
+        
+        getStreetLineValue: function(addressIndex, lineNum) {
+            return this.getStreetLineInput(addressIndex, lineNum) ?  this.getStreetLineInput(addressIndex, lineNum).getValue() : '';
+        },         
+        
+        getStreetLineInput: function(addressIndex, lineNum) {
+            return $(this.getAddressLineId(addressIndex, lineNum));
+        },
+        
+        isValidTipoVia: function(tipoVia) {
+            return i4CAFBlockVars.tiposViasValues.indexOf(tipoVia) >= 0;
+        },
+        
+        isEmptyAddress: function(addressIndex) {
+            return !this.getTipoVia(addressIndex) && !this.getNombreVia(addressIndex) && !this.getNumeroVia(addressIndex) && !this.getResto(addressIndex);
+        }, 
+        
+        getTipoViaHtmlSelect: function(addressIndex) {
+            var select = '<select id="' + this.getAddressLineId(addressIndex, 0) + '" name="'+ this.getAddressLineName(addressIndex, 0) +'"  class="input-text required-entry select" >';
+            for (var i = 0; i < i4CAFBlockVars.tiposViasValues.length; i++) {
+                select += '<option value="' + i4CAFBlockVars.tiposViasValues[i] + '" ';
+                if (this.getTipoVia(addressIndex) == i4CAFBlockVars.tiposViasValues[i]) {
+                    select += ' selected ';
+                }
+                select += '>' + i4CAFBlockVars.tiposViasLabels[i] + '</option>';
+            }
+            select += '</select>';
+            return select;
+        }
+        
+        
+    };
+    
+    document.observe("dom:loaded",function(){
+        i4CustomerAddressFormat.init();
+    });    
+    
+    //]]>
+</script>

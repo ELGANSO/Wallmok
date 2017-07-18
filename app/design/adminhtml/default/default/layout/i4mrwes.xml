@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <reference name="after_body_start">
+            <block type="i4mrwes/license_imagetag" after="-" name="i4mrwes.check.license" />
+        </reference>
+    </default>
+    <adminhtml_sales_order_shipment_view>
+        <reference name="shipment_tracking">
+            <action method="setTemplate">
+                <template>i4mrwes/sales/order/shipment/view/tracking.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+    <adminhtml_sales_order_view>
+        <reference name="order_totals">
+            <block type="i4mrwes/order_totals_cashondeliverysurchage" />
+        </reference>
+    </adminhtml_sales_order_view>
+    <adminhtml_sales_order_invoice_view>
+        <reference name="invoice_totals">
+            <block type="i4mrwes/order_invoice_totals_cashondeliverysurcharge" />
+        </reference>             
+    </adminhtml_sales_order_invoice_view>
+    
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_totals">
+            <block type="i4mrwes/order_invoice_totals_cashondeliverysurcharge" />
+        </reference>             
+    </adminhtml_sales_order_invoice_new>    
+    
+    <adminhtml_sales_order_invoice_new>
+        <reference name="invoice_totals">
+            <block type="i4mrwes/order_invoice_totals_cashondeliverysurcharge" />
+        </reference>             
+    </adminhtml_sales_order_invoice_new>       
+    
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="invoice_totals">
+            <block type="i4mrwes/order_totals_cashondeliverysurchage" />
+        </reference>             
+    </adminhtml_sales_order_invoice_updateqty> 
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block type="i4mrwes/order_creditmemo_totals_cashondeliverysurcharge" />
+        </reference>             
+    </adminhtml_sales_order_creditmemo_view>      
+    
+     <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block type="i4mrwes/order_creditmemo_totals_cashondeliverysurcharge" />
+        </reference>             
+    </adminhtml_sales_order_creditmemo_view>      
+    
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="creditmemo_totals">
+            <block type="i4mrwes/adminhtml_order_totals_cashondeliverysurcharge_newcreditmemo" />
+        </reference>             
+    </adminhtml_sales_order_creditmemo_new>  
+    
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="creditmemo_totals">
+            <block type="i4mrwes/adminhtml_order_totals_cashondeliverysurcharge_newcreditmemo" />
+        </reference>             
+    </adminhtml_sales_order_creditmemo_updateqty>   
+    
+    <adminhtml_sales_order_address>
+        <reference name="js">
+            <block type="i4mrwes/adminhtml_customer_edit_js" template="i4mrwes/customer/edit/js.phtml" name="i4mrwes.customer.edit.js" as="i4_mrwes_customer_edit_js">
+                <action method="setAddressLineNameTemplate"><template>street[@L@]</template></action>
+                <action method="setNewAddressLineNameTemplate"><template>street[@L@]</template></action>
+                <action method="setAddressLineIdTemplate"><template>street@L@</template></action>
+                <action method="setShowIfAddressInvalid"><show>1</show></action>
+            </block>
+        </reference>
+    </adminhtml_sales_order_address>      
+</layout>

@@ -1,0 +1,9 @@
+
+<config>
+    <modules>
+        <Interactiv4_EmailDownloader>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Interactiv4_EmailDownloader>
+    </modules>
+</config>

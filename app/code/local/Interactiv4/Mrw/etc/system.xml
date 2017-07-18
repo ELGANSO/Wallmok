@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <carriers>
+            <groups>
+                <i4mrwes translate="label" module="shipping">
+                    <label>MRW España By Interactiv4</label>
+                    <comment><![CDATA[
+					<div class="custom-options">
+						<div style="margin-bottom:20px;">
+									<strong style="color:#EA7601;">MRW España v3.2.4 by</strong> <a target="_blank" href="http://www.interactiv4.com"><strong>Interactiv4</strong></a>
+									<br />
+						</div>
+					</div>
+					]]>
+                    </comment>
+
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <name translate="label">
+                            <label>Method Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name>
+                        <codigo_abonado translate="label">
+                            <label>Código Abonado</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </codigo_abonado>
+                        <nombre_abonado translate="label">
+                            <label>Nombre Abonado</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </nombre_abonado>
+                        <codigo_departamento translate="label">
+                            <label>Departamento Interno</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </codigo_departamento>
+                        <username translate="label">
+                            <label>Usuario</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </username>
+                        <password translate="label">
+                            <label>Password</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </password>
+                        <password_seguimiento translate="label">
+                            <label>Password Seguimiento</label>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </password_seguimiento>
+                        <codigo_franquicia translate="label">
+                            <label>Código Franquicia</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </codigo_franquicia>
+                        <method translate="label">
+                            <label>Method</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>i4mrwes/shipping_carrier_mrw_source_method</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </method>
+                        <mode>
+                            <label>Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4mrwes/shipping_carrier_mrw_source_mode</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </mode>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <skip_packed_shipment_dialog translate="label comment">
+                            <label>Skip Packed Shipment Dialog</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>   
+                            <comment>Select 'yes' if you want to skip the dialog for distributing your shipment into packages and send all items in one package by default.</comment>
+                        </skip_packed_shipment_dialog>                        
+                        <export translate="label">
+                            <label>Export</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>i4mrwes/adminhtml_system_config_form_field_export</frontend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </export>
+                        <import translate="label">
+                            <label>Import</label>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>i4mrwes/backend_tablerate</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </import>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <sallowspecific translate="label">
+                            <label>Ship to Applicable Countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>90</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Ship to Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>91</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+                        <showmethod translate="label">
+                            <label>Show Method if Not Applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>92</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </showmethod>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
+                    </fields>
+                </i4mrwes>
+            </groups>
+        </carriers>
+        <payment>
+            <groups>
+                <i4mrwes_cashondelivery translate="label" module="payment">
+                    <label>Contrareembolso para MRW España By Interactiv4</label>
+                    <comment><![CDATA[
+					<div class="custom-options">
+						<div style="margin-bottom:20px;">
+									<span style="color:#EA7601;">Atención:</span> Este método de pago sólo estará disponible si tiene activado el método de envío MRW de Interactiv4 y además tiene asignado un valor en la columna 'CashOnDelivery Surcharge'.
+									<br />
+									<strong style="color:#EA7601;">Contrareembolso para MRW España v3.2.4 by</strong> <a target="_blank" href="http://www.interactiv4.com"><strong>Interactiv4</strong></a>
+									<br />
+						</div>
+					</div>
+					]]>
+                    </comment>
+                    <sort_order>670</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <description translate="label">
+                            <label>Description</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </description>
+                        <total_title translate="label">
+                            <label>Recargo nombre</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </total_title>
+                        <order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4mrwes/adminhtml_system_config_source_order_status_pendingpayment</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <allowspecific translate="label">
+                            <label>Payment from Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>60</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>61</sort_order>
+                            <source_model>i4mrwes/payment_cashondelivery_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+                    </fields>
+                </i4mrwes_cashondelivery>
+            </groups>
+        </payment>
+    </sections>
+</config>

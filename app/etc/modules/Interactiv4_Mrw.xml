@@ -1,0 +1,17 @@
+<config>
+    <modules>
+        <Interactiv4_Mrw>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Shipping/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Interactiv4_PackedShipment/>
+                <Interactiv4_TableRates />
+            </depends>
+        </Interactiv4_Mrw>
+    </modules>
+</config> 
+ 
+
