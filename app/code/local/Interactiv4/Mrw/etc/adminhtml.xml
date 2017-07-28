@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <translate>
+        <modules>
+            <Interactiv4_Mrw>
+                <files>
+                    <default>Interactiv4_Mrw.csv</default>
+                </files>
+            </Interactiv4_Mrw>
+        </modules>
+    </translate>
+    <menu>
+        <promo>
+            <children>
+                <i4tablerates translate="title" module="i4tablerates">
+                    <title>Interactiv4 Table Rates</title>
+                    <sort_order>500</sort_order>  
+                    <children>
+                        <i4mrwes translate="title" module="i4mrwes">
+                            <title>MRW</title>
+                            <sort_order>500</sort_order>
+                            <action>i4tablerates/adminhtml_index/index/carrier/i4mrwes</action>
+                        </i4mrwes>                        
+                    </children>      
+                </i4tablerates>
+            </children>
+        </promo>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <promo>
+                        <children>
+                            <i4tablerates translate="title" module="i4tablerates">
+                                <title>Interactiv4 Table Rates</title>
+                                <sort_order>500</sort_order>  
+                                <children>
+                                    <i4mrwes translate="title" module="i4mrwes">
+                                        <title>DPD GeoPost</title>
+                                        <sort_order>500</sort_order>
+                                    </i4mrwes>                        
+                                </children>                                 
+                            </i4tablerates>
+                        </children>
+                    </promo>
+                </children>
+            </admin>
+        </resources>
+    </acl>    
+</config>

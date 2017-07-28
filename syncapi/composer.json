@@ -1,0 +1,10 @@
+{
+    "autoload": {
+    "psr-4": {"Ontic\\SyncApi\\": "src/"}
+    },
+    "require": {
+    "symfony/routing": "^2.7",
+        "symfony/http-foundation": "^2.7",
+        "monolog/monolog": "^1.17"
+    }
+}

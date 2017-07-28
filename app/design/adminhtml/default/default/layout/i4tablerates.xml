@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <i4tablerates_adminhtml_index_index>
+        <reference name="content">
+            <block type="i4tablerates/adminhtml_tablerate" name="tablerates">
+            </block>
+        </reference>
+    </i4tablerates_adminhtml_index_index>
+    <i4tablerates_adminhtml_index_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+        </block>
+  
+    </i4tablerates_adminhtml_index_grid>
+    <i4tablerates_adminhtml_index_new>
+        <update handle="i4tablerates_adminhtml_index_edit"/>
+    </i4tablerates_adminhtml_index_new>
+    <i4tablerates_adminhtml_index_edit>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="i4tablerates/adminhtml_tablerate_edit" name="tablerate_edit"></block>
+        </reference>
+    </i4tablerates_adminhtml_index_edit>
+    
+    <i4tablerates_adminhtml_index_import>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="i4tablerates/adminhtml_tablerate_import" name="tablerate_edit"></block>
+        </reference>
+    </i4tablerates_adminhtml_index_import>    
+    
+    <i4tablerates_adminhtml_index_export>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="i4tablerates/adminhtml_tablerate_export" name="tablerate_edit"></block>
+        </reference>
+    </i4tablerates_adminhtml_index_export>       
+</layout>

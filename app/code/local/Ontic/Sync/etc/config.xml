@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<config>
+
+    <modules>
+        <Ontic_Sync>
+            <version>1.0.2</version>
+        </Ontic_Sync>
+    </modules>
+
+    <global>
+
+        <blocks>
+            <onticsync>
+                <class>Ontic_Sync_Block</class>
+            </onticsync>
+        </blocks>
+
+        <models>
+            <onticsync>
+                <class>Ontic_Sync_Model</class>
+                <resourceModel>onticsync_resource</resourceModel>
+            </onticsync>
+            <onticsync_resource>
+                <class>Ontic_Sync_Model_Resource</class>
+                <entities>
+                    <product_update_request>
+                        <table>onticsync_product_update_request</table>
+                    </product_update_request>
+                    <product_update>
+                        <table>onticsync_product_update</table>
+                    </product_update>
+                </entities>
+            </onticsync_resource>
+        </models>
+
+        <helpers>
+            <onticsync>
+                <class>Ontic_Sync_Helper</class>
+            </onticsync>
+        </helpers>
+
+        <events>
+            <customer_save_after>
+                <observers>
+                    <onticsync>
+                        <type>singleton</type>
+                        <class>onticsync/observer_customer</class>
+                        <method>customerSaveAfter</method>
+                    </onticsync>
+                </observers>
+            </customer_save_after>
+            <customer_address_save_after>
+                <observers>
+                    <onticsync>
+                        <type>singleton</type>
+                        <class>onticsync/observer_address</class>
+                        <method>customerAddressSaveAfter</method>
+                    </onticsync>
+                </observers>
+            </customer_address_save_after>
+        </events>
+
+        <resources>
+            <onticsync_setup>
+                <setup>
+                    <module>Ontic_Sync</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </onticsync_setup>
+        </resources>
+
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <onticsync before="Mage_Adminhtml">Ontic_Sync_Adminhtml</onticsync>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+</config>

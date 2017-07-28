@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Integration
+ *
+ * @category    Interactiv4
+ * @package     Interactiv4_Integration
+ * @copyright   Copyright (c) 2013 Interactiv4 SL. (http://www.interactiv4.com)
+ */
+-->
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addCss"><name>i4integration/css/style.css</name></action>
+		</reference>
+	</default>
+    <i4integration_adminhtml_integration_index>
+        <reference name="content">
+            <block type="i4integration/adminhtml_integration" name="i4integration" />
+        </reference>
+    </i4integration_adminhtml_integration_index>
+</layout>

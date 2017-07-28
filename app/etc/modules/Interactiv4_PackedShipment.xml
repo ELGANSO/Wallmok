@@ -1,0 +1,11 @@
+<config>
+	<modules>
+		<Interactiv4_PackedShipment>
+			<active>true</active>
+			<codePool>local</codePool>
+			<depends>
+				<Mage_Shipping/>
+			</depends>
+		</Interactiv4_PackedShipment>
+	</modules>
+</config>

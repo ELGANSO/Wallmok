@@ -1,0 +1,78 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_options = $this->getOptions(); ?>
+<?php $mediaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'catalog/product';?>
+<script src="/js/yeboyebo/productView.js" type="text/javascript"></script>
+<h1>Configura tu Hamburguesa</h1>
+<br>
+<div class="left col-xs-4 col-sm-4">
+	<h2>Mi Hamburguesa</h2>
+	<ul id="burger">
+	</ul>
+</div>
+<div class="left col-xs-8 col-sm-8">
+<h2>Ingredientes</h2>
+<?php if ($_product->isSaleable()):?>
+    <?php if (count($_options)): ?>
+    <?php $i = 0;?>
+        <?php foreach ($_options as $_option): ?>
+            <?php if (!$_option->getSelections()): ?>
+                <?php continue; ?>
+            <?php endif; ?>
+            <div class="option row" id="option<?php echo $_option->getId();?>">
+            <div class="panel panel-primary <?php if ($i > 0) echo "";?>" >
+				<div class="panel-heading">
+					<h3 class="panel-title"><?php echo $_option["title"] ?></h3>
+                    <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+				</div>
+           	<div class="panel-body row">
+            <?php foreach ($_option->getSelections()as $item): ?>
+            <?php $img = $mediaUrl.($item['small_image']);?>
+            		<div class="col-lg-5 col-xs-5 item">
+						<div class="ingredient" style="background: url(<?php echo $img?>) center no-repeat">
+							<div class="add"  data-option="<?php echo $_option->getId() ?>" data-button="bundle-option-<?php echo $_option->getId() ?>-<?php echo $item->getSelectionId() ?>"  data-type="<?php echo $_option['type'] ?>" data-value="<?php echo $item->getSelectionId() ?>"></div>
+						</div>
+						<h5><?php echo $item["name"]?></h5>
+					<?php if($_option['type'] == "checkbox"):?>
+						<input type="<?php echo $_option['type'] ?>" class="hidden checkbox <?php echo $_option->getRequired()?' validate-one-required-by-name':'' ?> change-container-classname" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $item->getSelectionId() ?>" name="bundle_option[<?php echo $_option->getId() ?>][]"<?php //if ($this->_isSelected($item)) echo ' checked="checked"' ?><?php if (!$item->isSaleable()) echo ' disabled="disabled"' ?>value="<?php echo $item->getSelectionId() ?>"/>
+					<?php else :?>
+						<input type="<?php echo $_option['type'] ?>" class="hidden  radio <?php echo $_option->getRequired()?' validate-one-required-by-name':'' ?> change-container-classname" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $item->getSelectionId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]"<?php //if ($this->_isSelected($item)) echo ' checked="checked"' ?><?php if (!$item->isSaleable()) echo ' disabled="disabled"' ?>value="<?php echo $item->getSelectionId() ?>"/>
+					<?php endif ?>
+					</div>
+			<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+	<?php $i++;?>
+        <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p><?php echo $this->__('No options of this product are available.') ?></p>
+    <?php endif; ?>
+<?php endif;?>
+</div>

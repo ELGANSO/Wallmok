@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <menu>
+        <elganso translate="title" module="survey">
+            <title>Wallmok</title>
+            <sort_order>10</sort_order>
+            <children>
+                <survey translate="title" module="survey">
+                    <title>Intereses y Preferencias</title>
+                    <children>
+                        <question>
+                            <title>Preguntas</title>
+                            <action>adminhtml/survey/question</action>
+                        </question>
+                        <answer>
+                            <title>Respuestas</title>
+                            <action>adminhtml/survey/answer</action>
+                        </answer>
+                        <responses>
+                            <title>Contestaciones</title>
+                            <action>adminhtml/survey/response</action>
+                        </responses>
+                    </children>
+                </survey>
+            </children>
+        </elganso>
+    </menu>
+</config>

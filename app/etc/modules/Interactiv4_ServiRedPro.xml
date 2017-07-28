@@ -1,0 +1,13 @@
+
+<config>
+    <modules>
+        <Interactiv4_ServiRedPro>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Payment/>
+                <Interactiv4_EmailDownloader />
+            </depends>
+        </Interactiv4_ServiRedPro>
+    </modules>
+</config>

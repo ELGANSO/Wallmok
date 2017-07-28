@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Integration
+ *
+ * @category    Interactiv4
+ * @package     Interactiv4_Integration
+ * @copyright   Copyright (c) 2013 Interactiv4 SL. (http://www.interactiv4.com)
+ */
+-->
+<config>
+    <menu>
+        <system>
+            <children>
+                <i4integration module="i4integration">
+                    <title>Integration</title>
+                    <sort_order>22</sort_order>               
+                    <children>
+                        <logs module="i4integration">
+                            <title>Logs</title>
+                            <sort_order>10</sort_order>
+                            <action>i4integration/adminhtml_integration</action>
+                        </logs>
+                    </children>
+                </i4integration>
+            </children>
+        </system>
+    </menu>
+	<acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <i4integration translate="title" module="i4integration">
+                                <title>Integration</title>
+                                <sort_order>10000</sort_order>
+                                <children>
+                                    <logs translate="title" module="i4integration">
+                                        <title>Logs</title>
+                                        <sort_order>10</sort_order>
+                                    </logs>
+                                </children>
+                            </i4integration>
+                        </children>
+                    </system>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <i4sync_stock translate="title" module="i4integration">
+                                        <title>Integration - Sync Stock</title>
+                                        <sort_order>10010</sort_order>
+                                    </i4sync_stock>
+                                    <i4sync_price translate="title" module="i4integration">
+                                        <title>Integration - Sync Price</title>
+                                        <sort_order>10020</sort_order>
+                                    </i4sync_price>
+                                    <i4sync_customer translate="title" module="i4integration">
+                                        <title>Integration - Sync Customer</title>
+                                        <sort_order>10030</sort_order>
+                                    </i4sync_customer>
+                                    <i4sync_order translate="title" module="i4integration">
+                                        <title>Integration - Sync Order</title>
+                                        <sort_order>10040</sort_order>
+                                    </i4sync_order>
+                                    <i4sync_catalog translate="title" module="i4integration">
+                                        <title>Integration - Sync Catalog</title>
+                                        <sort_order>10050</sort_order>
+                                    </i4sync_catalog>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

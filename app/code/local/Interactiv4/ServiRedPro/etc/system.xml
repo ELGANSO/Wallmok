@@ -1,0 +1,438 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <payment>
+            <groups>
+                <serviredpro translate="label" module="serviredpro">
+                    <label>ServiRed PRO by Interactiv4 [E-Commerce Settings]</label>
+                    <comment><![CDATA[
+						<div style="margin-bottom:20px;"> 
+									<strong style="color:#EA7601;">ServiRed PRO v2.3.1 by Interactiv4</strong>
+									<br />
+						</div>]]>
+                    </comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label" module="payment">
+                            <label>Habilitado</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <prefijo translate="label" module="payment">
+                            <label>Prefijo</label>
+                            <comment><![CDATA[El prefijo sirve para colocar un identificador antes de la id de la orden, de este modo se puede disponer del mismo TPV para diferentes tiendas. Puede tener un máximo de 3 carácteres.]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-length maximum-length-3</validate>
+                        </prefijo>
+                        <bank translate="label comment" >
+                            <label>Bank</label>
+                            <comment><![CDATA[Select your bank]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_banks</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </bank>                        
+                        <urlservired translate="label comment">
+                            <label>Use Production Environment</label>
+                            <comment><![CDATA[Select 'Yes' to use the production environment of your selected bank or 'No' to use the test environment.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </urlservired>
+                        <serviceurloverride>
+                            <label>Service URL</label>
+                            <comment><![CDATA[Select the correct service for your virtual POS terminal]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_urls</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                            
+                        </serviceurloverride>
+                        <sslversion>
+                            <label>SSL Version</label>
+                            <comment><![CDATA[Select the correct SSL version]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_sslversion</source_model>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>                            
+                        </sslversion>
+                        <consumerlanguage translate="label">
+                            <label>Idioma</label>
+                            <comment>Identificacion otorgada por Servired al Comercio</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_consumerlanguage</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </consumerlanguage>
+                        <merchantnumber translate="label">
+                            <label>FUC Numero de Comercio</label>
+                            <comment>Identificacion otorgada por Servired al Comercio</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchantnumber>
+                        <merchantterminal translate="label">
+                            <label>Numero de Terminal</label>
+                            <comment>Numero de Terminal otorgado por Servired al Comercio</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchantterminal>
+                        <merchanttitular translate="label">
+                            <label>Nombre del Comercio</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchanttitular>
+                        <merchantpassword translate="label">
+                            <label>Clave del Comercio</label>
+                            <comment>Clave otorgada por Servired al Comercio (para encriptacion)</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchantpassword>
+                        <signaturetype translate="label">
+                            <label>Metodo para la firma</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>80</sort_order>
+                            <source_model>serviredpro/config_source_signaturemethod</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </signaturetype>
+                        <includeurl translate="label" module="payment">>
+                            <label>Incluir la URL en la firma</label>
+                            <comment>Algunas entidades requieren esto, por favor consulte con su entidad</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </includeurl>
+                        <merchanttransactiontype translate="label">
+                            <label>Tipo de Transaccion</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_transactype</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchanttransactiontype>
+                        <mensagen translate="label">
+                            <label>Mensaje Generico</label>
+                            <comment>Mensaje para mostrar en Resumen de tarjeta del Cliente</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </mensagen>
+                        <title translate="label" module="payment">>
+                            <label>Titulo</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <checkoutmessage>
+                            <label>Mensaje a mostrar en el frontend</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </checkoutmessage>
+                        <placeholder>
+                            <label>Imagen Frontend</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">serviredpro</upload_dir>
+                            <base_url type="media" scope_info="1">serviredpro</base_url>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </placeholder>
+                        <allowspecific translate="label" module="payment">>
+                            <label>Pago para determinados paises</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>130</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label" module="payment">>
+                            <label>Pago para paises especificos</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>140</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificcountry>
+                        <order_status translate="label" module="payment">
+                            <label>Estado de la orden tras pago correcto</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_status>
+                        <error_status translate="label">
+                            <label>Estado para pedido cancelado por servired</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_status>
+                        <carrito_vacio translate="label">
+                            <label>Vaciar carrito al cancelar pedido</label>
+                            <comment><![CDATA[Con la opción en NO al cancelar un pedido el cliente vuelve al carrito con el pedido que tenía]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </carrito_vacio>
+                        <autoinvoice translate="label">
+                            <label>Crear factura automaticamente</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Solo si el pago es realizado con exito</comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </autoinvoice>
+                        <sendmailorderconfirmation translate="label">
+                            <label>Enviar confirmacion de mail</label>
+                            <frontend_type>Select</frontend_type>
+                            <sort_order>190</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sendmailorderconfirmation>
+                        <redirectmsg translate="label">
+                            <label>Mensaje de redirección</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>195</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment><![CDATA[Mensaje de la página de redirección]]></comment>
+                        </redirectmsg>
+                        <redirecttimeout translate="label">
+                            <label>Tiempo de espera de redirección</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>198</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-zero-or-greater validate-digits required-entry </validate>
+                            <comment><![CDATA[Tiempo de espera en milisegundos para iniciar la redirección]]></comment>
+                        </redirecttimeout>
+                        <redirectlogo>
+                            <label>Logo redirección</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">serviredpro</upload_dir>
+                            <base_url type="media" scope_info="1">serviredpro</base_url>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Logo opcional a mostrar en la página de redirección. ]]></comment>
+                        </redirectlogo>
+                        <loadingimage>
+                            <label>Imagen cargando ...</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">serviredpro</upload_dir>
+                            <base_url type="media" scope_info="1">serviredpro</base_url>
+                            <sort_order>205</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Imagen alternativa a mostrar como progreso en la página de redirección]]></comment>
+                        </loadingimage>
+                    </fields>
+                </serviredpro>           
+                <serviredproemailnotification translate="label" module="serviredpro">
+                    <label>ServiRed PRO by Interactiv4 [Email Notification Check Settings]</label>
+                    <comment><![CDATA[
+						<div style="margin-bottom:20px;">
+									<strong style="color:#EA7601;">ServiRed PRO by Interactiv4 Email Notification Checking</strong>
+									<br />
+						</div>]]>
+                    </comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                
+                        <checknotificationemail translate="label comment">
+                            <label>Check for bank email notification</label>
+                            <comment><![CDATA[Checks the specified mailbox to make sure the notification email was received from the bank for each successful transaction.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>200</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>serviredpro/config_data_testconnection</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>                            
+                        </checknotificationemail>
+                        <checknotificationfrequency translate="label comment">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>serviredpro/config_source_checknotificationfrequency</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <backend_model>serviredpro/config_data_frequency</backend_model>
+                            <comment><![CDATA[Select the frequency with which you would like to check for notification emails.]]></comment>
+                        </checknotificationfrequency>  
+                        <attempts translate="label comment">
+                            <label>Number of times to check</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>214</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <validate>validate-greater-than-zero</validate>
+                            <comment><![CDATA[Enter the number of times to check for the notification email before giving up.]]></comment>
+                        </attempts>                             
+                        <orderstatus translate="label comment">
+                            <label>Status of order if no email found</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>215</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-select</validate>
+                            <comment><![CDATA[Enter the status to set the order to if no email is found.]]></comment>
+                        </orderstatus>        
+                        <protocol translate="label comment">
+                            <label>Protocol</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>218</sort_order>
+                            <source_model>serviredpro/config_source_emailprotocols</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>   
+                            <comment><![CDATA[Choose the protocol used to access the mailbox where bank notification emails are received.]]></comment>
+                        </protocol>   
+                        <port translate="label comment">
+                            <label>Port</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <validate>validate-number</validate>
+                            <comment><![CDATA[Enter the port on which to access the mailbox where bank notification emails are received.]]></comment>
+                        </port>                                 
+                        <mailboxhost>
+                            <label>Host</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <comment><![CDATA[Enter the host IP or address of the mailbox where bank notification emails are received.]]></comment>                              
+                        </mailboxhost>
+                        <mailboxusername translate="label comment">
+                            <label>Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <comment><![CDATA[Enter username/email address required to access the mailbox where bank notification emails are received.]]></comment>                            
+                        </mailboxusername>
+                        <mailboxpassword translate="label comment">
+                            <label>Password</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <comment><![CDATA[Enter password required to access the mailbox where bank notification emails are received.]]></comment>                                                        
+                        </mailboxpassword>       
+                        <security translate="label comment">                        
+                            <label>Security</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>250</sort_order>
+                            <source_model>serviredpro/config_source_emailsecurity</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>         
+                            <comment><![CDATA[Select a security option for accessing the mailbox where bank notification emails are received.]]></comment>
+                        </security>
+                        <expectedsenderemail translate="label comment">
+                            <label>Allowed sender email addresses/domains</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                            <comment><![CDATA[Enter the list of possible email addresses or domains from which you expect to receive notification emails. Separate multiple email addresses with commas.]]></comment>                                                        
+                        </expectedsenderemail>
+                        <!-- <testconnection translate="label comment">
+                            <label>Test Connection</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>i4seur/adminhtml_system_config_button_export</frontend_model>
+                            <sort_order>290</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>'</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                        </testconnection>-->
+                    </fields>
+                </serviredproemailnotification> 
+            </groups>
+        </payment>
+    </sections>
+</config>
