@@ -4,6 +4,7 @@ jQuery(document).ready(function(){
 		var id = "#" + jQuery(this).attr('data-button');
 		var name = jQuery(this).attr('data-button');
 		var img = jQuery(this).attr('data-img');
+		var amount = parseFloat(jQuery(".full-product-price .price").text().replace("€","").replace(",","."));
 		var price = number_format(jQuery(this).attr('data-price'),2);
 		jQuery(id).click();
 		var type = jQuery(this).attr('data-type');
@@ -13,6 +14,9 @@ jQuery(document).ready(function(){
 			var option = jQuery(this).attr('data-option');
 			console.log("Option: "+option);
 			//Elimino ingredientes añadidos de la misma opción
+			var priceElmino = jQuery("#burger .ingredient .remove[data-option|="+option+"]").attr("data-price");
+			if(priceElmino >0)
+			amount -= parseFloat(priceElmino);
 			jQuery("#burger .ingredient .remove[data-option|="+option+"]").parent().remove();
 		}
 		//Añado valor
@@ -30,9 +34,9 @@ jQuery(document).ready(function(){
 		jQuery(copia).children().removeClass("add");
 		jQuery(copia).children().addClass("remove");
 		jQuery(copia).children().addClass("remove").click(EventoEliminar);
-		var amount = parseFloat(jQuery("#product-price-10_clone").text().replace("€","").replace(",","."));
+		if(price > 0)
 		amount += parseFloat(price);
-		jQuery("#product-price-10_clone").text(amount+"€");
+		jQuery(".full-product-price .price").text(number_format(amount,2)+"€");
 
 		jQuery("#burger").append(copia);
 	});
@@ -44,7 +48,7 @@ var EventoEliminar = function(){
 		jQuery(id).prop( "checked", false );
 		var name = burguer.attr('data-button');
 		var type = burguer.attr('data-type');
-		var amount = parseFloat(jQuery("#product-price-10_clone").text().replace("€","").replace(",","."));
+		var amount = parseFloat(jQuery(".full-product-price .price").text().replace("€","").replace(",","."));
 		var price = number_format(jQuery(this).attr('data-price'),2);
 		
 		if(type == "checkbox")
@@ -55,7 +59,7 @@ var EventoEliminar = function(){
 			});
 		}
 		amount -= parseFloat(price);
-		jQuery("#product-price-10_clone").text(amount+"€");
+		jQuery(".full-product-price .price").text(number_format(amount,2)+"€");
 		//Elimino hamburguesa
 		burguer.remove();
 	};

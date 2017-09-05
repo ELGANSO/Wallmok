@@ -128,7 +128,9 @@ Product.Bundle.prototype = {
             dispositionPrice: dispositionPrice,
             bundle: this
         });
-        if (!event.noReloadPrice) {
+	//Error al recargar
+       // if (!event.noReloadPrice) {
+	if (event.noReloadPrice) {
             optionsPrice.specialTaxPrice = 'true';
             optionsPrice.changePrice('bundle', calculatedPrice);
             optionsPrice.changePrice('nontaxable', dispositionPrice);

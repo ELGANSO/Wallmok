@@ -23,6 +23,8 @@
 
 		init();
 		function init(){
+			//Desactivo subir arriba por errores
+			return true;
 			thisOffsetTop = parseInt(_this.offset().top);
 			thisMarginTop = parseInt(_this.css("margin-top"));
 			thisOuterHeight = parseInt(_this.outerHeight(true));
