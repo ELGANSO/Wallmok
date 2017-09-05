@@ -26,6 +26,7 @@ class CreateProductUpdateRequestController extends BaseController
         $request = Mage::getModel('onticsync/product_update_request');
         $request->setData('created_at', now());
         $request->save();
+        $updater = Mage::getModel('onticsync/productUpdater');
         foreach($data as $productData)
         {
             if(!isset($productData['sku']))
@@ -39,6 +40,14 @@ class CreateProductUpdateRequestController extends BaseController
             $update->setData('request_id', (int) $request->getId());
             $update->setData('sku', $sku);
             $update->setData('data', json_encode($productData));
+            $auto = $productData['auto'];
+            //Si es una sincro de Automatica, lo actualizo directamente
+            //En otro caso, se guarda en la cola
+            if(isset($auto) &&  $auto == true)
+            {
+            	$updater->processProductUpdate($sku, $productData);
+            	$update->setStatus($update::Status_Success);
+            }
             $update->save();
 
             $index++;

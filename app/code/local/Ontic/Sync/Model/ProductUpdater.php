@@ -105,7 +105,11 @@ class Ontic_Sync_Model_ProductUpdater extends Mage_Core_Model_Abstract
             $attribute->update($transaction, $data, $product);
         }
 
-
+        if($data["type_id"] == "bundle")
+        {
+        	
+        	$this->assignGroupedProducts($data["options"], $product);
+        }
         $transaction->commit();
     }
 
@@ -120,6 +124,10 @@ class Ontic_Sync_Model_ProductUpdater extends Mage_Core_Model_Abstract
         foreach($this->getAttributes() as $attribute)
         {
             $attribute->update($transaction, $data, $product);
+        }
+        if($data["type_id"] == "bundle")
+        {
+        	$this->assignGroupedProducts($data["options"], $product);
         }
 
         $transaction->commit();
@@ -181,5 +189,70 @@ class Ontic_Sync_Model_ProductUpdater extends Mage_Core_Model_Abstract
 
         /** @noinspection PhpUndefinedFieldInspection */
         return (int) Mage::getModel('core/store')->load($storeCode, 'code')->getId();
+    }
+    protected function assignGroupedProducts($options, $productCheck){
+
+        $new_bundled_item_id = (int)Mage::getModel("catalog/product")->getIdBySku('CARN00002');
+	    
+		// Elimino opciones anteriores
+		$optionsOld = $productCheck->getTypeInstance(true)->getOptionsCollection($productCheck);
+		foreach ($optionsOld as $option) {
+		        $option->delete();
+		        //$option->save();
+		}
+    // Inicializo arrays
+    $bundleOptions = array();
+    $bundleSelections = array();
+  
+    //Creo y añado opciones
+    $i = 0; $j = 0;
+    foreach ($options as  $val) 
+    {
+    	$bundleOptions[$i] =
+             array(
+                'title' => $val['title'],
+                'default_title' => $val['title'],
+                'option_id' => '',
+                'delete' => '',
+                'type' => $val['type'],
+                'required' => $val['required'],
+                'position' => $val['position']
+            );
+        foreach ($val["products"] as $product) {
+        	
+        	$new_bundled_item_id = (int)Mage::getModel("catalog/product")->getIdBySku($product["sku"]);
+        	Mage::log($product["sku"]." - ".$new_bundled_item_id, null,"ivan.log");
+        	$bundleSelections[$i][$j] = array(
+            'product_id' => $new_bundled_item_id,
+            'delete' => '',
+            'selection_price_value' => 0.00,
+            'selection_price_type' => 0,
+            'selection_qty' => $product["qty"],
+            'selection_can_change_qty' => 0,
+            'position' => $product["position"],
+            'is_default' => $product["is_default"]
+        	);
+        	$j++;
+        }
+        $i++;
+    }
+    
+    // Set flags
+    $productCheck->setCanSaveCustomOptions(true);
+    $productCheck->setCanSaveBundleSelections(true);
+    $productCheck->setAffectBundleProductSelections(true);
+
+    // Register flag
+    Mage::register('product', $productCheck);
+    Mage::log($bundleOptions, null,"ivan.log");
+    // Set option & selection data
+    $productCheck->setBundleOptionsData($bundleOptions);
+    $productCheck->setBundleSelectionsData($bundleSelections);
+
+    // Save changes
+    $productCheck->save();
+
+    // Success
+    return true;
     }
 }
