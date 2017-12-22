@@ -1,0 +1,64 @@
+<?php 
+if (Mage::getStoreConfig('newsletterpopup/general/active', Mage::app()->getStore())):?>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newsletterpopup" aria-hidden="true" id="newsletterpopup">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header block-title">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" class="fa fa-times"></span><span class="sr-only"></span></button>
+				</div>
+				<div class="modal-body">
+					<a href="<?php echo $this->getUrl('') ?>" class="popup_logo"></a>
+					<h3><?php echo $this->__('Newsletter') ?></h3>
+					<p><?php echo $this->__('Subscribe to the CATTY mailing list to receive updates on new arrivals, special offers and other discount information.') ?></p>
+					<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+						<div class="block-content">
+							<div class="form-group">
+								<input type="text" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" placeholder="<?php echo $this->__('Enter your e-mail:') ?>"/>
+							</div>
+							<div class="actions">
+								<button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="button" name="newsletter_submit"><span><span><?php echo $this->__('Subscribe') ?></span></span></button>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php 
+	//var_dump(Mage::getSingleton('core/session'));
+
+	// Script init for home page only
+	if(Mage::getSingleton('cms/page')->getIdentifier() == 'home' && Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms') : ?>
+		<script type="text/javascript">
+			//<![CDATA[
+				var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+			//]]>			
+		</script>		
+
+		<?php 
+		// Popup init conditions
+		if (Mage::getSingleton('core/session')->getSignedUpForNewsletter() == false) { ?>
+			<script>
+				jQuery(document).ready(function() {
+					var newsPopup 		= jQuery('#newsletterpopup');
+					var newsPopupClose 	= newsPopup.find('.close');
+					var showNewsPopup = sessionStorage.getItem("showNewsPopup");
+					var windowSize = jQuery(window).width();
+					if ( windowSize >= 768 ) {
+
+					if (showNewsPopup != '0') {
+						newsPopup.modal();
+					};					
+
+					newsPopupClose.click(function(){
+						sessionStorage.setItem("showNewsPopup", '0');
+					});
+				};
+				});
+			</script>
+		<?php } ?>
+	<?php endif; ?>
+<?php endif; ?>

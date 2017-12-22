@@ -1,0 +1,35 @@
+.product-image-container{
+	float: left;
+}
+
+.product-thumbs {
+	clear: both;
+	overflow: hidden;
+	margin: 0 -2px;
+	position: absolute;
+	top: -20px;
+	right: -20px;
+	width: 65px;
+	opacity: 0;
+}
+li:hover .product-thumbs {opacity: 1;}
+.product-thumb {
+	display: inline-block;
+	margin: 5px 0 0;
+}
+.product-thumb:first-child {margin-top: 0;}
+
+.products-grid .product-image-container{
+	float: none;
+	position: relative;
+}
+
+.product-thumb a{
+	border: 1px solid #ececec;
+	display: block;
+}
+
+.product-thumb a.active,
+.product-thumb a:hover{
+	border: 1px solid #ccc;
+}

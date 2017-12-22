@@ -1,0 +1,132 @@
+@font-face {
+    font-family: 'mifuente';
+    /*src: url('../fonts/ENYO_Serif_medium.ttf');  */
+    src: url('../fonts/ENYO_Serif_medium.ttf');  
+}
+
+body{ font-family:'mifuente', sans-serif; font-size:16px; line-height:22px; font-weight:300; color:#00295A; background-color:#fff }
+
+/*BOTON CONFIRMAR LANDING*/
+#confirmar{
+	font-size:18px;
+}
+
+.messages, .error-msg > ul, .success-msg > ul{
+	list-style:none;
+}
+
+.messages{
+	text-align: center;
+    font-size: 28px;
+    width: 100%;
+    padding: 30px 30px 0 0px;
+    color: #3d4721;
+}
+
+.error-msg{
+	color:#c31202;
+}
+
+input[type=checkbox]:checked {
+    background-color: #3d4721;
+}
+
+.politica-title{
+	text-decoration: underline;
+    font-weight: bold;
+}
+
+.li-politica-title{
+	margin-top:30px;
+}
+
+/*MEDIA QUERIES PARA LA LANDING*/
+/* Large desktops and laptops */
+@media only screen and (min-width: 1367px) {
+	#fila1{ height:4vh	}
+	#fila2{	}
+	#fila3{	height:9vh}
+	#fila4{	}
+	#fila5{	height:8vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 2vw; text-align: center; color: #3d4721; line-height:32px;}
+	/*#confirmar{display:none;}*/
+
+}
+
+/* Landscape tablets and medium desktops */
+@media only screen and (min-width: 1200px) and (max-width: 1366px) {
+	#fila1{	height:3vh	}
+	#fila2{	}
+	#fila3{	height:3vh}
+	#fila4{	}
+	#fila5{	height:3vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 2vw; text-align: center; color: #3d4721; line-height:24px;}
+	.messages{
+		text-align: center;
+	    font-size: 24px;
+	    width: 100%;
+	    padding: 10px 30px 0 0px;
+	    color: #3d4721;
+	}
+
+}
+
+/* Landscape tablets and medium desktops */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	#fila1{	height:4vh	}
+	#fila2{	}
+	#fila3{	height:6vh}
+	#fila4{	}
+	#fila5{	height:6vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 4vw; text-align: center; color: #3d4721; line-height:32px;}
+	/*#confirmar{display:none;}*/
+
+}
+
+/* Portrait tablets and small desktops */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	#fila1{ height:2vh	}
+	#fila2{	}
+	#fila3{	height:7vh}
+	#fila4{	}
+	#fila5{	height:6vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 4vw; text-align: center; color: #3d4721; line-height:32px;}
+	/*#confirmar{}*/
+
+}
+
+/* Landscape phones and portrait tablets */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	#fila1{ height:2vh}
+	#fila2{	}
+	#fila3{	height:7vh}
+	#fila4{	}
+	#fila5{	height:6vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 6vw; text-align: center; color: #3d4721; line-height:32px;}
+	/*#confirmar{}*/
+
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+	#fila1{	height:6vh }
+	#fila2{	}
+	#fila3{	height:12vh}
+	#fila4{	}
+	#fila5{	height:10vh}
+	#fila6{	}
+	#fila7{	}
+	#parrafo{font-size: 6vw; text-align: center; color: #3d4721; line-height:32px;}
+	/*#confirmar{}*/
+
+}

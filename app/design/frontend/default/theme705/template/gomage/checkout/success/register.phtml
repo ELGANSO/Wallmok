@@ -1,0 +1,39 @@
+<?php
+/**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 5.0
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var glc_order_id = "<?php echo Mage::getSingleton('checkout/session')->getLastOrderId(); ?>";
+    Event.observe(document, 'dom:loaded', function () {
+        if ($$('.account-create').length) {
+
+            var form = $$('.account-create #form-validate')[0];
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', 'glc_order_id');
+            input.setAttribute('value', glc_order_id);
+            form.appendChild(input)
+
+            $$('.back-link').each(function (e) {
+                e.hide();
+            });
+            $$('.account-create .fieldset').each(function (fieldset) {
+                var password = fieldset.down('input[type=password]');
+                if (typeof password == 'undefined') {
+                    fieldset.hide();
+                }
+            });
+        }
+    });
+    //]]>
+</script>	

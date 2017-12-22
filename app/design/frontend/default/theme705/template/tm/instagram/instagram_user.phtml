@@ -1,0 +1,30 @@
+<?php 
+if (Mage::getStoreConfig('instagram/instagram_user/active', Mage::app()->getStore())):	
+
+	$instagram_user_settings = array(
+		'client_id' 	=> Mage::getStoreConfig('instagram/general/client_id', Mage::app()->getStore()),
+		'username' 		=> Mage::getStoreConfig('instagram/instagram_user/username', Mage::app()->getStore()),		
+		);
+	?>
+
+	<div class="block block-instagram_user">
+	    <div class="block-title">
+	        <strong><span><?php echo $this->__('Instagram User') ?></span></strong>
+	    </div>
+		<div class="block-content">
+			<?php 
+			$user_object = Mage::getModel('instagram/instagram', array('username' => $instagram_user_settings['username'], 'client_id' => $instagram_user_settings['client_id'])); ?>
+
+			<ul class="instagram-media">
+			<?php 
+			foreach ($user_object->userMediaRecent() as $item) { ?>
+				<li class="instagram-media_item">
+					<a href="<?php echo $item['link']; ?>">
+						<img src="<?php echo $item['images']['thumbnail']['url']; ?>" alt="">
+					</a>
+				</li>
+			<?php } ?>
+			</ul>
+	    </div>
+	</div>
+<?php endif; ?>

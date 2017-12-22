@@ -1,0 +1,74 @@
+<?php
+ /**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 1.0
+ */
+$session = Mage::getSingleton('core/session', array('name' => 'frontend'));
+require_once(Mage::getBaseDir('lib').'/yeboyebo/restaurantes_online.php');
+$restaurantes = new RestaurantesOnline();
+$restaurante = $restaurantes->getRestaurant($session->getData('restaurant'));
+?>
+<div class="shipping-methods">
+	
+  <div class="shipping-method">
+
+    <h2 class="glc-title"><span id="glc-shipping-number" class="glc-number"><?php echo (Mage::getSingleton('checkout/session')->getShippingSameAsBilling() ? '2' : '3'); ?></span><strong><?php echo $this->__('Seleccionar fecha');?></strong></h2>
+    
+    <div class="glc-col">
+    
+      <div id="gcheckout-shipping-method-available" class="shipping-methods-available">
+        <?php //echo $this->getChildHtml('available')
+        	if($session->getData("envio") == "restaurante"){
+        		echo '
+					<input name="shipping_method" type="hidden" value="freeshipping_freeshipping" id="s_method_freeshipping_freeshipping" checked="checked">
+        		';
+        	}else{
+        		echo '
+					<input name="shipping_method" type="hidden" value="flatrate_flatrate" id="s_method_flatrate_flatrate" checked="checked">
+        		';
+        	}
+        	Mage:log("Prueba",null,"prueba.log");
+         ?>
+      </div>
+    
+      <div class="shipping-additional">
+        <?php //echo $this->getChildHtml('additional') ?>
+      </div>
+
+      		<!-- Seleccionar hora del pedido -->
+	<div class="col-lg-12 col-md-12 col-xs-12">
+		<p><?php echo $this->__("Por favor seleccione la fecha y la hora en la que desea su pedido"); ?></p>
+		<div class="col-lg-6 col-md-6 col-xs-12">
+			<input type="date" name="shipping-date"  value="<?php echo date("Y-m-d");?>">
+		</div>
+		<div class="col-lg-6 col-md-6 col-xs-12">
+			<select name="shipping-hour">
+				<?php
+					foreach($restaurante->getFranjasDisponibles() as $franja){
+						echo '<option value="'.$franja.'">'.$franja.'</option>';
+					}
+				?>
+				
+			</select>
+		</div>
+	</div>
+    
+    </div>
+
+  </div>
+  
+	<?php if($advanced_content = trim($this->getChildHtml('advanced'))): ?>
+    <div class="shipping-advanced">
+      <?php echo $advanced_content ?>
+    </div>
+	<?php endif;?>
+	
+	
+</div>

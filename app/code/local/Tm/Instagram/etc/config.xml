@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Tm_Instagram>
+			<version>0.1.0</version>		
+		</Tm_Instagram>
+	</modules>
+	<frontend>
+		<layout>
+			<updates>
+				<instagram>
+					<file>tm_instagram.xml</file>
+				</instagram>
+			</updates>
+		</layout>		
+	</frontend>	
+	<global>	
+		<models>
+			<instagram>
+				<class>Tm_Instagram_Model</class>
+			</instagram>
+		</models>
+		<helpers>
+			<instagram>
+				<class>Tm_Instagram_Helper</class>
+			</instagram>
+		</helpers>		
+	</global>
+	<adminhtml>
+		<acl>
+			<resources>
+				<all>
+	                <title>Allow everything</title>
+	            </all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<instagram translate="title" module="instagram">
+											<title>Instagram Section</title>
+										</instagram>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config>

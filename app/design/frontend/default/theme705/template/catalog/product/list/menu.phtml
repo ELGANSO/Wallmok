@@ -1,0 +1,33 @@
+<div id="menu" class="row" style="background-image: url(<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'template/RESTAURANTE.PNG';?>)">
+	<div class="row title">
+		<div class="col-lg-4 col-md-4 col-xs-12">
+			<h1>Menú</h1>
+			<span>Late Summer 2017</span>
+		</div>
+		<div class="col-lg-4 col-md-4 col-xs-12"></div>
+		<div class="col-lg-4 col-md-4 col-xs-12"></div>
+	</div>
+	<div class="row title">
+		<div class="col-lg-4 col-md-4 col-xs-12">
+			<p id="direccionMenu"></p>
+		</div>
+		<div class="col-lg-4 col-md-4 col-xs-12"></div>
+		<div class="col-lg-4 col-md-4 col-xs-12"></div>
+	</div>
+	<div class="row" id="categories">
+		<?php
+	echo  Mage::app()->getLayout()
+	        ->createBlock('page/html_topmenu')
+	        //->setSomeVariable($variable)
+	        ->setTemplate('page/html/topmenu.phtml')
+	        ->toHtml(); 
+ 	?>
+	</div>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var dir = sessionStorage.getItem('direccion');
+		if(dir != undefined && dir != "")
+			jQuery("#direccionMenu").html(dir);
+	});
+</script>

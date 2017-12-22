@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Tm_SpecialPriceCountdown>
+			<version>0.1.0</version>		
+		</Tm_SpecialPriceCountdown>
+	</modules>
+	<frontend>
+		<layout>
+			<updates>
+				<specialpricecountdown>
+					<file>tm_specialpricecountdown.xml</file>
+				</specialpricecountdown>
+			</updates>
+		</layout>		
+	</frontend>	
+	<global>			
+		<helpers>
+			<specialpricecountdown>
+				<class>Tm_SpecialPriceCountdown_Helper</class>
+			</specialpricecountdown>
+		</helpers>		
+	</global>
+	<adminhtml>
+		<acl>
+			<resources>
+				<all>
+	                <title>Allow everything</title>
+	            </all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<specialpricecountdown translate="title" module="specialpricecountdown">
+											<title>Sample Section</title>
+										</specialpricecountdown>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+	<default>
+		<specialpricecountdown>
+			<general>
+				<selector>.price-box</selector>
+			</general>
+		</specialpricecountdown>
+	</default>
+</config>

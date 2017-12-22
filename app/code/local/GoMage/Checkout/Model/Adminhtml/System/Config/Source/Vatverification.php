@@ -1,0 +1,32 @@
+<?php
+ /**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 3.1
+ */
+	
+class GoMage_Checkout_Model_Adminhtml_System_Config_Source_Vatverification{
+
+	CONST VIES = 0;
+	CONST ISVAT = 1;
+	
+    /**
+     * Options getter
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return array(
+            array('value' => self::VIES, 'label'=>Mage::helper('gomage_checkout')->__('VIES')),
+            array('value' => self::ISVAT, 'label'=>Mage::helper('gomage_checkout')->__('Isvat')),            
+        );
+    }
+
+}

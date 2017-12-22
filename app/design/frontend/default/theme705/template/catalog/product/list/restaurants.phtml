@@ -1,0 +1,39 @@
+<div id="restaurantSelector" class="row">
+	<div class="col-lg-6 col-md-6 col-xs-12">
+		<div class="selector">
+			<div id="envio" class="clickable">
+				<div class="active" data-type="restaurante">
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'template/restaurante.png';?>"/>
+					<span>Recogida en restaurante</span>
+				</div>				
+				<div data-type="domicilio">
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'template/moto.png';?>"/>
+					<span>Envío a domicilio</span>
+				</div>
+			</div>
+			<h1>Empecemos</h1>
+			<p style="margin-top: 20px; margin-bottom: 20px">Usted está haciendo un pedido de recogida en la tienda. Haga clic en la brújula o busque su ubicación para encontrar un restaurante cercano.</p>
+			<form id="getRestaurant" action="javascript:void(0);" method="Post">
+				<input id="ember790_zip" type="text" name="codPostal" aria-invalid="false" maxlength="35" placeholder="Search store, city, state or zip" class="ember-view form-field--control" aria-describedby="">
+				<span class="glyphicon glyphicon-map-marker"></span>
+				<button name="submit" class="btn"> Buscar</button>
+			</form>
+			<a id="getAllRestaurants">Ver todos los restaurantes <span>></span> </a>
+		</div>
+		<div id=restaurants></div>
+			<form method="Post" action="javascript:void(0);" id="restaurantSelected">
+				<input type="hidden" name="accion" value="selecionarRestaurante">
+				<input type="hidden" name="id" value="">
+				<input type="hidden" name="envio" value="restaurante">
+			</form>
+		<img id="loading" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'template/ajax-loader.gif';?>"/>
+	</div>
+	<div class="col-lg-6 col-md-6 col-xs-12">
+		<div class="crop-img">
+			<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'template/CATALOG1.jpg';?>"/>
+		</div>
+		<div id="map"></div>
+		 <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2BIlETnIMRlbYqhsgBLeCsSn4fTn1f2U">-->
+    </script>
+	</div>
+</div>
