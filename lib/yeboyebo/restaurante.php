@@ -199,6 +199,7 @@ class Restaurante {
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
 		//throw new Exception("Stop");
+		if(empty($d['cooked_cost'])) $d['cooked_cost'] = 0;
 		$this->addOrderOnFranja($d['franja'], $linea, $d['cooked_cost'], $d["fechaRecogida"]);
 
 		return $linea;
@@ -388,22 +389,26 @@ class Restaurante {
 		Mage::log("\n \n addOrderOnFranja \n \n ",null,"ivan.log");
 		$franja = $this->getFranja($idfranja, $fecha)[0];
 		if(empty($franja['puntosusados'])) $franja["puntosusados"] = 0;
-		Mage::log($franja,null,"ivan.log");
+
 		try {
 			if ( $franja['puntosmax'] > ( $franja['puntosusados'] + $puntos ) ) {
 				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $franja["idfranja"] . "','" . $puntos . "','". $fecha . "')";
 				$new = $this->conexion->prepare( $sql );
 				$new->execute();
 			} else {
-				$prev = $this->getPreviusFranja( $idfranja );
+
+				$prev = $this->getPreviusFranja( $idfranja, $fecha );
 				if(empty($prev['puntosusados'])) $prev["puntosusados"] = 0;
+
 				if ( $prev['puntosmax'] - $prev['puntosusados'] < $puntos ) {
-					$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $prev["idfranja"] . "," . $prev["puntosmax"] - $prev["puntosusados"] . "','" . $fecha . "')";
+					$puntosAux = $prev["puntosmax"] - $prev["puntosusados"];
+					$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $prev["idfranja"] . "','" .$puntosAux. "','" . $fecha . "')";
 					$new = $this->conexion->prepare( $sql );
 					$new->execute();
 					$puntos -= $prev['puntosmax'] - $prev['puntosusados'];
 				}
-				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $idfranja . "," . $puntos . "','" . $fecha . "')";
+				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $idfranja . "','" . $puntos . "','" . $fecha . "')";
+
 				$new = $this->conexion->prepare( $sql );
 				$new->execute();
 
@@ -418,21 +423,20 @@ class Restaurante {
 
 	protected function getFranja($franja, $date){
 		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.idfranja = '".$franja."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
-		Mage::log($sql,null,"ivan.log");
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
 		return $res->fetchAll();
 	}
 
-	protected function getPreviusFranja($idfranja){
-		$sql = "select * from wm_franjas order by franja asc;";
+	protected function getPreviusFranja($idfranja,$date){
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
 		$res = $res->fetchAll();
 		for($i = 0; $i < count($res); $i++){
 			if($res[$i]["idfranja"] == $idfranja)
 			{
-				return [$i-1];
+				return $res[$i-1];
 			}
 		}
 		return false;
