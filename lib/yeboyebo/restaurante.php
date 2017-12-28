@@ -164,9 +164,9 @@ class Restaurante {
 		
 		$comanda = $this->getNextComanda();
 
-		$sql = "INSERT INTO tpv_comandas (codigo,idtpv_comanda,idtpv_arqueo, saldoconsumido,estado,hora, direccion, codtpv_puntoventa,codpago, total,nombrecliente,codpais,editable,codalmacen,saldopendiente,provincia,tipopago,codtpv_agente,pagado,anulada,fecha,neto,codtarifa,pendiente,saldonosincro,ptesaldo,ptesincrofactura,ptepuntos,codtienda,sincronizada,codpostal,tipodoc,totaliva,referencia,ciudad) 
-		VALUES('".$comanda['codcomanda']."','".$comanda['idtpv_comanda']."', '".$arqueo."', 0,'Abierta','".date('H:i:s')."','".$d['shipping_address']['street']."', '".$this->puntodeventa."','CONT', '".$d['grand_total']."','".$d['shipping_address']['firstname']." ".$d['shipping_address']['lastname']."','".$d['shipping_address']['country_id']."','True','".$this->almacen."','".$d['grand_total']."','".$d['shipping_address']['region']."','Efectivo','".$this->agente."','0','False','".date('Y-m-d')."','".$d['subtotal']."','','".$d['grand_total']."',0,'False','True','True','".$this->codtienda."','False', '".$d['shipping_address']['postcode']."','VENTA','".$d['tax_amount']."','".$d['increment_id']."','".$d['shipping_address']['city']."');";
-		
+		$sql = "INSERT INTO tpv_comandas (codigo,idtpv_comanda,idtpv_arqueo, saldoconsumido,estado,hora, direccion, codtpv_puntoventa,codpago, total,nombrecliente,codpais,editable,codalmacen,saldopendiente,provincia,tipopago,codtpv_agente,pagado,anulada,fecha,neto,codtarifa,pendiente,saldonosincro,ptesaldo,ptesincrofactura,ptepuntos,codtienda,sincronizada,codpostal,tipodoc,totaliva,referencia,ciudad,wm_pedidoweb) 
+		VALUES('".$comanda['codcomanda']."','".$comanda['idtpv_comanda']."', '".$arqueo."', 0,'Abierta','".date('H:i:s')."','".$d['shipping_address']['street']."', '".$this->puntodeventa."','CONT', '".$d['grand_total']."','".$d['shipping_address']['firstname']." ".$d['shipping_address']['lastname']."','".$d['shipping_address']['country_id']."','True','".$this->almacen."','".$d['grand_total']."','".$d['shipping_address']['region']."','Efectivo','".$this->agente."','0','False','".date('Y-m-d')."','".$d['subtotal']."','','".$d['grand_total']."',0,'False','True','True','".$this->codtienda."','False', '".$d['shipping_address']['postcode']."','VENTA','".$d['tax_amount']."','".$d['increment_id']."','".$d['shipping_address']['city']."',True);";
+		Mage::log($sql,null,"ivan.log");
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
 		return $comanda;
@@ -348,7 +348,8 @@ class Restaurante {
 			$hour = Mage::getModel( 'core/date' )->date( 'H:i:s' );
 		}
 
-		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.franja > '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		Mage::log($sql,null,"ivan.log");
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
 		$res = $res->fetchAll();
@@ -391,7 +392,6 @@ class Restaurante {
 		try {
 			if ( $franja['puntosmax'] > ( $franja['puntosusados'] + $puntos ) ) {
 				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $franja["idfranja"] . "','" . $puntos . "','". $fecha . "')";
-				Mage::log($sql,null, "Exception.log");
 				$new = $this->conexion->prepare( $sql );
 				$new->execute();
 			} else {
