@@ -8,8 +8,9 @@ class OrderSerializer
 
         $shipping = floatval($order->getBaseShippingInclTax());
 		$surcharge = floatval($order->getBaseFoomanSurchargeAmount());
-		$gastos = $shipping + $surcharge;		
-	
+		$gastos = $shipping + $surcharge;
+	    $quote = Mage::getModel('sales/quote')->load($order->getQuoteId());
+
         $data = [
             'entity_id' => (int) $order['entity_id'],
             'increment_id' => (int) $order['increment_id'],
@@ -28,19 +29,22 @@ class OrderSerializer
             'subtotal' => (float) $order['subtotal'],
             'tax_amount' => (float) $order['tax_amount'],
             'discount_amount' => (float) $order['discount_amount'],
-            'grand_total' => (float) $order['grand_total']
+            'grand_total' => (float) $order['grand_total'],
+            'franja' => $quote->getData('franja'),
+            'fechaRecogida' => $this->_formatedDate($quote->getData('fecharecogida'))
         ];
 
 
         foreach($order->getAllItems() as $item)
         {
-            $data['items'][] = $this->serializeOrderItem($item);
+            $data['items'][] = $this->serializeOrderItem($item, $quote);
         }
-
+		Mage::log($data['items'],null,"ivan.log");
+        //throw new Exception('STOP');
         return $data;
     }
 
-    public function serializeOrderItem(\Mage_Sales_Model_Order_Item $item)
+    public function serializeOrderItem(\Mage_Sales_Model_Order_Item $item,$quote)
     {
         $product = $item->getProduct();
 
@@ -57,8 +61,12 @@ class OrderSerializer
 			'pvpunitario' => (float) $item->getBasePrice(),
 			'pvpunitarioiva' => (float) $item->getBasePriceInclTax(),
 			'pvpsindto' => (float)($item->getBasePrice() * $item->getQtyOrdered()),
-			'pvpsindtoiva' => (float)($item->getBasePriceInclTax() * $item->getQtyOrdered())
+			'pvpsindtoiva' => (float)($item->getBasePriceInclTax() * $item->getQtyOrdered()),
+            'franja' => $quote->getData('franja'),
+            'fechaRecogida' => $this->_formatedDate($quote->getData('fecharecogida')),
+	         'cooked_cost' => Mage::getModel('catalog/product')->load($product->getId())->getData('cooked_cost')
         ];
+
     }
     private function _getShipmentTrackingNumber($order) {
         $numbers = array();
@@ -76,5 +84,12 @@ class OrderSerializer
             return Mage::getStoreConfig('payment/' . $code . '/title');
         }
         return false;
+    }
+    private function _formatedDate($date){
+    	$date = explode("-",$date);
+    	$aux = $date[0];
+    	$date[0] = $date[2];
+    	$date[2] = $aux;
+    	return implode("/",$date);
     }
 }

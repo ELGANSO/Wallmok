@@ -145,7 +145,7 @@
     if(sessionStorage.getItem('direccion') != "" && sessionStorage.getItem('direccion') != undefined && recogida == 'restaurante'){
 		
 		var $elem = jQuery(sessionStorage.getItem('direccion'));
-		//informo el formulario de envío
+		//informo el formulario de envï¿½o
 		jQuery.ajax({
 			  url: window.location.origin+"/lib/yeboyebo/ajaxRequest.php",
 			  context: document.body,
@@ -169,7 +169,7 @@
 		
 		//Muestro restaurante de recogida
 		jQuery("#recogidaEnRestaurante .address").append($elem);
-		//Oculto la modificación de la dirección de envío
+		//Oculto la modificaciï¿½n de la direcciï¿½n de envï¿½o
 		jQuery("#gcheckout-shipping-address").hide();
 		jQuery("#billing_use_for_shipping_yes").attr("disabled", true);
 		jQuery(".control-stta input, .control-stta label").hide();
@@ -197,5 +197,6 @@
 		});
     	
     }
+
     //]]>
 </script>

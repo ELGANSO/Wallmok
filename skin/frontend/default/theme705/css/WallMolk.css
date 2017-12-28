@@ -1014,6 +1014,9 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
 	width: 100%;
 	height: 40px;
 }
+#gcheckout-shipping-method-available{
+    display: none !important;
+}
 /****** MÓVIL **************/
 @media (max-width: 767px) {
 	.main {

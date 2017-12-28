@@ -24,13 +24,14 @@ class OrderSerializer
 
         foreach($order->getAllVisibleItems() as $item)
         {
-            $data['items'][] = $this->serializeOrderItem($item);
+            $data['items'][] = $this->serializeOrderItem($item, $order);
+            Mage::log($data['items'],null,"ivan.log");
         }
 
         return $data;
     }
 
-    public function serializeOrderItem(\Mage_Sales_Model_Order_Item $item)
+    public function serializeOrderItem(\Mage_Sales_Model_Order_Item $item, $order)
     {
         $product = $item->getProduct();
 
