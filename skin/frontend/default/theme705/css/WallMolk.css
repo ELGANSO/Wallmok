@@ -182,9 +182,6 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
 	width: 100%;
 	background: #f8f8f6;
 }
-.product-view{
-	margin-top:15px;
-}
 .burger-info{
 	margin-left:50px;
 	margin-top:15px;
@@ -906,7 +903,7 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
 	height: 50px;
 }
 .main {
-    margin-top: 60px;
+    margin-top: 80px;
     height: 100vh;
     overflow: scroll;
 }
@@ -1132,7 +1129,20 @@ img:first-child{
     text-transform: uppercase;
     font-size: 20px;
 }
-
+.glc .sp-methods dt{
+    display: inline;
+    margin: 0 10px 5px;
+}
+#recogidaEnRestaurante .button-set{ height: 15px;}
+.shipping-method .glc-col {
+    min-height: 150px;
+}
+.glc-login-and-paypal{
+    display: none;
+}
+.gcheckout-onepage-wrap {
+    padding-bottom: 50px;
+}
 /****** MÓVIL **************/
 @media (max-width: 767px) {
 	.main {

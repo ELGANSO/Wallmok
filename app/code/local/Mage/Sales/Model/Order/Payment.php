@@ -381,7 +381,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $message = $order->getCustomerNote();
 
 
-         //Envio pedido a cocina si es contrarreembolso Si es otro método, se envia al recibir el pago
+         //Envio pedido a cocina si es contrarreembolso Si es otro mï¿½todo, se envia al recibir el pago
          if ($order->getPayment()->getMethodInstance()->getCode() == 'cashondelivery') {
          		$orderStatus = "processing";
          		$orderState = "processing";
@@ -593,9 +593,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     	$restaurantes =  new RestaurantesOnline();
     	$codPostal = $this->getOrder()->getShippingAddress()->getData()['postcode'];
     	$id = $restaurantes->getRestaurantes($codPostal)[0]['id'];
-
-    	$res = $restaurantes->getRestaurant($id);
-    	$res->sendOrder($this->getOrder());
+		if(isset($id) && !empty($id) ) {
+			$res = $restaurantes->getRestaurant( $id );
+			$descripcion = $res->getDescription()['description'];
+			if($descripcion == $this->getOrder()->getShippingAddress()->getData()['name'])
+				$res->sendOrder( $this->getOrder() );
+		}
     }
 
     /**

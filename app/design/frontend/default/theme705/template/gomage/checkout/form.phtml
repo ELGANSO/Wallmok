@@ -135,10 +135,7 @@
         }
     );
     <?php endif; ?>
-    
-    if(sessionStorage.getItem('restaurant') < 0){
-    	window.location = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>orders';
-    }
+
     //Recogida en restaurante
     var recogida = '<?php echo $session->getData("envio"); ?>';
     console.log("Recogida: "+recogida);
@@ -169,7 +166,7 @@
 		
 		//Muestro restaurante de recogida
 		jQuery("#recogidaEnRestaurante .address").append($elem);
-		//Oculto la modificaci�n de la direcci�n de env�o
+		//Oculto la modificación de la dirección de envío
 		jQuery("#gcheckout-shipping-address").hide();
 		jQuery("#billing_use_for_shipping_yes").attr("disabled", true);
 		jQuery(".control-stta input, .control-stta label").hide();

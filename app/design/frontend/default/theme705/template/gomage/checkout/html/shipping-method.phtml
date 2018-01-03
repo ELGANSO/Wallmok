@@ -13,8 +13,10 @@
 $session = Mage::getSingleton('core/session', array('name' => 'frontend'));
 require_once(Mage::getBaseDir('lib').'/yeboyebo/restaurantes_online.php');
 $restaurantes = new RestaurantesOnline();
-$restaurante = $restaurantes->getRestaurant($session->getData('restaurant'));
 ?>
+<?php
+if($session->getData("envio") == "restaurante"):?>
+<?php $restaurante = $restaurantes->getRestaurant($session->getData('restaurant')); ?>
 <div class="shipping-methods">
 	
   <div class="shipping-method">
@@ -50,15 +52,17 @@ $restaurante = $restaurantes->getRestaurant($session->getData('restaurant'));
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<select name="shipping-hour" id="shipping-hour">
 				<?php
-					foreach($restaurante->getFranjasDisponibles(date("d/m/Y"),null) as $franja){
-						echo '<option value="'.$franja["idfranja"].'">'.$franja["franja"].'</option>';
+				if($session->getData("envio") == "restaurante") {
+					foreach ( $restaurante->getFranjasDisponibles( date( "d/m/Y" ), null ) as $franja ) {
+						echo '<option value="' . $franja["idfranja"] . '">' . $franja["franja"] . '</option>';
 					}
+				}
 				?>
 				
 			</select>
 		</div>
 	</div>
-    
+
     </div>
 
   </div>
@@ -71,3 +75,12 @@ $restaurante = $restaurantes->getRestaurant($session->getData('restaurant'));
 	
 	
 </div>
+
+<?php else:?>
+<style>
+    .glc .methods #gcheckout-payment-methods{
+        width:99%!important;
+        float: left !important;
+    }
+</style>
+<?php endif;?>

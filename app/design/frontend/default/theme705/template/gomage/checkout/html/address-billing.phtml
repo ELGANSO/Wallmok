@@ -10,9 +10,15 @@
  * @version      Release: 5.9.2
  * @since        Class available since Release 1.0
  */
+$session = Mage::getSingleton('core/session', array('name' => 'frontend'));
+if($session->getData("envio") == "restaurante"){
+    $num = 2;
+}else{
+    $num = 1;
+}
 ?>
 <div class="billing-address" id="gcheckout-billing-address">
-	<h2 class="glc-title"><span class="glc-number">2</span><strong><?php echo $this->__('Billing address');?></strong></h2>
+	<h2 class="glc-title"><span class="glc-number"><?php echo $num ?></span><strong><?php echo $this->__('Billing address');?></strong></h2>
 	<div class="glc-col">
 	<ul class="form-list">
 

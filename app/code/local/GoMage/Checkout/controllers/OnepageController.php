@@ -956,7 +956,7 @@ class GoMage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 		    $this->getOnepage()->getQuote()->setData("franja",$franja);
 	    $this->getOnepage()->getQuote()->save();
 	    Mage::log($this->getOnepage()->getQuote()->getData("fecharecogida")." - ".$this->getOnepage()->getQuote()->getData("franja")." \n\n",null,"ivan.log");
-	    Mage::log($this->getOnepage()->getQuote()->getId(),null,"ivan.log");
+
 
 	    if (( bool )$helper->getConfigData('general/enabled') == false) {
             $result['redirect'] = Mage::getUrl('checkout/onepage');

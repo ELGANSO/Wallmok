@@ -92,7 +92,7 @@
 		$cat = Mage::getModel('catalog/category');
      	$cat->load($id);
      ?>
-     <?php  if($cat->getIsActive()):?>
+     <?php  if($cat->getIsActive() && $cat->getIncludeInMenu()):?>
      	<?php $_productCollection = Mage::getModel('catalog/category')->load($id)
      	->getProductCollection()
      	->addAttributeToSelect('*') // add all attributes - optional
