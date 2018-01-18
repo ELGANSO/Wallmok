@@ -25,7 +25,10 @@ class Restaurante {
 
 	public function __construct($data){
 		try{
-		$db = new PDO($data["driver"].':dbname='.$data["nombrebd"].';host='.$data["servidor"].';port='.$data["puerto"],$data["usuario"],$data["password"]);
+
+			$pass =openssl_decrypt(  base64_decode($data["password"]), 'AES-256-CBC', "S0!0c0re99",0, "c0mb0c4l4d4c0mb0" );
+
+			$db = new PDO($data["driver"].':dbname='.$data["nombrebd"].';host='.$data["servidor"].';port='.$data["puerto"],$data["usuario"],$pass);
 
 		//Activo excepciones bd
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
