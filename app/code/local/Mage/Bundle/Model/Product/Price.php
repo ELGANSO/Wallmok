@@ -106,7 +106,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 }
             }
         }
-        Mage::log("Total: ".$price,null,"ivan.log");
 		
         return $price;
     }
@@ -850,7 +849,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         $finalPrice = max($finalPrice, 0);
-         Mage::log("Total: ".$finalPrice,null,"ivan.log");
         return $finalPrice;
     }
 

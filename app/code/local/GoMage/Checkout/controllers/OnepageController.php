@@ -944,18 +944,16 @@ class GoMage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         $helper = Mage::helper('gomage_checkout');
 
         $result = array('error' => false, 'success' => true, 'message' => array());
-		Mage::log("\n \n Save Actiom \n\n",null,"ivan.log");
 	    //Almaceno en session hora y fecha de recogida
 	    $fecharecogida = $this->getRequest()->getPost('shipping-date');
 	    $franja = $this->getRequest()->getPost('shipping-hour');
-	    Mage::log($fecharecogida." - ".$franja." \n\n",null,"ivan.log");
 
 	    if(isset($fecharecogida) && !empty($fecharecogida))
 		    $this->getOnepage()->getQuote()->setData("fecharecogida",$fecharecogida);
 	    if(isset($franja) && !empty($franja))
 		    $this->getOnepage()->getQuote()->setData("franja",$franja);
 	    $this->getOnepage()->getQuote()->save();
-	    Mage::log($this->getOnepage()->getQuote()->getData("fecharecogida")." - ".$this->getOnepage()->getQuote()->getData("franja")." \n\n",null,"ivan.log");
+	   
 
 
 	    if (( bool )$helper->getConfigData('general/enabled') == false) {

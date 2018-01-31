@@ -589,15 +589,24 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this;
     }
     protected function sendOrder(){
-    	
+    	Mage::log("Payment SendOrder",null,"ivan.log");
     	$restaurantes =  new RestaurantesOnline();
     	$codPostal = $this->getOrder()->getShippingAddress()->getData()['postcode'];
+    	
     	$id = $restaurantes->getRestaurantes($codPostal)[0]['id'];
 		if(isset($id) && !empty($id) ) {
 			$res = $restaurantes->getRestaurant( $id );
 			$descripcion = $res->getDescription()['description'];
-			if($descripcion == $this->getOrder()->getShippingAddress()->getData()['name'])
+			Mage::log($descripcion." - ".$this->getOrder()->getShippingAddress()->getData()['name'],null,"ivan.log");
+			//if($descripcion == $this->getOrder()->getShippingAddress()->getData()['name']){
+				Mage::log("Envio pedido",null,"ivan.log");
 				$res->sendOrder( $this->getOrder() );
+			//}else{
+			//	throw new Exception("No se encontro el restaurante");
+			//}
+		}else
+		{
+			throw new Exception("No se encontro el restaurante");
 		}
     }
 

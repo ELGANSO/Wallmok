@@ -405,6 +405,9 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
   display: block;
   max-width: none !important;
 }
+.Abierto{
+	background-size: 100% !important;
+}
 .Abierto span{
 	color:#1f4f46;
 }
@@ -414,7 +417,7 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
 .selector{
 	padding: 50px;
     position: relative;
-    top: 100px;
+    top: 50px;
     left: 0;
     display: block;
     height: 300px;

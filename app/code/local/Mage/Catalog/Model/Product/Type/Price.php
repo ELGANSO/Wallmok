@@ -318,7 +318,6 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     public function getFormatedPrice($product)
     {
-    	Mage::log($product->getFinalPrice(),null,"ivan.log");
         return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
     }
 

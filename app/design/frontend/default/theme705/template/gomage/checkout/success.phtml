@@ -10,7 +10,12 @@
  * @version      Release: 5.9.2
  * @since        Class available since Release 5.0
  */
+ require_once(Mage::getBaseDir()."/lib/yeboyebo/restaurantes_online.php");
+$restaurantes =  new RestaurantesOnline();
+$comanda = $restaurantes->getCodComanda($this->getOrderId());
+Mage::log("CodComanda: ".$comanda,null,"ivan.log");
 ?>
+<div class="success" style="padding: 15px; margin-bottom: 50px;">
 <div class="page-title">
     <h1><?php echo $this->__('Your order has been received.') ?></h1>
 </div>
@@ -19,7 +24,7 @@
 
 <?php if ($this->getOrderId()):?>
 <?php if ($this->getCanViewOrder()) :?>
-    <p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+    <p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $comanda)) ?></p>
 <?php  else :?>
     <p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
 <?php endif;?>
@@ -48,4 +53,5 @@
 
 <div class="buttons-set">
     <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
 </div>

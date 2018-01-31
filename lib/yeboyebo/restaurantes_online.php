@@ -79,6 +79,12 @@ class RestaurantesOnline {
 		$readConnection = $this->conexion->getConnection('core_read');
 		return $readConnection->fetchCol($query);
 	}
+	public function getCodComanda($OrderId)
+	{
+		$query = "SELECT codcomanda FROM comandas WHERE increment_id ='".$OrderId."'";
+		$readConnection = $this->conexion->getConnection('core_read');
+		return $readConnection->fetchCol($query);
+	}
 }
 
 
