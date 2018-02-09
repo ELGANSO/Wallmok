@@ -31,6 +31,7 @@
  * @package    MAbout This Orderage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+require_once(Mage::getBaseDir('lib').'/yeboyebo/restaurantes_online.php');
 
 class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
 {
@@ -158,4 +159,29 @@ class Mage_Sales_GuestController extends Mage_Sales_Controller_Abstract
             $this->_redirect('sales/guest/form');
         }
     }
+	public function sendAction(){
+
+		$orderId = Mage::app()->getRequest()->getParam('order');
+
+		if(isset($orderId) && $orderId!= ""){
+			$order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+			$codPostal = $order->getShippingAddress()->getData()['postcode'];
+			$restaurantes =  new RestaurantesOnline();
+
+			$id = $restaurantes->getRestaurantes($codPostal)[0]['id'];
+			
+			if(isset($id) && !empty($id) ) {
+				$res = $restaurantes->getRestaurant( $id );
+				$res->sendOrder( $order );
+				$this->_redirectReferer();
+			}else
+			{
+				throw new Exception("No se encontro el restaurante");
+				$this->_redirectReferer();
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

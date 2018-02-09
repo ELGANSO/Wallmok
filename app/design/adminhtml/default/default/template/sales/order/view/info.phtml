@@ -29,6 +29,18 @@
 $orderAdminDate = $this->formatDate($_order->getCreatedAtDate(), 'medium', true);
 $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', true);
 ?>
+<div class="entry-edit comanda">
+    <?php $codComanda = Mage::helper('sales/data')->getCodComanda($_order->getRealOrderId());
+        if(!empty($codComanda)):?>
+        <h2>Código de comanda: <?php echo $codComanda[0];?> </h2>
+        <?php else: ?>
+        <h2>El pedido no se ha enviado al restaurante</h2>
+            <a href="/sales/guest/send/?order=<?php echo $_order->getRealOrderId(); ?>" class="btn btn-success btn-info">
+                <span class="glyphicon glyphicon-log-in"></span> Enviar a Restaurante
+            </a>
+        <?php endif; ?>
+</div>
+<div class="clear"></div>
 <div class="box-left">
     <!--Order Information-->
     <div class="entry-edit">
