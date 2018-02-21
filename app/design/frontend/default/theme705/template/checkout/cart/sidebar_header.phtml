@@ -35,7 +35,7 @@
     <div id="ajaxscicon">
         <div class="block-cart-icon">
         <?php $cart_icon ='media/wysiwyg/block-cart-icon.png'; ?>
-        <img src="<?php echo "/".$cart_icon;?>" />
+        <img id="cartIcon" src="<?php echo "/".$cart_icon;?>" />
     </div>
     <!-- <h3><?php // echo $this->__('My Cart') ?>:</h3>  -->
     <span class="summary-top"><?php echo (int)$this->helper('checkout/cart')->getSummaryCount();?></span>
