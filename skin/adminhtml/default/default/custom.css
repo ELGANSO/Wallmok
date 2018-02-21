@@ -22,4 +22,46 @@
  * @copyright   Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
+.comanda{
+    margin-bottom:30px;
+}
+.comanda h2{
+    display:inline;
+    font-size: 20px;
+}
+.btn-info{
+    background-color: #f7aa3f !important;
+    border-color: #F44336 !important;
+}
+button span span{
+    color:#fff !important;
+}
+#page-help-link {
+    line-height: 10px;
+    padding-left: 20px;
+    color: #ebebff;
+    background: url(images/fam_help.gif) no-repeat 0 50%;
+    font-size: 12px !important;
+}
+#nav a {
+    float: left;
+    padding: 0 14px;
+    color: #fff;
+    line-height: 24px;
+    font-size: 12px !important;
+}
+button.back span{
+    color:#000 !important;
+}
+.columns .form-list td.value {
+    width: 300px;
+    padding-right: 5px !important;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+.order-totals .label { color:#000 !important;}
+.order-totals .summary-collapse{ display: inherit;}
+.label {
+    font-weight: initial !important;
+}
