@@ -1,9 +1,31 @@
 jQuery(document).ready(function(){
+		/* Carga animada de elementos*/
+	contentWayPoint();
 	if(window.innerWidth >= 768){
 		jQuery(".crop-img, #map").height(window.innerHeight-80);
+
+			// Cerrar sub-menu movil
+			jQuery(".parent").click(function(){
+				if(jQuery(this).find('.sub-menu').css('display') != 'none'){
+					jQuery(this).find('.sub-menu').fadeOut('slow');
+				}else{
+					jQuery(this).find('.sub-menu').fadeIn('slow');
+				}
+			});
+			//Bloquear scroll al abrir carrito en móvil
+			jQuery("#cartIcon, .block-cart-header .btn-remove").click(function(){
+				if(jQuery('.cart-content').css('display')!='none'){
+					console.log(1);
+					jQuery('body').css('overflow','scroll');
+				}else{
+					console.log(2);
+					jQuery('body').css('overflow','hidden');
+				}
+			});
 	}
 	/*Controlo vista de catalogo*/
 	controlSelectorCatalogo();
+
 	/* Buscar un restaurante con un código postal*/
 	jQuery("#getRestaurant button").click(function(){
 		jQuery("#loading").css('display','block');
@@ -79,6 +101,7 @@ jQuery(document).ready(function(){
 			jQuery('.principal-menu').css('display','block');
 		}
 	});
+
 
 	/* ******** FUNCIONES ************* */
 function showRestaurants(data){
@@ -189,3 +212,16 @@ function getHtmlStore(json){
 	html += "<div><h2>"+json.description+"</h2><p>"+json.direccion+"</p><span>"+json.horario+"</span></div>";
 	return html;
 }
+var contentWayPoint = function() {
+		jQuery('.animate-box').waypoint( function( direction ) {
+			console.log(direction);
+			if( direction === 'down' && !jQuery(this).hasClass('animated') ) {
+				jQuery(this.element).addClass('fadeInUp animated');
+			}
+		} , { offset: '70%' } );
+		jQuery('.animate-box').waypoint( function( direction ) {
+			if( direction === 'down' && !jQuery(this).hasClass('animated') ) {
+				jQuery(this.element).addClass('fadeInUp animated');
+			}
+		} , { offset: '70%' } );
+	};
