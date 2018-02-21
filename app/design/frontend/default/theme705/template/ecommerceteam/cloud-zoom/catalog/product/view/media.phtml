@@ -116,16 +116,17 @@ if ($zoomHeight) {
             <?php echo "$tumbSliderControl"; ?>
         </div>
     </div>
+    <!--
         <div class="gallery-swipe-content">
             <ul id="gallery-swipe" class="gallery-swipe">
-                <?php foreach ($this->getGalleryImages() as $_image): ?>
+                <?php /*foreach ($this->getGalleryImages() as $_image): ?>
                     <li>
                         <a href='<?php echo $this->helper('catalog/image')->init($product, 'thumbnail', $_image->getFile())->resize($bigImageWidth, $bigImageHeight);?>'  title='<?php echo $this->htmlEscape($_image->getLabel()) ?>'>
                         <img src="<?php echo $this->helper('catalog/image')->init($product, 'thumbnail', $_image->getFile())->resize($bigImageWidth, $bigImageHeight);?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
                         </a>
                     </li>
-                <?php endforeach; ?>
+                <?php endforeach;*/ ?>
             </ul>
-        </div>
+        </div>-->
     <?php endif; ?>
 </div>
