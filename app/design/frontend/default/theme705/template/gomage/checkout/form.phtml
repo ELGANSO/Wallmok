@@ -1,0 +1,199 @@
+<?php
+/**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 2.0
+ */
+?>
+<?php echo $this->getBlockHtml('formkey') ?>
+<?php $session = Mage::getSingleton('core/session', array('name' => 'frontend'));?>
+<div class="glc-step address" id="gcheckout-onepage-address">
+    <?php if($session->getData("envio") == "restaurante") :?>
+	    <div id="recogidaEnRestaurante">
+	    	<h2 class="glc-title"><span class="glc-number">1</span><strong>Recogida en restaurante</strong></h2>
+	    	<div class="address"></div>
+		    	<div class="button-set" style="margin-right: 15px;">
+	        		<button onclick="modificarEnvio()" id="submit-btn" type="button" title="Modificar" class="button btn-checkout ">
+	           		 	<span><span>Modificar</span></span>
+	        		</button>
+	            </div>
+	    </div>
+	<?php endif;?>
+	    <?php echo $this->getChildHtml('address'); ?>
+</div>
+
+
+<div class="glc-step methods" id="gcheckout-onepage-methods">
+    <?php echo $this->getChildHtml('methods'); ?>
+</div>
+
+<div class="glc-step review" id="gcheckout-onepage-review">
+
+    <?php echo $this->getChildHtml('review'); ?>
+
+    <?php if ($this->isEnabled('comments')): ?>
+        <div class="customer-comment">
+            <label for="customer_comment"><?php echo $this->__('Comments') ?></label>
+            <textarea id="customer_comment" name="customer_comment" cols="50"
+                      rows="5"><?php echo $this->getCustomerComment(); ?></textarea>
+        </div>
+    <?php endif; ?>
+
+    <div class="advanced-options">
+        <?php if (!$this->getQuote()->isVirtual()): ?>
+            <div id="gomage-lightcheckout-giftmessage">
+                <?php echo $this->helper('gomage_checkout/giftMessage')->getInline('onepage_checkout', $this->getQuote(), $this->getDontDisplayContainer()) ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($this->getConfigData('termsandconditions/enabled')): ?>
+            <p class="control control-terms">
+                <input type="checkbox" value="1" id="accept_terms" name="accept_terms"
+                       class="required-entry absolute-advice radio"/>
+                <label for="accept_terms"><?php echo $this->__('I accept the <a class="terms-link" href="%s" rel="#terms-block" onclick="%s">Terms and Conditions</a>', "#terms-block", "checkout.showTerms();return false;"); ?></label>
+            </p>
+        <?php endif; ?>
+        <div class="agreements">
+            <?php echo $this->getChildHtml('agreements') ?>
+        </div>
+        <?php if ($this->getConfigData('poll_settings/display')): ?>
+            <?php echo $this->getChildHtml('poll'); ?>
+        <?php endif; ?>
+    </div>
+    <div id="checkout-update-section"></div>
+    <?php $form_additional_info = $this->getChildHtml('form.additional.info'); ?>
+    <?php if ($form_additional_info): ?>
+        <ul class="form-list">
+            <?php echo $form_additional_info; ?>
+        </ul>
+    <?php endif; ?>
+    <div class="button-set" id="checkout-review-submit">
+        <button <?php if (!$this->getQuote()->validateMinimumAmount()): ?>disabled="disabled"<?php endif; ?>
+                onclick="checkout.LightcheckoutSubmit()" id="submit-btn" type="button"
+                title="<?php echo $this->__('Place Order') ?>"
+                class="button btn-checkout <?php if (!$this->getQuote()->validateMinimumAmount()): ?>disabled<?php endif; ?>">
+            <span><span><?php echo $this->__('Place Order') ?></span></span>
+        </button>
+        <?php if ($this->isEnabled('newsletter')): ?>
+            <?php if (!$this->isCustomerLoggedIn() || !Mage::getModel('newsletter/subscriber')->loadByCustomer($this->getCustomer())->getStatus()): ?>
+                <?php if (in_array($this->helper->getConfigData('address_fields/newsletter'), array(1, 2))): ?>
+                    <p class="control control-subscribe">
+                        <input type="checkbox" value="1" id="subscribe"
+                               name="subscribe" <?php if ($this->helper->getConfigData('address_fields/newsletter') == 2): ?> checked="checked" <?php endif; ?> />
+                        <label for="subscribe"><?php echo $this->__('Subscribe to newsletter'); ?></label>
+                    </p>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+
+</div>
+
+<?php echo $this->getChildHtml('sagepaysuite.js.vars'); ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var checkoutForm = new VarienForm('gcheckout-onepage-form');
+
+    var checkoutloginform = new LightcheckoutLogin({url: "<?php echo $this->getUrl("gomage_checkout/onepage/customerLogin");?>",
+        url_forgot: "<?php echo $this->getUrl("gomage_checkout/onepage/forgotPassword");?>",
+        logged_in: <?php if($this->isCustomerLoggedIn()):?>true<?php else: ?>false<?php endif; ?> });
+
+    var checkout = new Lightcheckout({
+        url: "<?php echo $this->getUrl('gomage_checkout/onepage/ajax');?>",
+        save_order_url: "<?php echo $this->getUrl('gomage_checkout/onepage/save');?>",
+        taxvat_enabled: <?php echo Mage::helper('gomage_checkout')->getConfigData('vat/enabled') ? 'true' : 'false';?>,
+        display_vat: <?php echo Mage::helper('gomage_checkout')->getConfigData('vat/display_vat'); ?>
+    });
+
+    function initAddresses() {
+        <?php if($this->isEnabled('country_id') && $this->isEnabled('region')):?>
+            billingRegionUpdater = new RegionUpdater('billing_country_id', 'billing_region', 'billing_region_id', countryRegions, undefined, <?php echo $this->getConfigData('address_fields/postcode') == 'req'  ? '"billing_postcode"' : 'undefined';?>);
+            <?php if($this->getChild('address')->getChild('billing')->canShip()):?>
+                <?php if( $this->getChild('address')->getChild('shipping')->isEnabled('country_id') && $this->getChild('address')->getChild('shipping')->isEnabled('region')):?>
+                    shippingRegionUpdater = new RegionUpdater('shipping_country_id', 'shipping_region', 'shipping_region_id', countryRegions, undefined, <?php echo $this->getConfigData('address_fields/postcode') == 'req'  ? '"shipping_postcode"' : 'undefined';?>);
+                <?php endif;?>
+            <?php endif;?>
+        <?php endif;?>
+    }
+
+    initAddresses();
+
+    <?php if(Mage::helper('gomage_sagepay')->isGoMage_SagePayEnabled()): ?>
+    var review = new LightcheckoutReview('<?php echo $this->getUrl('gomage_checkout/onepage/save') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    SageServer = new EbizmartsSagePaySuite.Checkout
+    (
+        {
+            'checkout': checkout,
+            'review': review,
+            'payment': payment
+        }
+    );
+    <?php endif; ?>
+
+    //Recogida en restaurante
+    var recogida = '<?php echo $session->getData("envio"); ?>';
+    console.log("Recogida: "+recogida);
+    if(sessionStorage.getItem('direccion') != "" && sessionStorage.getItem('direccion') != undefined && recogida == 'restaurante'){
+		
+		var $elem = jQuery(sessionStorage.getItem('direccion'));
+		//informo el formulario de env�o
+		jQuery.ajax({
+			  url: window.location.origin+"/lib/yeboyebo/ajaxRequest.php",
+			  context: document.body,
+			  dataType: "json",
+			  data: { 
+			        'accion': 'getRestaurantAddress', 
+			        'id': '<?php echo $session->getData("restaurant"); ?>'
+			    },
+			  type: 'POST'
+		}).done(function( data) {
+			console.log(data);
+			jQuery("#shipping_firstname").val(data.descripcion);
+			jQuery("#shipping_lastname").val(data.codtienda);	
+			jQuery("#shipping_country_id").val(data.pais);
+			jQuery("#shipping_postcode").val(data.codpostal);
+			jQuery("#shipping_region_id").val(jQuery("#shipping_region_id").find('option:contains('+data.provincia+')').val());
+			jQuery("#shipping_city").val(data.ciudad);
+			jQuery("#shipping_street1").val(data.direccion);
+			jQuery("#shipping_telephone").val(data.telefono);		
+		});
+		
+		//Muestro restaurante de recogida
+		jQuery("#recogidaEnRestaurante .address").append($elem);
+		//Oculto la modificación de la dirección de envío
+		jQuery("#gcheckout-shipping-address").hide();
+		jQuery("#billing_use_for_shipping_yes").attr("disabled", true);
+		jQuery(".control-stta input, .control-stta label").hide();
+    }
+
+    function modificarEnvio(){
+
+    	jQuery.ajax({
+			  url: window.location.origin+"/lib/yeboyebo/ajaxRequest.php",
+			  context: document.body,
+			  dataType: "json",
+			  data: { 
+			        'accion': 'selecionarRestaurante', 
+			        'id': '-1',
+			        'envio': null
+			    },
+			  type: 'POST'
+		}).done(function( data) {
+
+	    	sessionStorage.setItem('restaurant',-1);
+    		sessionStorage.setItem('direccion',undefined);
+	    	setTimeout(function(){
+	    		window.location = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>orders';
+	    	}, 500);	
+		});
+    	
+    }
+
+    //]]>
+</script>

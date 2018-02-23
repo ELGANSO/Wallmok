@@ -1,0 +1,24 @@
+<?php 
+if (Mage::getStoreConfig('facebook/facebook_like/active', Mage::app()->getStore())):	
+
+	$tm_facebook_settings = array(
+		'page_url' 		=> Mage::getStoreConfig('facebook/facebook_like/page_url', Mage::app()->getStore()),
+		'color_scheme' 	=> Mage::getStoreConfig('facebook/facebook_like/color_scheme', Mage::app()->getStore()),
+		'show_faces' 	=> Mage::getStoreConfig('facebook/facebook_like/show_faces', Mage::app()->getStore()),
+		'show_header' 	=> Mage::getStoreConfig('facebook/facebook_like/show_header', Mage::app()->getStore()),
+		'show_border' 	=> Mage::getStoreConfig('facebook/facebook_like/show_border', Mage::app()->getStore()),
+		'show_stream' 	=> Mage::getStoreConfig('facebook/facebook_like/show_stream', Mage::app()->getStore()),
+		'data_height' 	=> Mage::getStoreConfig('facebook/facebook_like/data_height', Mage::app()->getStore()),
+		'data_width' 	=> Mage::getStoreConfig('facebook/facebook_like/data_width', Mage::app()->getStore()),
+		);
+	?>
+
+	<div class="block block-facebook-like">
+	    <div class="block-title">
+	        <strong><span><?php echo $this->__('Facebook Like Box') ?></span></strong>
+	    </div>
+		<div class="block-content">
+			<div class="fb-like-box" data-href="https://www.facebook.com/<?php echo $tm_facebook_settings['page_url']; ?>" data-width="<?php echo $tm_facebook_settings['data_width']; ?>" data-height="<?php echo $tm_facebook_settings['data_height']; ?>" data-colorscheme="<?php echo $tm_facebook_settings['color_scheme']; ?>" data-show-faces="<?php echo $tm_facebook_settings['show_faces']; ?>" data-header="<?php echo $tm_facebook_settings['show_header']; ?>" data-stream="<?php echo $tm_facebook_settings['show_stream']; ?>" data-show-border="<?php echo $tm_facebook_settings['show_border']; ?>"></div>
+	    </div>
+	</div>
+<?php endif; ?>

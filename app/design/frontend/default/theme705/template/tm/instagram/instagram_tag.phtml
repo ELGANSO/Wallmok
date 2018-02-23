@@ -1,0 +1,34 @@
+<?php 
+if (Mage::getStoreConfig('instagram/instagram_tag/active', Mage::app()->getStore())):	
+
+	$instagram_tag_settings = array(
+		'client_id' 	=> Mage::getStoreConfig('instagram/general/client_id', Mage::app()->getStore()),
+		'sample_tag' 	=> Mage::getStoreConfig('instagram/instagram_tag/sample_tag', Mage::app()->getStore()),		
+		);
+	Mage::helper('instagram')->productTag();
+	?>
+
+	<div class="box-collateral block-instagram_tag">
+	    <h2><?php echo $this->__('Instagram Tag') ?></h2>
+		<div class="box-collateral-content">
+		
+			<?php 
+			$tag_object = Mage::getModel('instagram/instagram', array('username' => '', 'client_id' => $instagram_tag_settings['client_id'], 'tag'=> '#' . Mage::helper('instagram')->productTag())); 
+
+			if (gettype($tag_object->tagMediaRecent()) == 'string') {
+				$tag_object = Mage::getModel('instagram/instagram', array('username' => '', 'client_id' => $instagram_tag_settings['client_id'], 'tag'=> $instagram_tag_settings['sample_tag'])); 	
+			} ?>
+
+			<ul class="instagram-media">
+			<?php 
+			foreach ($tag_object->tagMediaRecent() as $item) { ?>
+				<li class="instagram-media_item">
+					<a href="<?php echo $item['link']; ?>">
+						<img src="<?php echo $item['images']['thumbnail']['url']; ?>" alt="">
+					</a>
+				</li>
+			<?php } ?>
+			</ul>
+	    </div>
+	</div>
+<?php endif; ?>

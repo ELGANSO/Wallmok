@@ -1,0 +1,77 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="footer-container">
+	<div class="container">
+		<div class="row">
+				<div class="footer">
+					<p id="back-top"><a href="#top"><span></span></a> </p>
+					<div class="footer-cols-wrapper">
+						<div class="footer-col col-xs-4 col-sm-4 col-md-4 col-lg-3 footer_st_block">
+							<?php echo $this->getChildHtml('footer_st_block') ?>
+						</div>
+						<div class="footer-col col-xs-3 col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-1 col-lg-2 col-lg-offset-0">
+							<h4><?php echo $this->__('Information') ?></h4>
+							<div class="footer-col-content">
+								<?php echo $this->getChildHtml('cms_footer_links') ?>
+								<?php echo $this->getChildHtml('footer_links') ?>
+							</div>
+						</div>
+						<?php echo $this->getChildHtml('footer_list') ?>
+						<div class="footer-col col-xs-6 col-sm-7 col-md-7 col-lg-3">
+							<?php echo $this->getChildHtml('left.newsletter') ?>
+							<?php echo $this->getChildHtml('contact_block') ?>
+							<?php echo $this->getChildHtml('footer_social_block') ?>
+						</div>
+						<div class="clear"></div>
+					  </div>
+					<div class="clear"></div>
+					<?php echo $this->getChildHtml('store_switcher') ?>
+					<?php $current_page = Mage::app()->getFrontController()->getRequest()->getRouteName(); 
+						if ($current_page == 'cms'):
+							echo 'More <a rel="nofollow" href="http://www.templatemonster.com/category/jewelry-magento-templates/" target="_blank">Jewelry Magento Templates at TemplateMonster.com</a>';
+						endif;
+					?>
+				</div>
+				<div class="col-xs-12">
+					<address><?php echo $this->getCopyright() ?></address>
+				</div>
+		</div>
+	</div>
+</div>
+<?php
+	$session = Mage::getSingleton('core/session', array('name' => 'frontend'));
+	$restaurante = $session->getData('restaurant');
+	echo "Session: ".$restaurante;
+	if(!isset($restaurante) || empty($restaurante) || $restaurante == ""){
+		$restaurante = -1;
+	}
+?>
+<script type="text/javascript">
+					if(<?php echo $restaurante ?> < 0)
+						sessionStorage.setItem("restaurant","-1");
+				</script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl('skin').'frontend/default/theme705/js/wallmok.js' ?>"></script>

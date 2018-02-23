@@ -1,0 +1,35 @@
+<?php if ($posts = $this->getRecent()): ?>
+    <div class="blog-bg row" data-source-url="skin url='images/blog-bg.jpg">
+        <div class="widget-latest">
+            <!-- div class="page-title category-title center">
+                <h1><?php echo Mage::helper('blog')->__('Latest Posts');  ?></h1>
+            </div -->
+            <ul class="grid-clol-6">
+                <?php $i = 0; ?>
+                <?php foreach ($posts as $post): ?>
+                    <?php if ($i<2): ?>
+                        <li class="col-xs-12 col-sm-12 col-md-6 col-lg-6 blog_item">
+                            <div class="left_side_blog_block col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="img_post_container"><?php echo Mage::helper('cms')->getBlockTemplateProcessor()->filter($post->getShortContent()); ?></div>
+                            </div>
+                            <div class="right_side_blog_block col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <?php // $post->setCreatedTime($this->formatDate($post->getCreatedTime(), "long", false)); ?>
+                                <?php //echo $post->getCreatedTime(); ?>
+                                <?php $_ct= new Zend_Date($post->getCreatedTime()); ?>
+                                <span class="widget-latest-data"><i class="flaticon-clock100"></i> <?php echo $_ct->toString('dd / MM / yyyy'); ?></span>
+                                <div class="widget-latest-title"><a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a></div>
+                                <div class="postContent"><?php echo Mage::helper('cms')->getBlockTemplateProcessor()->filter($post->getShortContent()); ?></div>
+                                <a href="<?php echo $post->getAddress(); ?>"class="aw-blog-read-more all-blog" title="<?php echo Mage::helper('blog')->__('Leer más');  ?>"></a>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                    <?php endif; ?>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
+            </ul>
+           <!-- <a href="<?php // echo $this->getBlogUrl() ?>"class="aw-blog-read-more all-blog"><?php // echo Mage::helper('blog')->__('View all posts');  ?></a> -->
+            <div class="clear"></div>
+        </div>
+    </div>
+<?php endif; ?>
+<?php // $tt = count($this->getRecent()); print_r($tt) ; ?>

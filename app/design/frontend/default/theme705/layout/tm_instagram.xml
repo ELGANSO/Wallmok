@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addCss"><stylesheet>css/tm/instagram/instagram.css</stylesheet></action>
+		</reference>
+		<reference name="footer">
+			<block type="core/template" name="tm_instagram_user" as="tm_instagram_user" template="tm/instagram/instagram_user.phtml"/>
+		</reference>
+		<reference name="left">
+			<block type="core/template" name="tm_instagram_user" as="tm_instagram_user" template="tm/instagram/instagram_user.phtml"/>
+		</reference>
+		<!-- <reference name="footer">
+			<block type="core/template" name="tm_instagram_tag" as="tm_instagram_tag" template="tm/instagram/instagram_tag.phtml"/>
+		</reference> -->
+	</default>
+
+	<catalog_product_view translate="label">
+        <reference name="product.info.additional">
+            <block type="core/template" name="tm_instagram_tag" as="tm_instagram_tag"  before="-" template="tm/instagram/instagram_tag.phtml"/>
+        </reference>
+    </catalog_product_view>
+</layout>

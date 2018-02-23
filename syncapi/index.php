@@ -25,6 +25,7 @@ addRoute('get_unsynchronized_orders', '/orders/unsynchronized', 'UnsynchronizedO
 addRoute('mark_order_as_synchronized', '/orders/{orderId}/synchronized', 'MarkOrderAsSynchronized', 'PUT');
 addRoute('create_product_update_request', '/productupdates', 'CreateProductUpdateRequest', 'POST');
 addRoute('get_product_update_request', '/productupdates/{requestId}', 'GetProductUpdateRequest', 'GET');
+addRoute('set_order_state', '/orders/setstate', 'SetOrderState', 'POST');
 
 $request = Request::createFromGlobals();
 $context = new RequestContext();

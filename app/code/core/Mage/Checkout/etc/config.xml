@@ -244,7 +244,7 @@
             </options>
             <cart>
                 <delete_quote_after>30</delete_quote_after>
-                <redirect_to_cart>1</redirect_to_cart>
+                <redirect_to_cart>0</redirect_to_cart>
                 <grouped_product_image>itself</grouped_product_image>
                 <configurable_product_image>parent</configurable_product_image>
             </cart>

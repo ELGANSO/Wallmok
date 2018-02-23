@@ -1,0 +1,24 @@
+<?php
+/**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 5.3
+ */
+?>
+<div class="simple_overlay" id="gcheckout-payment-centinel"
+     style="display:none;width:<?php echo intval(Mage::getStoreConfig('gomage_checkout/address_fields/secure_window_width')) ?>px;height:<?php echo intval(Mage::getStoreConfig('gomage_checkout/address_fields/secure_window_height')) ?>px;">
+    <div class="glc-popup-content">
+        <a class="close" onclick="checkout.hideCentinel();return false;">&#x2715;</a>
+
+        <div class="details">
+            <div class="popup-content" id="gcheckout-payment-centinel-html">
+            </div>
+        </div>
+    </div>
+</div>

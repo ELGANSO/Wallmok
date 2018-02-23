@@ -1,0 +1,10 @@
+.block-instagram_user{}
+.instagram-media{
+	overflow: hidden;
+	margin: 0 -5px;
+}
+
+.instagram-media li{
+	float: left;
+	margin: 5px;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+	<catalog_product_view>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>js/tm/specialpricecountdown/flipclock.min.js</name><params/></action>
+			<action method="addCss"><stylesheet>css/tm/specialpricecountdown/flipclock.css</stylesheet></action>
+		</reference>
+		<reference name="content">
+			<block type="core/template" name="tm_specialpricecountdown" as="tm_specialpricecountdown" before="product.info" template="tm/specialpricecountdown/specialpricecountdown.phtml"/>
+		</reference>
+	</catalog_product_view>
+</layout>

@@ -1,0 +1,29 @@
+<?php
+ /**
+ * GoMage LightCheckout Extension
+ *
+ * @category     Extension
+ * @copyright    Copyright (c) 2010-2016 GoMage (https://www.gomage.com)
+ * @author       GoMage
+ * @license      https://www.gomage.com/license-agreement/  Single domain license
+ * @terms of use https://www.gomage.com/terms-of-use
+ * @version      Release: 5.9.2
+ * @since        Class available since Release 2.0
+ */
+?>
+<label for="<?php echo $this->getFieldId('taxvat')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>>
+<?php if ($this->isRequired()): ?>
+    <em>*</em>
+<?php endif; ?>
+<?php echo $this->__('Tax/VAT number') ?>
+<?php if(!is_null($this->getIsValidVat())): ?>
+    <?php if($this->getIsValidVat()):?>
+        <strong id="<?php echo sprintf($this->getFieldIdFormat(), 'taxvat_verified') ?>" style="margin-left:5px;">(<span style="color:green;"><?php echo $this->__('Verified') ?></span>)</strong>
+    <?php else:?>
+        <strong id="<?php echo sprintf($this->getFieldIdFormat(), 'taxvat_verified') ?>" style="margin-left:5px;">(<span style="color:red;"><?php echo $this->__('Not Verified') ?></span>)</strong>
+    <?php endif;?>
+<?php endif;?>
+</label>
+<div class="input-box">
+    <input <?php if($this->getIsReadonly()):?> readonly="readonly" <?php endif;?> type="text" id="<?php echo $this->getFieldId('taxvat')?>" name="<?php echo $this->getFieldName('taxvat')?>" value="<?php echo $this->htmlEscape($this->getTaxvat()) ?>" title="<?php echo $this->__('Tax/VAT number') ?>" class="input-text<?php if ($this->isRequired()):?> required-entry <?php endif; ?> absolute-advice <?php if(Mage::helper('gomage_checkout')->getConfigData('vat/enabled')>0):?> validate-taxvat <?php echo sprintf($this->getFieldIdFormat(), 'validate_taxvat') ?> <?php endif; ?> <?php if($this->getIsReadonly()):?> readonly <?php endif;?>" <?php echo $this->getFieldParams() ?> />
+</div>

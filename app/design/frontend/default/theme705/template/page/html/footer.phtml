@@ -1,0 +1,146 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="footer-container">
+	<div class="container">
+		<div class="row">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_links')->toHtml(); ?>
+		</div>
+	</div>
+</div>
+<?php
+	$session = Mage::getSingleton('core/session', array('name' => 'frontend'));
+	$restaurante = $session->getData('restaurant');
+	if(!isset($restaurante) || empty($restaurante) || $restaurante == ""){
+		$restaurante = -1;
+	}
+?>
+<div class="footer-modals">
+<!-- Modales -->
+<div class="modal fade" id="localizacion" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Localización'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <div id="mapLoc"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+  <!-- Contacto -->
+  <div class="modal fade" id="contacto" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Contacto'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <?php 
+				echo $this->getLayout()->createBlock("core/template")->setTemplate("contacts/form.phtml")->toHtml();
+			?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+  <!-- Contacto -->
+  <div class="modal fade" id="trabaja" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Trabaja con nosotros'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <?php 
+				echo $this->getLayout()->createBlock("core/template")->setTemplate("contacts/form_trabajo.phtml")->toHtml();
+			?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+	<!-- Politica de privacidad -->
+  <div class="modal fade" id="privacy" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Politica de privacidad'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <?php 
+				echo $this->getLayout()->createBlock('cms/block')->setBlockId('privacy')->toHtml(); 
+			?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+	<!-- Newsletter -->
+  <div class="modal fade" id="newsletter" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Newsletter'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <?php echo $this->getLayout()->createBlock('newsletter/subscribe')->setTemplate('newsletter/subscribe.phtml')->toHtml(); ?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+<!-- Fin Modales -->
+</div>
+<script type="text/javascript">
+					if(<?php echo $restaurante ?> < 0)
+						sessionStorage.setItem("restaurant","-1");
+				</script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl('skin').'frontend/default/theme705/js/jquery.waypoints.min.js' ?>"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl('skin').'frontend/default/theme705/js/wallmok.js' ?>"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2BIlETnIMRlbYqhsgBLeCsSn4fTn1f2U"></script>

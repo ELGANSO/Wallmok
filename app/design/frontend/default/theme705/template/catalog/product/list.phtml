@@ -1,0 +1,170 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+	$session = Mage::getSingleton('core/session', array('name' => 'frontend'));
+	$restaurante = $session->getData('restaurant');
+	if(isset($restaurante) && !empty($restaurante) && $restaurante != ""):?>
+		<script type="text/javascript">
+			sessionStorage.setItem('restaurant',<?php echo $restaurante; ?>);</script>
+	<?php
+	endif;
+    
+    $_helper = $this->helper('catalog/output');
+    //Obtengo categorías y las ordeno como en el admin
+    $category = Mage::getModel('catalog/category');
+	$tree = $category->getTreeModel()->load();
+	$categoriesIds = $tree->getCollection();
+	foreach ($categoriesIds as $category)
+	{
+	    $subCats[$category->getPosition()] = $category->getId();
+	}
+	ksort($subCats);
+	$categoriesIds = $subCats;
+	//Selector de restaurante
+   // if(!isset($restaurante) || empty($restaurante)){
+    	echo  Mage::app()->getLayout()
+	        ->createBlock('catalog/product_list')
+	        //->setSomeVariable($variable)
+	        ->setTemplate('catalog/product/list/restaurants.phtml')
+	        ->toHtml(); 
+	//}
+	
+?>
+
+<div id="catalogSelector">
+	<span id="locations"> < Locations </span>
+<!-- Menú -->
+<?php
+	echo  Mage::app()->getLayout()
+	        ->createBlock('catalog/product_list')
+	        //->setSomeVariable($variable)
+	        ->setTemplate('catalog/product/list/menu.phtml')
+	        ->toHtml(); 
+ ?>
+<!-- fin Menú -->
+<?php if(!count($categoriesIds)): ?>
+    <div class="note-msg-empty-catalog">
+        <?php if(!$this->getLayout()->createBlock('cms/block')->setBlockId('id_category_empty')->toHtml()): ?>
+            <h3><?php echo $this->__('There are no products matching the selection.') ?></h3>
+            <?php echo $this->__('This is a custom CMS block displayed if category is empty.') ?><br />
+            <?php echo $this->__('You can replace it with any custom content by building CMS block <br /> with such an id  - id_category_empty.') ?>  
+        <?php endif; ?>
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('id_category_empty')->toHtml() ?>       
+    </div>
+<?php else: ?>
+
+    <div class="category-products">
+    <?php //echo $this->getToolbarHtml() ?>
+	<?php // Grid Mode 
+		foreach ($categoriesIds as $id):?>
+	<?php 
+		$cat = Mage::getModel('catalog/category');
+     	$cat->load($id);
+     ?>
+     <?php  if($cat->getIsActive() && $cat->getIncludeInMenu()):?>
+     	<?php $_productCollection = Mage::getModel('catalog/category')->load($id)
+     	->getProductCollection()
+     	->addAttributeToSelect('*') // add all attributes - optional
+		->addAttributeToFilter('status', 1) // enabled
+		->addAttributeToFilter('visibility', 4) //visibility in catalog,search
+		->setOrder('position', 'ASC'); //sets the order by price
+     	?>
+		<!-- Descripcion categoria -->
+		<?php if($_productCollection->count() > 0): ?>
+			<div class="row category" id="<?php echo $cat->getName(); ?>">
+				<h1><?php echo $cat->getName(); ?></h1>
+				<p><?php echo $cat->getDescription(); ?></p>
+			</div>
+		<?php endif; ?>
+		<!-- Fin Descripcion categoria -->
+
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <?php $_columnCount = $this->getColumnCount(); ?>
+    <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php if ($i++%$_columnCount==0): ?>
+        <ul class="products-grid row row-eq-height">
+        <?php endif ?>
+            <li class="<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?> col-xs-12 col-sm-4" itemscope itemtype="http://schema.org/product" >
+            <div class="item">
+                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(600); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/></a>
+				<div class="product-shop">
+					<h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>" itemprop="name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                   <div class="desc_grid" itemprop="description"><?php $small_getDescription = strip_tags($_product->getShortDescription());
+         if (strlen($small_getDescription) < 150) echo($small_getDescription);
+         else { echo mb_substr($small_getDescription, 0, 150,'UTF-8').'...';} ?></div>
+					<?php if($_product->getRatingSummary()): ?>
+					<?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+					<?php endif; ?>
+                    <?php echo $this->getPriceHtml($_product, true) ?>
+					<div class="actions">
+						<?php if($_product->isSaleable()): ?>
+							<!--<button type="button" title="<?php //echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php //echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php //echo $this->__('Add to Cart') ?></span></span></button>-->
+						<?php else: ?>
+							<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+						<?php endif; ?>
+						<!--<ul class="add-to-links">-->
+							<!--<?php //if ($this->helper('wishlist')->isAllow()) : ?>
+								<li><a title="<?php //echo $this->__('Add to Wishlist') ?>" href="<?php //echo $this->helper('wishlist')->getAddUrl($_product) ?>" rel="tooltip" class="link-wishlist"><?php// echo $this->__('Add to Wishlist') ?></a></li>
+							<?php //endif; ?>-->
+							<!--
+							<?php// if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+								<li><span class="separator">|</span> <a  title="<?php// echo $this->__('Add to Compare') ?> " href="<?php// echo $_compareUrl ?>" rel="tooltip" class="link-compare "><?php //echo $this->__('Add to Compare') ?></a></li>
+							<?php //endif; ?>-->
+						<!--</ul>-->
+					</div>
+				</div>
+                <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+                <div class="label-product">             
+                    <?php if($_product->getData('new')){echo '<span class="new">'.$this->__('New').'</span>';  }?>
+                    <?php if($_product->getData('sale')){echo '<span class="sale">'.$this->__('Sale').'</span>';  }?>
+                </div>
+               </div>
+            </li>
+        <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+        </ul>
+        <?php endif ?>
+        <?php endforeach ?>
+    	<?php endif ?>
+         <?php endforeach ?>
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+
+    <div class="toolbar-bottom">
+        <?php //echo $this->getToolbarHtml() ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<!--Fin IF seleccionar restaurante-->
+</div>
+
