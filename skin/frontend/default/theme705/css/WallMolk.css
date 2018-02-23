@@ -27,8 +27,8 @@ h2{
 	font-size: 24px;
 }
 p{
-    font-family: enyo_serif;
-    font-size: 28px;
+    font-family: Calibri;
+    font-size: 18px;
     line-height: 1;
     color: #3b4245;
   }
@@ -829,8 +829,8 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
 	right: 0 !important;
 }
 .slides h1{
-	font-size: 60px;
-    line-height: 55px;
+	font-size: 40px;
+    line-height: 40px;
     text-transform: uppercase;
     margin: 0 auto;
     color:#fff;
@@ -842,8 +842,8 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
 
 }
 .slides h3{
-	font-size: 45px;
-    line-height: 45px;
+	font-size: 32px;
+    line-height: 32px;
     margin: 0 auto;
     color:#fff;
     position: absolute;
@@ -1093,7 +1093,7 @@ img:first-child{
     overflow: hidden;
     text-align: justify;
     font-size: 14px;
-    font-family: "Gotham A", "Gotham B";
+    font-family: "Calibri";
     line-height: 1.5;
     color: #3b4245;
 }
@@ -1102,8 +1102,8 @@ img:first-child{
 }
 .postWrapper .postContent img:first-child, .postWrapper .postContent p{
     float:left;
-    font-size: 14px;
-    font-family: "Gotham A", "Gotham B";
+    font-size: 16px;
+    font-family: "Calibri";
     line-height: 1.5;
     color: #3b4245;
     width: 100%;
@@ -1227,6 +1227,13 @@ img:first-child{
 .availability{
     font-family: Arial;
     font-size: 12px;
+}
+.destacado-enyo{
+    font-family: urania_czech;
+    font-size: 22px;
+}
+.postWrapper {
+    padding-top: 30px;
 }
 /****** MÓVIL **************/
 @media (max-width: 767px) {
@@ -1380,7 +1387,6 @@ img:first-child{
 		text-transform: uppercase;
 		font-size: 18px;
     	line-height: 20px;
-    	padding-top: 15px;
     	padding-left: 0;
 	    width: 100%;
     	text-align: left;
@@ -1388,7 +1394,10 @@ img:first-child{
 	}
 	.principal-menu .footer div{     
 		padding-left: 5px; 
-		margin-top: 30px;
+		margin-top: 0px;
+	}
+	.social{
+	    margin-top: 15px;
 	}
 	.social a img{
 	    width: 40px;
@@ -1403,17 +1412,22 @@ img:first-child{
 	}
 	.slides h1{
 		font-size: 40px;
+		z-index: 10;
 	}
 	.slides h3{
 		font-size: 30px;
-		top: 60%;
+		top: 70%;
+		z-index: 10;
 	}
 	.flexslider .slides img{
 		width: auto !important;
+		left: -100%;
+	    top: 100px;
+		position: relative;
 	}
     .postTitle h2 a {
         color: #4c5b52;
-        font-size: 18px;
+        font-size: 24px;
     }
     .blog-list li{
         padding-bottom: 0px;
@@ -1450,7 +1464,7 @@ img:first-child{
 		display: block;
 	    float: right;
     	margin-right: 20px;
-    	padding-top: 5px;
+    	padding-top: 0px;
 
 	}
 	.block-cart-header .summary-top {
@@ -1458,6 +1472,10 @@ img:first-child{
 	    color: #fff !important;
 	    top: 0px !important;
 	    padding:0;
+	    font-size: 12px;
+        min-width: 18px;
+    	height: 18px;
+    	line-height: 18px;
 	}
 	.block-cart-header .cart-content{
 	    width: 100%;
@@ -1465,6 +1483,7 @@ img:first-child{
 	    right: initial;
 	    position: fixed;
 	    top: 70px;
+        text-align: center;
 	}
 	#cart-sidebar .description{
 		width: 91%;
@@ -1488,6 +1507,19 @@ img:first-child{
     .product-view-shop .add-to-cart button.button{
         width: 100% !important;
         margin-left: 0;
+    }
+    .header{
+	    margin-bottom: 15px;
+    }
+    .flex-direction-nav .flex-next, .flex-direction-nav .flex-prev{
+    	display: none;
+    }
+    .postTitle h2{
+    	font-size: 24px;
+    }
+    .blog-list li{
+    	padding-left: 0;
+    	padding-right: 0;
     }
 }
 @media only screen and (max-width: 991px){

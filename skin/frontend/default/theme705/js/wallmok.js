@@ -4,24 +4,25 @@ jQuery(document).ready(function(){
 	if(window.innerWidth >= 768){
 		jQuery(".crop-img, #map").height(window.innerHeight-80);
 
-			// Cerrar sub-menu movil
-			jQuery(".parent").click(function(){
-				if(jQuery(this).find('.sub-menu').css('display') != 'none'){
-					jQuery(this).find('.sub-menu').fadeOut('slow');
-				}else{
-					jQuery(this).find('.sub-menu').fadeIn('slow');
-				}
-			});
 			//Bloquear scroll al abrir carrito en móvil
 			jQuery("#cartIcon, .block-cart-header .btn-remove").click(function(){
 				if(jQuery('.cart-content').css('display')!='none'){
-					console.log(1);
 					jQuery('body').css('overflow','scroll');
 				}else{
-					console.log(2);
 					jQuery('body').css('overflow','hidden');
 				}
 			});
+	}
+	if(window.innerWidth <= 768){
+
+		// Cerrar sub-menu movil
+		jQuery(".parent").click(function(){
+			if(jQuery(this).find('.sub-menu').css('display') != 'none'){
+				jQuery(this).find('.sub-menu').fadeOut('slow');
+			}else{
+				jQuery(this).find('.sub-menu').fadeIn('slow');
+			}
+		});
 	}
 	/*Controlo vista de catalogo*/
 	controlSelectorCatalogo();
@@ -83,7 +84,6 @@ jQuery(document).ready(function(){
 	//Mostrar localización (PopUp)
 	jQuery(".localizacionBtn").click(function(){
 		//Busco restaurantes y los añado en el mapa
-		console.log("localización");
 		jQuery.ajax({
 			  url: window.location.origin+"/lib/yeboyebo/ajaxRequest.php",
 			  context: document.body,
@@ -123,7 +123,6 @@ function controlSelectorCatalogo(){
 
 	if(sessionStorage.getItem('restaurant') == undefined || sessionStorage.getItem('restaurant') < 0)
 	{
-		console.log("Entro");
 		jQuery("#catalogSelector").hide();
 		jQuery("#restaurantSelector").show();
 	}
@@ -146,7 +145,6 @@ var seleccionoRestaurante = function(){
 			  data: jQuery("#restaurantSelected").serialize(),
 			  type: 'POST'
 		}).done(function( data) {
-			console.log("Selecciono restaurante: "+data);
 			sessionStorage.setItem('restaurant',data);
 			//Compruebo visibilidad del catalogo
 			controlSelectorCatalogo();
@@ -164,12 +162,11 @@ var seleccionoRestaurante = function(){
 
 function loadMap(json,map){
 	jQuery(".crop-img img").hide();
-	console.log(map);
 	jQuery("#"+map).show();
 	initMap(json, map);
 }
  function initMap(json, mapId) {
-	        var center = {lat: 40.43, lng: -3.68};
+	        var center = {lat: 40.43, lng: -3.80};
 	        var map = new google.maps.Map(document.getElementById(mapId), {
 	          zoom: 12,
 	          center: center
@@ -207,14 +204,12 @@ function infoWindowMap(marker, json, mapId) {
     });
 }
 function getHtmlStore(json){
-	console.log(json);
 	var html = "<style> h2,p,span{ color: #3b4245;}</style>";
 	html += "<div><h2>"+json.description+"</h2><p>"+json.direccion+"</p><span>"+json.horario+"</span></div>";
 	return html;
 }
 var contentWayPoint = function() {
 		jQuery('.animate-box').waypoint( function( direction ) {
-			console.log(direction);
 			if( direction === 'down' && !jQuery(this).hasClass('animated') ) {
 				jQuery(this.element).addClass('fadeInUp animated');
 			}

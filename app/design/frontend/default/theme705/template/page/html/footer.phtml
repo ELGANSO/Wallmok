@@ -77,6 +77,26 @@
       </div>  
     </div>
   </div>
+  <!-- Contacto -->
+  <div class="modal fade" id="trabaja" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><?php echo $this->__('Trabaja con nosotros'); ?></h4>
+        </div>
+        <div class="modal-body">
+          <?php 
+				echo $this->getLayout()->createBlock("core/template")->setTemplate("contacts/form_trabajo.phtml")->toHtml();
+			?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>  
+    </div>
+  </div>
 	<!-- Politica de privacidad -->
   <div class="modal fade" id="privacy" role="dialog">
     <div class="modal-dialog">
