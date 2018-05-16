@@ -131,17 +131,16 @@ class Restaurante {
 				Mage::log($item->getProduct()->getTypeId(),null,"ivan.log");
 	    		if($item->getProduct()->getTypeId() == 'bundle')
 	    		{
-	    			$json = $lineSerializer->serialize($item->getProduct(),$data['items']);
+	    			$json = $lineSerializer->serialize($item,$data['items']);
 	    			$data['items'][$i]['nombre'] = $this->getLineDescription($data['items'][$i]['nombre'],$json);
-
-	    			//throw new Exception('No te borres');
 	    		}
 	    		//Añado las líneas sin padre, las que tienen padre van en el json.
 	    		if(!$lineaPadre)
 	    		{
 	    			$linea = $this->creaLineaComanda($comanda,$data['items'][$i],$lineaPadre,json_encode($json));
 	    		}
-
+				Mage::log(json_encode($json),null,"ivan.log");
+	    		//throw new Exception('No te guardes');
 				$i++;
 			}
 			
@@ -151,9 +150,7 @@ class Restaurante {
 			//throw new Exception();
 			//Creo el pago de la comanda
 			if($order->getPayment()->getMethod() != 'cashondelivery'){
-				Mage::log("Creo Pago",null,"ivan.log");
 				$this->creaPagoComanda($comanda,$data,$arqueo);
-				Mage::log("Finalizo",null,"ivan.log");
 			}
 			Mage::log("Commit",null,"ivan.log");
 			$this->conexion->commit();
@@ -206,16 +203,21 @@ class Restaurante {
 
 	protected function creaLineaComanda($comanda,$d, $sincroPadre,$json){
 		Mage::log("Crea Linea de Comanda \n \n", null, "ivan.log");
-		$linea = $this->getNextLineaComanda();
-		$idsincro =  $comanda['codcomanda']."_".$linea;
+		try {
+			$linea    = $this->getNextLineaComanda();
+			$idsincro = $comanda['codcomanda'] . "_" . $linea;
 
-		$sql = "INSERT INTO tpv_lineascomanda (idtpv_linea,idtpv_comanda,codcomanda,codtienda,idsincro,wm_idsincropadre, referencia,pvptotal, ivaincluido, canregalo, cantidad,dtolineal,descripcion, iva, pvpunitarioiva,dtopor,pvptotaliva,pvpsindto,pvpsindtoiva,pvpunitario,ptestock, wm_datoscomp, wm_estadococina) VALUES ('".$linea."','".$comanda['idtpv_comanda']."','".$comanda['codcomanda']."','".$this->codtienda."','".$idsincro."','".$sincroPadre."', '".$d['sku']."','".$d['pvptotal']."', 'True', 0, '".$d['cantidad']."',0,'".$d['nombre']."', '".$d['iva']."', '".$d['pvpunitarioiva']."',0,'".$d['pvptotaliva']."','".$d['pvpsindto']."','".$d['pvpsindtoiva']."','".$d['pvpunitario']."','True','".$json."','Por hacer')";
-		$res = $this->conexion->prepare($sql);
-		$res->execute();
-		//throw new Exception("Stop");
-		if(empty($d['cooked_cost'])) $d['cooked_cost'] = 0;
-		$this->addOrderOnFranja($d['franja'], $linea, $d['cooked_cost'], $d["fechaRecogida"]);
-
+			$sql = "INSERT INTO tpv_lineascomanda (idtpv_linea,idtpv_comanda,codcomanda,codtienda,idsincro,wm_idsincropadre, referencia,pvptotal, ivaincluido, canregalo, cantidad,dtolineal,descripcion, iva, pvpunitarioiva,dtopor,pvptotaliva,pvpsindto,pvpsindtoiva,pvpunitario,ptestock, wm_datoscomp, wm_estadococina) VALUES ('" . $linea . "','" . $comanda['idtpv_comanda'] . "','" . $comanda['codcomanda'] . "','" . $this->codtienda . "','" . $idsincro . "',NULL, '" . $d['sku'] . "','" . $d['pvptotal'] . "', 'True', 0, '" . $d['cantidad'] . "',0,'" . $d['nombre'] . "', '" . $d['iva'] . "', '" . $d['pvpunitarioiva'] . "',0,'" . $d['pvptotaliva'] . "','" . $d['pvpsindto'] . "','" . $d['pvpsindtoiva'] . "','" . $d['pvpunitario'] . "','True','" . $json . "','Por hacer')";
+			$res = $this->conexion->prepare( $sql );
+			$res->execute();
+			//throw new Exception("Stop");
+			if ( empty( $d['cooked_cost'] ) ) {
+				$d['cooked_cost'] = 0;
+			}
+			$this->addOrderOnFranja( $d['franja'], $linea, $d['cooked_cost'], $d["fechaRecogida"] );
+		}catch (Exception $e){
+			throw $e;
+		}
 		return $linea;
 	}
 	protected function creaPagoComanda($comanda,$d,$arqueo){
@@ -369,24 +371,36 @@ class Restaurante {
 		if(!isset($hour) || empty($hour)) {
 			$hour = Mage::getModel( 'core/date' )->date( 'H:i:s' );
 		}
-
-		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
-		Mage::log($sql,null,"ivan.log");
+		$sql = "select f.idfranja,f.franja, f.puntosmax from wm_franjas as f where f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
-		$res = $res->fetchAll();
+		$franjasdisponibles = $res->fetchAll();
+		//Obtengo los puntos usados para el dia y la franja
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$franjasConCostes = $res->fetchAll();
 		$franjas = array();
 		$coste = $this->getBagCost();
 		$puntosReservados = 0;
 
-		foreach ($res as $franja){
+		foreach ($franjasdisponibles as $franja){
 
-			if($franja['puntosusados'] < $franja['puntosmax'] && $coste <= ($franja['puntosmax']- $franja['puntosusados'] + $puntosReservados)){
-				array_push($franjas,$franja);
-				$puntosReservados = 0;
+			if(isset($franjasConCostes[$franja['idfranja']])){
+				$franja = $franjasConCostes[$franja['idfranja']];
+				if($franja['puntosusados'] < $franja['puntosmax'] && $coste <= ($franja['puntosmax']- $franja['puntosusados'] + $puntosReservados)){
+					array_push($franjas,$franja);
+					$puntosReservados = 0;
+				}else{
+					$puntosReservados = $franja['puntosmax']- $franja['puntosusados'];
+				}
 			}else{
-				$puntosReservados = $franja['puntosmax']- $franja['puntosusados'];
+				//No se ha usado todavia esta franja
+				$franja['puntosusados'] = 0;
+				array_push($franjas,$franja);
 			}
+
+
 		}
 
 		return $franjas;
@@ -414,7 +428,7 @@ class Restaurante {
 		try {
 			if ( $franja['puntosmax'] > ( $franja['puntosusados'] + $puntos ) ) {
 				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $franja["idfranja"] . "','" . $puntos . "','". $fecha . "')";
-				Mage::log("1- ".$sql,null, "Exception.log");
+				Mage::log("1- ".$sql,null, "ivan.log");
 				$new = $this->conexion->prepare( $sql );
 				$new->execute();
 			} else {
@@ -426,20 +440,21 @@ class Restaurante {
 				if ( $prev['puntosmax'] - $prev['puntosusados'] < $puntos ) {
 					$puntosAux = $prev["puntosmax"] - $prev["puntosusados"];
 					$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $prev["idfranja"] . "','" .$puntosAux. "','" . $fecha . "')";
-					Mage::log("2- ".$sql,null, "Exception.log");
+					Mage::log("2- ".$sql,null, "ivan.log");
 					$new = $this->conexion->prepare( $sql );
 					$new->execute();
 					$puntos -= $prev['puntosmax'] - $prev['puntosusados'];
 				}
 				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $idfranja . "','" . $puntos . "','" . $fecha . "')";
-				Mage::log("3- ".$sql,null, "Exception.log");
+				Mage::log("3- ".$sql,null, "ivan.log");
 				$new = $this->conexion->prepare( $sql );
 				$new->execute();
 
 			}
 			return true;
 		}catch (Exception $e){
-			Mage::log($e,null, "Exception.log");
+			Mage::log($e->getMessage(),null, "Exception.log");
+			throw $e;
 			return false;
 		}
 	}
@@ -448,7 +463,15 @@ class Restaurante {
 		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.idfranja = '".$franja."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
 		$res = $this->conexion->prepare($sql);
 		$res->execute();
-		return $res->fetchAll();
+		$res = $res->fetchAll();
+		if(empty($res) || count($res) == 0){
+			$sql = "select f.idfranja,f.franja, f.puntosmax from wm_franjas as f where f.idfranja = '".$franja."'";
+			$res = $this->conexion->prepare($sql);
+			$res->execute();
+			$res = $res->fetchAll();
+			$res["puntosusados"] = 0;
+		}
+		return $res;
 	}
 
 	protected function getPreviusFranja($idfranja,$date){

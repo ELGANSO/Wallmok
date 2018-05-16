@@ -1,28 +1,31 @@
-<?php
+ <?php
 class OrderLineSerializer
 {
-    public function serialize(\Mage_Catalog_Model_Product $product, $productsList)
+    public function serialize(\Mage_Catalog_Model_Product $item, $productsList)
     {	
     	$data =[];
 
-		$options = $product->getTypeInstance(true)->getOptionsCollection($product);
+		$options = $item->getProduct()->getTypeInstance(true)->getOptionsCollection($item->getProduct());
 				
 				$data[] = [
-	    			'pvp_base' => $product->getData('price')
+	    			'pvp_base' => $item->getProduct()->getData('price')
 	    		];
+
 
 		foreach ($options as $option) {
 			//Mage::log($productsList,null,"ivan.log");
-			$items = $this->serializeOrderItem($option, $productsList);
+			$items = $this->serializeOrderItem($option, explode("-",$item->getSku()));
+
 			$data[] = [
 				'exclusivo' => $this->getExclusivo($option['type']),
 				'grupo' => $option['default_title'],
+				'obligatorio' => 'N',
 				'opciones' => $items
 			];
 
 		}
 
-
+	    //throw new Exception("No guardar");
         return $data;
     }
 
@@ -34,10 +37,14 @@ class OrderLineSerializer
         foreach ($items as $item) {
         	//Mage::log($item,null,"json.log");
         	$product = Mage::getModel('catalog/product')->load($item['product_id']);
-  
+
+	        Mage::log("\n Producs list \n".$product->getSku()." - ".in_array($product->getSku(),array_values($productsList)),null,"ivan.log");
+	        Mage::log($productsList,null,"ivan.log");
+
    			$data[] = [
    				"defecto" => $this->parserBool($item['is_default']),
-   				"on" => $this->parserBool($this->in_array($product->getSku(),array_values($productsList))),
+			    "descbreve" => "",
+   				"on" => $this->parserBool(in_array($product->getSku(),array_values($productsList))),
    				"opcion" => $product->getSku(),
    				"pvp" => $item['selection_price_value']
    			];
@@ -62,14 +69,4 @@ class OrderLineSerializer
    		return $ret;
    	}
 
-   	private function in_array($s, $items){
-
-   		foreach($items as $item)
-   		{
-   			if($item["sku"] == $s)
-   				return true;
-   		}
-
-   		return false;
-   	}
 }

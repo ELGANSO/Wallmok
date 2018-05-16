@@ -13,7 +13,6 @@
  require_once(Mage::getBaseDir()."/lib/yeboyebo/restaurantes_online.php");
 $restaurantes =  new RestaurantesOnline();
 $comanda = $restaurantes->getCodComanda($this->getOrderId());
-Mage::log("CodComanda: ".$comanda,null,"ivan.log");
 ?>
 <div class="success" style="padding: 15px; margin-bottom: 50px;">
 <div class="page-title">
@@ -26,7 +25,7 @@ Mage::log("CodComanda: ".$comanda,null,"ivan.log");
 <?php if ($this->getCanViewOrder()) :?>
     <p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $comanda)) ?></p>
 <?php  else :?>
-    <p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+    <p><?php echo $this->__('Your order # is: %s.', $comanda) ?></p>
 <?php endif;?>
     <p><?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
 <?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
