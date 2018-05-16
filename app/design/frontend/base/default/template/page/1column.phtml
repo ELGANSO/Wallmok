@@ -32,6 +32,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <?php echo $this->getChildHtml('head') ?>
 </head>
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
@@ -39,8 +40,8 @@
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
-        <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col1-layout">
+        <?php //echo $this->getChildHtml('header') ?>
+        <!--div class="main-container col1-layout">
             <div class="main">
                 <?php echo $this->getChildHtml('breadcrumbs') ?>
                 <div class="col-main">
@@ -48,10 +49,97 @@
                     <?php echo $this->getChildHtml('content') ?>
                 </div>
             </div>
+        </div-->
+        <?php //echo $this->getChildHtml('footer') ?>
+        <?php //echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php //echo $this->getChildHtml('before_body_end') ?>
+
+        <?php if(strpos($this->helper('core/url')->getCurrentUrl(),'terminos-legales')):?>
+        	<?php echo $this->getChildHtml('content') ?>
+        <?php else: ?>
+
+        <!--LANDING PAGE WALLMOK-->
+        <div id="fila1" class="row">
         </div>
-        <?php echo $this->getChildHtml('footer') ?>
-        <?php echo $this->getChildHtml('global_cookie_notice') ?>
-        <?php echo $this->getChildHtml('before_body_end') ?>
+        <div id="fila2" class="row">
+        	<div class="col-xs-1 col-sm-3 col-md-3 col-lg-4">
+        	</div>
+        	<div class="col-xs-10 col-sm-6 col-md-6 col-lg-4">
+        		<div class="row">
+        		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-2">
+        		</div>
+        		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-9">
+        			<?php echo "<img src='".Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."landing/wallmok_claim.jpg' style='width:100%'>"; ?>
+        		</div>
+        		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        		</div>
+        		</div>
+        	</div>
+        	<div class="col-xs-1 col-sm-3 col-md-3 col-lg-4">
+        	</div>
+        </div>
+        <div id="fila3" class="row">
+        </div>
+        <div id="fila4" class="row">
+        	<div class="col-xs-1 col-sm-3 col-md-3 col-lg-4">
+        	</div>
+        	<div class="col-xs-10 col-sm-6 col-md-6 col-lg-4">
+        		<div class="row">
+	        		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+	        		</div>
+	        		<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+	        			<?php echo "<img src='".Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."landing/furgo2.png' style='width:100%'>"; ?>
+	        		</div>
+	        		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+	        		</div>
+        		</div>
+        	</div>
+        	<div class="col-xs-1 col-sm-3 col-md-3 col-lg-4">
+        	</div>
+        </div>
+        <div id="fila5" class="row" >
+        </div>
+        <div id="fila6" class="row">
+        	<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        	</div>
+        	<div id="parrafo" class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
+        		<p>¿Te gustaría saber más sobre WallMok?<br/>
+        		Déjanos tu email y muy pronto tendrás noticias nuestras</p>
+        	</div>
+        	<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        	</div>
+        </div>
+
+        <div id="fila7" class="row">
+        	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3">
+        	</div>
+        	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-6">
+        		<div class="row">
+		        	<div class="col-xs-0 col-sm-1 col-md-2 col-lg-3">
+		        	</div>
+		        	<div class="col-xs-12 col-sm-10 col-md-8 col-lg-6" style="font-size: 32px; text-align: center; color: #3d4721;">
+		        		<form action="<?php echo Mage::getUrl('newsletter/subscriber/new') ?>" method="post">
+							<div class="form-group">
+								<input id="email" name="email" class="form-control input-lg input-newsletter" type="text" placeholder="email" style="border: 1px solid #3d4721; font-family:sans-serif; font-size:14px;">
+								<div style="text-align: left; display: -webkit-box; margin-top: 5px;">
+								<input id="politica" name="check" class="form-control input-lg input-newsletter" name="check-politica" type="checkbox" value=1 style="border: 1px solid #3d4721; font-family:sans-serif; font-size:14px; width:16px; height:16px; -webkit-appearance:none;" required="required"> 
+								<label for="check-politica" style="font-size:12px; font-weight:normal; margin-left:5px; font-family:sans-serif;"> Acepto los <a href="<?php echo $this->getUrl('terminos-legales'); ?>" style="color: #3d4721; text-decoration:underline;">Términos legales</a></label>
+								</div>
+							</div>
+							<button id="confirmar" class="button btn" type="submit" title="Subscribe"><span><?php echo $this->__('Subscribe') ?></span></button>
+	            		</form>
+		        	</div>
+		        	<div class="col-xs-0 col-sm-1 col-md-2 col-lg-3">
+		        	</div>
+	        	</div>
+        	</div>
+        	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3">
+        	</div>
+        </div>
+        <div class="row">
+			<?php echo $this->getChildHtml('global_messages') ?>
+        </div>
+    <?php endif; ?>
     </div>
 </div>
 <?php echo $this->getAbsoluteFooter() ?>

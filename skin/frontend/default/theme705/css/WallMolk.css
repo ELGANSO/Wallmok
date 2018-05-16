@@ -8,6 +8,11 @@
     font-family: enyo_serif;
     src: url(../fonts/ENYO_Serif_regular.ttf);
 }
+@font-face {
+    font-family: avenir_book;
+    src: url(../fonts/AvenirLTStd-Book.otf);
+}
+
 .hidden { display:none !important}
 .main-container{ padding: 0; }
 .container{
@@ -928,7 +933,7 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
     height: 50px;
 }
 .main {
-    margin-top: 80px;
+    margin-top: 60px;
     /*height: 100vh;*/
     overflow: scroll;
 }
@@ -1051,6 +1056,7 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
     border:none;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 0;
 }
 .blog-list{
     margin-left: 30px !important;
@@ -1232,7 +1238,7 @@ img:first-child{
 }
 .destacado-enyo{
     font-family: urania_czech;
-    font-size: 22px;
+    font-size: 18px;
 }
 .postWrapper {
     padding-top: 30px;
@@ -1615,6 +1621,11 @@ div#sidenav li a.btn:before {
         padding-left: 0;
         padding-right: 0;
     }
+    .postWrapper .postContent img:first-child{
+	    padding-right: 0 !important;
+	    padding-bottom: 15px;
+	    max-width: 50%;
+	}
 }
 @media only screen and (max-width: 991px){
     .nav-container {
@@ -1622,3 +1633,6 @@ div#sidenav li a.btn:before {
     }
 }
 
+.block-cart-header{
+	display: none !important;
+}
