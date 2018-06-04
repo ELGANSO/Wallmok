@@ -55,10 +55,11 @@
            	<div class="panel-body row">
             <?php foreach ($_option->getSelections()as $item): ?>
             <?php $img = $mediaUrl.($item['small_image']);?>
-            		<div class="col-lg-4 col-xs-4 item">
-						<div class="ingredient" style="background: url(<?php echo $img?>) center no-repeat">
-							<div class="add"  data-option="<?php echo $_option->getId() ?>" data-button="bundle-option-<?php echo $_option->getId() ?>-<?php echo $item->getSelectionId() ?>"  data-type="<?php echo $_option['type'] ?>" data-value="<?php echo $item->getSelectionId() ?>" data-price="<?php echo $item->getPrice();?>" data-default="<?php echo $item['is_default'] ?>"></div>
-							<h5><?php echo $item["name"]?></h5>
+            		<div class="col-lg-2 col-xs-4 item">
+						<div class="ingredient">
+							<div class="add"  data-option="<?php echo $_option->getId() ?>" data-button="bundle-option-<?php echo $_option->getId() ?>-<?php echo $item->getSelectionId() ?>"  data-type="<?php echo $_option['type'] ?>" data-value="<?php echo $item->getSelectionId() ?>" data-price="<?php echo $item->getPrice();?>" data-default="<?php echo $item['is_default'] ?>">
+                                <h5><?php echo $item["name"]?></h5>
+                            </div>
 						</div>
 						
 					<?php if($_option['type'] == "checkbox"):?>
@@ -87,7 +88,7 @@
 	<ul id="burger">
 	</ul>
 	<?php 
-	//Añadir al carrito
+	//Aï¿½adir al carrito
 	echo  Mage::app()->getLayout()
 	        ->createBlock('catalog/product_view')
 	        ->setTemplate('catalog/product/view/addtocart.phtml')

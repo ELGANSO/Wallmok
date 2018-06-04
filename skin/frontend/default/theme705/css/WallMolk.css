@@ -101,67 +101,66 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     padding-left:1%;
 }
 .product-options .item{
-    border-radius:10px;
     background: #fff;
     border:2px solid #fbfbfb;
-    /*padding-top: 15px;*/
-    padding-bottom: 15px;
     height: auto;
 }
 .minimal-price .price-label{
     display: inline-block !important;
 }
 .product-options .item .add:hover{
-    background: url(../images/add.svg) no-repeat center 43%  rgba(255,255,255,0.8) !important;
+    background: url(../images/mas.png) no-repeat 100%  rgba(255,255,255,0.8) !important;
     cursor: pointer;
     border-radius: 10px;
     z-index:100;
 }
 .product-options .item .included{
-    background: url(../images/selected.svg) no-repeat center 43%  rgba(31,79,70,0.7) !important;
+    background: rgba(31,79,70,0.7) !important;
     cursor: pointer;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
     z-index:100;
 }
 .product-options .item .ingredient {
     width: auto;
-    height: 150px;
-    background-size: auto 150px !important;
+    height: 50px;
+    background-size: auto 50px !important;
 }
 .product-options .item .add, .product-options .item .included{
-    height: 150px;
+    height: 50px;
 }
 .product-options .item h5 {
     width:100%;
     margin: 0 auto;
     text-align:center;
+    position: relative;
+    top: 35%;
+    font-size: 16px;
+}
+.included h5{
+    color:#fff;
 }
 #burger .ingredient{
-    height: 130px;
+    height: 50px;
     width: 31%;
     float: left;
     background-size: auto 70px !important;
     background-color: #fff !important;
-    border-radius:10px;
     margin:1%;
 }
 #burger .ingredient h5{
     text-align: center;
     display: block;
-    margin-top: 15px;
+    position: relative;
+    top: 35%;
+    font-size: 16px;
 }
 #burger .ingredient .remove{
     width: auto;
-    height: 100px;
-    background-size: auto 80px !important;
+    height: 50px;
 }
 #burger .ingredient .remove:hover{
-    background: url(../images/remove.svg) no-repeat center 43%  rgba(255,255,255,0.8) !important;
-    background-size: auto 80px !important;
+    background: url(../images/menos.png) no-repeat 100%  rgba(255,255,255,0.8) !important;
     cursor: pointer;
     z-index:100;
-    background-position-y: 20px !important;
 }
 .option {
     display: none;
@@ -592,7 +591,6 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
 }
 .products-grid .product-image img, .products-list .product-image img {
     width: 100%;
-    max-height: 240px;
 }
 .products-grid .product-name a, .products-list .product-name a{
     font-size: 35px;
@@ -881,12 +879,13 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
     padding-top: 0px;
     border-top-left-radius: 2em;
     border-bottom-left-radius: 2em;
+    height: 55px;
 }
 .principal-menu .orders a{
     color:#fff;
     display: block;
     position: relative;
-    top: -45px;
+    top: -50px;
     left: 45px;
 }
 .cubiertos{
