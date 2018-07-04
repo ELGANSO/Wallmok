@@ -1330,6 +1330,9 @@ div#sidenav li a.btn:before {
     padding: 0 15px;
     left: -4.5px;
 }
+.postDetails-date{
+	display: none;
+}
 /****** MÓVIL **************/
 @media (max-width: 767px) {
     .main {
