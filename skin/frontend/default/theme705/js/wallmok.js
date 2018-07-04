@@ -76,10 +76,37 @@ jQuery(document).ready(function(){
 
 	// Enlaces de categorias, baja despacio
 	jQuery(".menu-item").click(function(){
-		jQuery('.main').animate({
-			scrollTop: jQuery("#"+jQuery(this).attr('data-scroll')).offset().top 
-		}, 2000);
+		jQuery('html,body').animate({
+			scrollTop: jQuery("#"+jQuery(this).attr('data-scroll')).offset().top -100
+		}, 2000, function(){posicionarNavMenu();});
 	});
+
+	//Enlaces pedido online pasan a fijo
+
+	 var posicionarNavMenu = function(){
+	 	 if(jQuery(window).scrollTop() >= (jQuery('#nav').height()+jQuery('#menu').height())) {
+	        	//console.log("Entro y cambio a azul");
+	        	jQuery("#nav").css("position","fixed");
+	        	jQuery("#nav").css("top","60px");
+	        	jQuery("#nav").css("left","0");
+	        	jQuery("#nav").css("z-index","1000000");
+		        
+		    }else{
+		    	console.log("quitar");
+		    	jQuery("#nav").css("position","initial");
+		    	jQuery("#nav").css("top","initial");
+	        	jQuery("#nav").css("left","initial");
+		    }
+	 }
+		 //IE, Opera, Safari
+	 jQuery('body').bind('mousewheel', function(e){
+	    posicionarNavMenu();
+	 });
+
+	 //Firefox
+	 jQuery('body').bind('DOMMouseScroll', function(e){
+	 		posicionarNavMenu();
+	 });
 
 	//Mostrar localización (PopUp)
 	jQuery(".localizacionBtn").click(function(){
