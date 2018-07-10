@@ -1,6 +1,7 @@
 <?php 
 require_once (Mage::getBaseDir().'/app/Mage.php');
-require_once('restaurante.php'); 
+//require_once('restaurante.php');
+require_once('restauranteSirtpv.php');
 class RestaurantesOnline {
 
 	private $restaurants;

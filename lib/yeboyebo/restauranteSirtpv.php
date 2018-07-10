@@ -1,0 +1,486 @@
+<?php 
+require_once ('Serializers/OrderSerializer.php');
+require_once ('Serializers/OrderLineSerializer.php');
+require_once (Mage::getBaseDir().'/app/Mage.php');
+Mage::app();
+
+class Restaurante {
+
+	private $id;
+	private $descripcion;
+	private $conexion;
+	private $direccion;
+	private $ciudad;
+	private $provincia;
+	private $codpostal;
+	private $pais;
+	private $arqueo;
+	private $puntodeventa;
+	private $agente;
+	private $imagen;
+	private $horaapertura;
+	private $horacierre;
+	private $online;
+	private $telefono;
+
+	public function __construct($data){
+		try{
+
+			$pass =openssl_decrypt(  base64_decode($data["password"]), 'AES-256-CBC', "S0!0c0re99",0, "c0mb0c4l4d4c0mb0" );
+
+			//$db = new PDO($data["driver"].':dbname='.$data["nombrebd"].';host='.$data["servidor"].';port='.$data["puerto"],$data["usuario"],$pass);
+			$db = new PDO('sqlsrv:Server=35.224.210.132\sqlexpress, 53100;Database=SIRDemo','pruebas', '2de01ad4#');
+
+			//Activo excepciones bd
+			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			//Asigno datos
+			$this->conexion = $db;
+			$this->id = $data["id"];
+			$this->descripcion = $data['descripcion'];
+			$this->direccion = $data["direccion"];
+			$this->ciudad = $data['ciudad'];
+			$this->provincia = $data['provincia'];
+			$this->codpostal = $data['codpostal'];
+			$this->pais = $data['pais'];
+			$this->arqueo = $data['arqueo'];
+			$this->puntodeventa = $data['puntodeventa'];
+			$this->agente = $data['agente'];
+			$this->codtienda = $data['codtienda'];
+			$this->almacen = $data['almacen'];
+			$this->imagen = $data['imagen'];
+			$this->horaapertura = $data["horaapertura"];
+			$this->horacierre = $data['horacierre'];
+			$this->telefono = $data['telefono'];
+
+		}catch(Exception $e){
+			//$this = null;
+			Mage::log($e,null,"conexiones.log");
+		}
+	}
+
+	public function isAvailable()
+	{
+		$this->online = "Abierto";
+		return true;
+
+	}
+	public function getDescription(){
+		
+		$description = array(
+			"id"=>$this->id,
+			"description" => $this->descripcion,
+			"online" => $this->online,
+			"direccion" => $this->direccion." ".$this->ciudad." (".$this->provincia.")",
+			"horario" => $this->horaapertura." - ".$this->horacierre,
+			"imagen" => $this->imagen,
+			"telefono" => $this->telefono
+			);
+		return $description;
+	}
+	public function getId(){
+		return $this->id;
+	}
+	/* Crea la comanda en la base de datos del restaurante */
+	public function sendOrder($order)
+	{
+		$i = 0;
+		$serializer = new OrderSerializer();
+		$lineSerializer = new OrderLineSerializer();
+		$data = $serializer->serialize($order); //Pedido serializado
+		
+		try{
+			Mage::log("Abro transaccion",null,"ivan.log");
+			//Inicio Transacci�n
+			$this->conexion->beginTransaction();
+
+			Mage::log("Creo Comanda",null,"ivan.log");
+			//Creo Comanda
+			$comanda = $this->creaComanda($data);
+			//$this->creaEnvioComanda($data,$comanda);
+
+			Mage::log("Añado lineas",null,"ivan.log");
+			//Añado lineas
+			foreach ($order->getAllItems() as $item) {
+
+				if($parent = $item->getParentItem()){
+					$lineaPadre = $this->getLineaComandaPadre($comanda,explode('-',$parent->getProduct()->getSku())[0]); 
+	    		}else{
+	    			$lineaPadre = false;
+	    		}
+				//Añado elementos de la hamburguesa
+				$json = "";
+				Mage::log($item->getProduct()->getTypeId(),null,"ivan.log");
+	    		if($item->getProduct()->getTypeId() == 'bundle')
+	    		{
+	    			$json = $lineSerializer->serialize($item,$data['items']);
+	    			$data['items'][$i]['nombre'] = $this->getLineDescription($data['items'][$i]['nombre'],$json);
+	    		}
+	    		//Añado las líneas sin padre, las que tienen padre van en el json.
+	    		if(!$lineaPadre)
+	    		{
+	    			$linea = $this->creaLineaComanda($comanda,$data['items'][$i],$lineaPadre,json_encode($json));
+	    		}
+				Mage::log(json_encode($json),null,"ivan.log");
+	    		//throw new Exception('No te guardes');
+				$i++;
+			}
+			
+			//Inserto comanda en magento
+			$increment_id = $order->getIncrementId();
+			$this->creaComandaMagento($increment_id,$comanda["codcomanda"],$this->id);
+			//throw new Exception();
+			//Creo el pago de la comanda
+			if($order->getPayment()->getMethod() != 'cashondelivery'){
+				//$this->creaPagoComanda($comanda,$data,$arqueo);
+			}
+			Mage::log("Commit",null,"ivan.log");
+			$this->conexion->commit();
+		}catch (Exception $e){
+			Mage::log($e,null,"ivan.log");
+			$this->conexion->rollBack();
+			$this->eliminaComandaMagento($comanda);
+			throw $e;
+		}
+		return true;
+	}
+
+	protected function creaComanda($d){
+		
+		$comanda = $this->getNextComanda();
+		return $comanda;
+	}
+
+	protected function creaEnvioComanda($d,$comanda){
+
+		$franja = $this->getFranja($d['franja'], $d['fechaRecogida'])[0];
+		$d['payment_method'] = $this->getPaymentMethod($d['payment_method']);
+		$sql = "INSERT INTO mg_datosenviocomanda (idtpv_comanda,mg_nombreenv,mg_apellidosenv,mg_ciudadenv,mg_direccionenv,mg_telefonoenv,mg_metodopago,mg_gastosenv,mg_email,mg_unidadesenv,mg_paisenv,mg_metodoenvio,mg_codpostalenv,mg_pesototal,mg_provinciaenv,wm_fecharec, wm_horarec) VALUES('".$comanda['idtpv_comanda']."','".$d['shipping_address']['firstname']."','".$d['shipping_address']['lastname']."','".$d['shipping_address']['city']."','".$d['shipping_address']['street']."','".$d['shipping_address']['telephone']."','".$d['payment_method']."','".$d['shipping_price']."','".$d['email']."','".$d['units']."','".$d['shipping_address']['country_id']."','".$d['shipping_method']."','".$d['shipping_address']['postcode']."','".$d['weight']."','".$d['shipping_address']['region']."','".$d['fechaRecogida']."','".$franja['franja']."')";
+		try{
+			//Mage::log($sql,null,"ivan.log");
+			$res = $this->conexion->prepare($sql);
+			$res->execute();
+			$resul = true;
+		}catch(Exception $e){
+			Mage::log($e,null,"ivan.log");
+			throw $e;
+			
+			$resul = false;
+		}
+		return $resul;
+	}
+
+	protected function creaLineaComanda($comanda,$d, $sincroPadre,$json){
+		Mage::log("Crea Linea de Comanda \n \n", null, "ivan.log");
+		try {
+			$now = new DateTime("now", new DateTimeZone('Europe/Madrid') );
+			$now = $now->format('Y-m-d H:i:s');
+
+			$sql = "INSERT INTO tpv_comandas (Comanda,Mesa, Orden_Codigo,Articulo_Codigo,Orden_Cocina,Codigos_Cocina,Camarero,Texto_Articulo,Texto_Auxiliar,Precio_Extras,Unidades,Precio_Articulos,Descuento_Porcentaje,IVA_Porcentaje,Precio_Linea,Terminal,Formato_Cocina,Fecha_Creado,Fecha_Terminado,Situacion_Cocina) 
+			VALUES('".$comanda."','web', 0,'1','".$d['sirtpv']."','1','0','','".$d['descbreve']."','".$d['nombre']."','".$d['pvp']."','1','".$d['pvp_base']."','0','".$d['iva']."','".($d['pvp_base'] + $d['pvp'])."','1','','".$now."','','Creado'";
+			$res = $this->conexion->prepare( $sql );
+			$res->execute();
+			//throw new Exception("Stop");
+
+		}catch (Exception $e){
+			throw $e;
+		}
+		return true;
+	}
+	protected function creaPagoComanda($comanda,$d,$arqueo){
+
+		$idpago = $this->getNextPago();
+		$idsincro =  $comanda['codcomanda']."_".$idpago;
+
+		$sql = "INSERT INTO tpv_pagoscomanda (idpago,idtpv_comanda,codcomanda,codtienda,estado,codtpv_puntoventa,editable,nogenerarasiento,importe,codtpv_agente,fecha,idsincro,ptepuntos,idtpv_arqueo,codpago) VALUES ('".$idpago."','".$comanda['idtpv_comanda']."','".$comanda['codcomanda']."','".$this->codtienda."','Pagado','".$this->puntodeventa."','True','False','".$d['grand_total']."','".$this->agente."','".date('Y-m-d')."','".$idsincro."','True','".$arqueo."','TARJ');";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+
+		$sql = "UPDATE tpv_comandas set pendiente = '0', estado = 'Cerrada' where codigo = '".$comanda['codcomanda']."'";
+		Mage::log($sql,null,"ivan.log");
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+	}
+
+	protected function getArqueo(){
+		$sql = "select idtpv_arqueo from tpv_arqueos where abierta = true and diadesde = '".date('Y-m-d')."';";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+
+		if(count($res) == 0)
+		{
+			$id = $this->getNextArqueo();
+			//Creo arqueo	
+			$sql = "INSERT INTO tpv_arqueos (idtpv_arqueo,diadesde,horadesde, abierta,codtpv_agenteapertura,ptoventa,codtienda,m010,b10,totalmov,totalvale,sincronizado,b500,m020,m1,m2,inicio,b20,diferenciatarjeta,b200,nogenerarasiento,totalcaja,totaltarjeta,diferenciaefectivo,diferenciavale,m001,b100,m002,b5,m005,m050,b50) VALUES('".$id."','".date('Y-m-d')."','".date('H:i:s')."', 'True','".$this->agente."','".$this->puntodeventa."','".$this->codtienda."',0,0,0,0,'False',0,0,0,0,0,0,0,0,'False',0,0,0,0,0,0,0,0,0,0,0);";
+			$new = $this->conexion->prepare($sql);
+			$new->execute();
+		}
+		else{
+			//Devuelvo el arqueo encontrado
+			$id = $res[0]["idtpv_arqueo"];
+		}
+		return $id;
+	}
+	protected function getNextArqueo(){
+		$sql = "select max(idtpv_arqueo) from tpv_arqueos;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		$id = explode($this->arqueo,$res[0]["max"])[1];
+		$id++;
+		return $this->arqueo.str_pad($id, 6, "0", STR_PAD_LEFT);
+	}
+
+	protected function getNextComanda(){
+
+		$sql = "select max(Comanda) as codcomanda from comandas_2;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		$id = $res[0]["codcomanda"];
+		$id++;
+
+		//Actualizo
+		/*$sql = "update tpv_secuenciascomanda set valor = '".$id."' where prefijo = '".$this->arqueo."';";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();*/
+		return array("codcomanda"=>$this->arqueo.str_pad($id, 10, "0", STR_PAD_LEFT));
+	}
+	protected function getNextLineaComanda(){
+
+		$sql = "select last_value from tpv_lineascomanda_idtpv_linea_seq;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		$id = $res[0]["last_value"]+1;
+
+		try{
+		$sql = "SELECT nextval('tpv_lineascomanda_idtpv_linea_seq')";
+		Mage::log($sql,null,"ivan.log");
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+	}catch(Exception $e){
+		Mage::log("Error ".$e,null,"ivan.log");
+	}
+		return $id;
+	
+	}
+	protected function getLineaComandaPadre($comanda,$sku){
+		$sql = "select idtpv_linea from tpv_lineascomanda  where referencia = '".$sku."' and codcomanda = '".$comanda['codcomanda']."';";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		return $res[0]["idtpv_linea"];
+	}
+	protected function getNextPago(){
+		$sql = "select max(idpago) from tpv_pagoscomanda;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+
+		$sql = "SELECT nextval('tpv_pagoscomanda_idpago_seq')";
+		$res1 = $this->conexion->prepare($sql);
+		$res1->execute();
+		Mage::log("ID Pago: \n",null,"ivan.log");
+		Mage::log($res1,null,"ivan.log");
+
+		return $res[0]["max"]+1;
+	}
+	protected function creaComandaMagento($increment_id,$codcomanda,$idRestaurante){
+
+		$db = Mage::getSingleton('core/resource');
+		$writeConnection = $db->getConnection('core_write');
+
+		$sql = ("INSERT INTO comandas(increment_id,idrestaurante,codcomanda) VALUES('".$increment_id."','".$idRestaurante."','".$codcomanda."')");
+		$writeConnection->query($sql);
+	}
+	protected function eliminaComandaMagento($comanda){
+
+		$db = Mage::getSingleton('core/resource');
+		$writeConnection = $db->getConnection('core_write');
+		$sql = ("DELETE FROM comandas WHERE codcomanda ='".$comanda['codcomanda']."'");
+		
+		$writeConnection->query($sql);
+	}
+
+	protected function getLineDescription($name,$json){
+
+		unset($json[0]);
+		//Mage::log($json,null,"json.json");
+		foreach ($json as $group) {
+			foreach ($group['opciones'] as $item) {
+				if($group['exclusivo'] == "S")
+				{
+					if($item['defecto'] == 'N' && $item['on']=='S')
+					{
+						$name .= ' '.$item['opcion'];
+					}
+				}else{
+					if($item['defecto'] == 'N' && $item['on']=='S')
+					{
+						$name .= ' +'.$item['opcion'];
+					}else if($item['defecto'] == 'S' && $item['on']=='N'){
+						$name .= ' -'.$item['opcion'];
+					}
+				}
+			}
+		}
+				Mage::log("Name ".$name,null,"ivan.log");
+		return $name;
+	}
+	public function getFranjasDisponibles($date, $hour){
+
+		if(!isset($date) || empty($date)) {
+			$date = date("d/m/Y");
+		}
+
+		if(!isset($hour) || empty($hour)) {
+			$hour = Mage::getModel( 'core/date' )->date( 'H:i:s' );
+		}
+		$sql = "select f.idfranja,f.franja, f.puntosmax from wm_franjas as f where f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$franjasdisponibles = $res->fetchAll();
+		//Obtengo los puntos usados para el dia y la franja
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.franja >= '".$hour."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$franjasConCostes = $res->fetchAll();
+		$franjas = array();
+		$coste = $this->getBagCost();
+		$puntosReservados = 0;
+
+		foreach ($franjasdisponibles as $franja){
+
+			if(isset($franjasConCostes[$franja['idfranja']])){
+				$franja = $franjasConCostes[$franja['idfranja']];
+				if($franja['puntosusados'] < $franja['puntosmax'] && $coste <= ($franja['puntosmax']- $franja['puntosusados'] + $puntosReservados)){
+					array_push($franjas,$franja);
+					$puntosReservados = 0;
+				}else{
+					$puntosReservados = $franja['puntosmax']- $franja['puntosusados'];
+				}
+			}else{
+				//No se ha usado todavia esta franja
+				$franja['puntosusados'] = 0;
+				array_push($franjas,$franja);
+			}
+
+
+		}
+
+		return $franjas;
+	}
+
+	protected function getBagCost(){
+
+		$cart = Mage::getModel('checkout/cart')->getQuote();
+		$coste = 0;
+
+		foreach ($cart->getAllItems() as $item) {
+			$productId = $item->getProductId();
+			$product = Mage::getModel('catalog/product')->load($productId);
+			$coste += $product->getData('cooked_cost');
+		}
+
+		return $coste;
+	}
+
+	protected function addOrderOnFranja($idfranja, $idtpv_linea, $puntos, $fecha){
+		Mage::log("\n \n addOrderOnFranja \n \n ",null,"ivan.log");
+		$franja = $this->getFranja($idfranja, $fecha)[0];
+		if(empty($franja['puntosusados'])) $franja["puntosusados"] = 0;
+
+		try {
+			if ( $franja['puntosmax'] > ( $franja['puntosusados'] + $puntos ) ) {
+				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $franja["idfranja"] . "','" . $puntos . "','". $fecha . "')";
+				Mage::log("1- ".$sql,null, "ivan.log");
+				$new = $this->conexion->prepare( $sql );
+				$new->execute();
+			} else {
+
+				$prev = $this->getPreviusFranja( $idfranja, $fecha );
+				Mage::log("Prev: ".$prev,null,"ivan.log");
+				if(empty($prev['puntosusados'])) $prev["puntosusados"] = 0;
+
+				if ( $prev['puntosmax'] - $prev['puntosusados'] < $puntos ) {
+					$puntosAux = $prev["puntosmax"] - $prev["puntosusados"];
+					$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $prev["idfranja"] . "','" .$puntosAux. "','" . $fecha . "')";
+					Mage::log("2- ".$sql,null, "ivan.log");
+					$new = $this->conexion->prepare( $sql );
+					$new->execute();
+					$puntos -= $prev['puntosmax'] - $prev['puntosusados'];
+				}
+				$sql = "INSERT INTO wm_franjaxlinea (idtpv_linea,idfranja,puntos,fecha)VALUES('" . $idtpv_linea . "','" . $idfranja . "','" . $puntos . "','" . $fecha . "')";
+				Mage::log("3- ".$sql,null, "ivan.log");
+				$new = $this->conexion->prepare( $sql );
+				$new->execute();
+
+			}
+			return true;
+		}catch (Exception $e){
+			Mage::log($e->getMessage(),null, "Exception.log");
+			throw $e;
+			return false;
+		}
+	}
+
+	protected function getFranja($franja, $date){
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) and f.idfranja = '".$franja."' group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		if(empty($res) || count($res) == 0){
+			$sql = "select f.idfranja,f.franja, f.puntosmax from wm_franjas as f where f.idfranja = '".$franja."'";
+			$res = $this->conexion->prepare($sql);
+			$res->execute();
+			$res = $res->fetchAll();
+			$res["puntosusados"] = 0;
+		}
+		return $res;
+	}
+
+	protected function getPreviusFranja($idfranja,$date){
+		$sql = "select f.idfranja,f.franja, f.puntosmax,sum(l.puntos) as puntosusados from wm_franjas as f left join wm_franjaxlinea as l on f.idfranja = l.idfranja where(l.fecha = '".$date."' or l.fecha is null) group by f.franja, f.puntosmax, f.idfranja order by franja asc;";
+		Mage::log($sql, null,"ivan.log");
+		$res = $this->conexion->prepare($sql);
+		$res->execute();
+		$res = $res->fetchAll();
+		Mage::log($idfranja, null,"ivan.log");
+		Mage::log($res, null,"ivan.log");
+		for($i = 0; $i < count($res); $i++){
+			if($res[$i]["idfranja"] == $idfranja)
+			{
+				if($i > 0)
+					return $res[$i-1];
+				else
+					return $res[$i+1];
+			}
+		}
+		return false;
+	}
+	protected function getTipoDeEnvio($envio){
+		if($envio == 'freeshipping_freeshipping')
+		{
+			$tipo = 'RECOGER';
+		}else{
+			$tipo = 'DOMICILIO';
+		}
+		return $tipo;
+	}
+	protected function getPaymentMethod($metodo){
+		switch($metodo){
+			case 'Payment by cards or by PayPal account':
+				$metodo = 'Paypal';
+				break;
+			case 'freeshipping_freeshipping':
+				$metodo = 'freeshipping';
+				break;
+			case 'PayPal Express Checkout':
+				$metodo = 'Paypal';
+				break;
+		}
+
+	return $metodo;
+	}
+}
