@@ -43,10 +43,11 @@ class OrderLineSerializer
 
    			$data[] = [
    				"defecto" => $this->parserBool($item['is_default']),
-			    "descbreve" => "",
+			    "descbreve" => $item->getShortDescription(),
    				"on" => $this->parserBool(in_array($product->getSku(),array_values($productsList))),
    				"opcion" => $product->getSku(),
-   				"pvp" => $item['selection_price_value']
+   				"pvp" => $item['selection_price_value'],
+			    "sirtpv" => $item->getData('codigo_sirtpv')
    			];
          }
 
