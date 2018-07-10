@@ -61,6 +61,10 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                     Mage::throwException($this->__('This email address is already assigned to another user.'));
                 }
 
+                if(Mage::getModel('newsletter/subscriber')->loadByEmail($email)->getData('subscriber_id')){
+                	Mage::throwException($this->__('This email address is already subscribed.'));
+                }
+
                 $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess($this->__('Confirmation request has been sent.'));

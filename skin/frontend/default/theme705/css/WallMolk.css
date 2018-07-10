@@ -8,6 +8,11 @@
     font-family: enyo_serif;
     src: url(../fonts/ENYO_Serif_regular.ttf);
 }
+@font-face {
+    font-family: avenir_book;
+    src: url(../fonts/AvenirLTStd-Book.otf);
+}
+
 .hidden { display:none !important}
 .main-container{ padding: 0; }
 .container{
@@ -101,23 +106,29 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     padding-left:1%;
 }
 .product-options .item{
+    border-radius: 10px;
     background: #fff;
     border:2px solid #fbfbfb;
     height: auto;
+    padding-bottom: 15px;
 }
 .minimal-price .price-label{
     display: inline-block !important;
 }
 .product-options .item .add:hover{
-    background: url(../images/mas.png) no-repeat 100%  rgba(255,255,255,0.8) !important;
+    /*background: url(../images/mas.png) no-repeat 100%  rgba(255,255,255,0.8) !important;*/
+    background: url(../images/add.svg) no-repeat center 43%  rgba(255,255,255,0.8) !important;
     cursor: pointer;
     border-radius: 10px;
     z-index:100;
 }
 .product-options .item .included{
-    background: rgba(31,79,70,0.7) !important;
+    /*background: rgba(31,79,70,0.7) !important;*/
+    background: url(../images/selected.svg) no-repeat center 43%  rgba(31,79,70,0.7) !important;
     cursor: pointer;
     z-index:100;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 .product-options .item .ingredient {
     width: auto;
@@ -132,7 +143,7 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     margin: 0 auto;
     text-align:center;
     position: relative;
-    top: 35%;
+    top: 0;
     font-size: 16px;
 }
 .included h5{
@@ -150,15 +161,18 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     text-align: center;
     display: block;
     position: relative;
-    top: 35%;
+    top: 0;
     font-size: 16px;
+    margin-top: 15px;
 }
 #burger .ingredient .remove{
     width: auto;
     height: 50px;
 }
 #burger .ingredient .remove:hover{
-    background: url(../images/menos.png) no-repeat 100%  rgba(255,255,255,0.8) !important;
+    /*background: url(../images/menos.png) no-repeat 100%  rgba(255,255,255,0.8) !important;*/
+    background: url(../images/remove.svg) no-repeat center 43%  rgba(255,255,255,0.8) !important;
+    background-size: auto 80px !important;
     cursor: pointer;
     z-index:100;
 }
@@ -591,7 +605,7 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
 }
 .products-grid .product-image img, .products-list .product-image img {
     width: 100%;
-    /*max-height: 240px;*/
+    max-height: 240px;
 
 }
 .products-grid .product-name a, .products-list .product-name a{
@@ -929,7 +943,7 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
     height: 50px;
 }
 .main {
-    margin-top: 80px;
+    margin-top: 60px;
     /*height: 100vh;*/
     overflow: scroll;
 }
@@ -1052,6 +1066,7 @@ button.button:hover > span, .page-sitemap .links a:hover, button.button:hover > 
     border:none;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 0;
 }
 .blog-list{
     margin-left: 30px !important;
@@ -1233,7 +1248,7 @@ img:first-child{
 }
 .destacado-enyo{
     font-family: urania_czech;
-    font-size: 22px;
+    font-size: 18px;
 }
 .postWrapper {
     padding-top: 30px;
