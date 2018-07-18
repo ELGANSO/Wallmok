@@ -39,18 +39,17 @@ class OrderSerializer
         {
             $data['items'][] = $this->serializeOrderItem($item, $quote);
         }
-		Mage::log($data['items'],null,"ivan.log");
-        //throw new Exception('STOP');
+
         return $data;
     }
 
     public function serializeOrderItem(\Mage_Sales_Model_Order_Item $item,$quote)
     {
-        $product = $item->getProduct();
-
+    	 $product = $item->getProduct();
          return [
             'sku' => explode('-',$item->getSku())[0],
             'nombre' => $item->getName(),
+            'descripcion' => '',
             'cantidad' => (int) $item->getQtyOrdered(),
             'iva' => (float) $item->getTaxPercent(),
             'pvptotaliva' => (float) $item->getRowTotalInclTax(),
@@ -64,7 +63,8 @@ class OrderSerializer
 			'pvpsindtoiva' => (float)($item->getBasePriceInclTax() * $item->getQtyOrdered()),
             'franja' => $quote->getData('franja'),
             'fechaRecogida' => $this->_formatedDate($quote->getData('fecharecogida')),
-	         'cooked_cost' => Mage::getModel('catalog/product')->load($product->getId())->getData('cooked_cost')
+            'cooked_cost' => Mage::getModel('catalog/product')->load($product->getId())->getData('cooked_cost'),
+            'sirtpv' => Mage::getModel('catalog/product')->load($product->getId())->getData('codigo_sirtpv')
         ];
 
     }

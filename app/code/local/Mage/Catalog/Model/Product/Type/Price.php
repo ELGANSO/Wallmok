@@ -87,7 +87,6 @@ class Mage_Catalog_Model_Product_Type_Price
         $finalPrice = max(0, $finalPrice);
 
         $product->setFinalPrice($finalPrice);
-        Mage::log($finalPrice,null,"catalog.log");
         return $finalPrice;
     }
 

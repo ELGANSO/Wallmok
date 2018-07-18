@@ -132,11 +132,11 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
 }
 .product-options .item .ingredient {
     width: auto;
-    height: 50px;
-    background-size: auto 50px !important;
+    height: 100px;
+    background-size: auto 100px !important;
 }
 .product-options .item .add, .product-options .item .included{
-    height: 50px;
+    height: 100px;
 }
 .product-options .item h5 {
     width:100%;
@@ -150,7 +150,7 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     color:#fff;
 }
 #burger .ingredient{
-    height: 50px;
+    height: 100px;
     width: 31%;
     float: left;
     background-size: auto 70px !important;
@@ -161,13 +161,12 @@ input:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type=
     text-align: center;
     display: block;
     position: relative;
-    top: 0;
+    top: -15px;
     font-size: 16px;
-    margin-top: 15px;
 }
 #burger .ingredient .remove{
     width: auto;
-    height: 50px;
+    height: 100px;
 }
 #burger .ingredient .remove:hover{
     /*background: url(../images/menos.png) no-repeat 100%  rgba(255,255,255,0.8) !important;*/
@@ -1652,9 +1651,6 @@ div#sidenav li a.btn:before {
     }
 }
 
-.block-cart-header{
-	display: none !important;
-}
 .flexslider{
     margin-bottom: 0 !important;
     border:0 !important;

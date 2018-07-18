@@ -1,8 +1,8 @@
  <?php
 class OrderLineSerializer
 {
-    public function serialize(\Mage_Catalog_Model_Product $item, $productsList)
-    {	
+    public function serialize($item, $productsList)
+    {
     	$data =[];
 
 		$options = $item->getProduct()->getTypeInstance(true)->getOptionsCollection($item->getProduct());
@@ -13,7 +13,7 @@ class OrderLineSerializer
 
 
 		foreach ($options as $option) {
-			//Mage::log($productsList,null,"ivan.log");
+
 			$items = $this->serializeOrderItem($option, explode("-",$item->getSku()));
 
 			$data[] = [
@@ -38,16 +38,12 @@ class OrderLineSerializer
         	//Mage::log($item,null,"json.log");
         	$product = Mage::getModel('catalog/product')->load($item['product_id']);
 
-	        Mage::log("\n Producs list \n".$product->getSku()." - ".in_array($product->getSku(),array_values($productsList)),null,"ivan.log");
-	        Mage::log($productsList,null,"ivan.log");
-
    			$data[] = [
    				"defecto" => $this->parserBool($item['is_default']),
 			    "descbreve" => $item->getShortDescription(),
    				"on" => $this->parserBool(in_array($product->getSku(),array_values($productsList))),
    				"opcion" => $product->getSku(),
-   				"pvp" => $item['selection_price_value'],
-			    "sirtpv" => $item->getData('codigo_sirtpv')
+   				"pvp" => $item['selection_price_value']
    			];
          }
 
