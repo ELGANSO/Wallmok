@@ -1,0 +1,646 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <payment>
+            <groups>
+                <i4redsyspro translate="label" module="i4redsyspro">
+                    <label>Redsys PRO by Interactiv4 [E-Commerce Settings]</label>
+                    <comment><![CDATA[
+						<div style="margin-bottom:20px;"> 
+									<strong style="color:#EA7601;">Redsy PRO v1.2.1 by Interactiv4</strong>
+									<br />
+						</div>]]>
+                    </comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <!-- ACTIVATION AND SUPPORT SETTINGS -->
+                        <heading0 translate="label">
+                            <label>Activation and Support Settings:</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading0>
+                        <active translate="label comment tooltip">
+                            <label>Enable</label>
+                            <comment>When you save this config an email with 'Extension Buffet Order #' and 'Website Domain' fields values will be sent to our Extension Buffet Support Team in order to improve our support system.</comment>
+                            <tooltip>Select 'Yes' if you want to enable this payment method. Otherwise 'No'.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <domainsebsupport translate="label comment tooltip">
+                            <label>Website domain</label>
+                            <frontend_type>text</frontend_type>
+                            <!-- <comment></comment> -->
+                            <!-- <tooltip></tooltip> -->
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_model>i4redsyspro/adminhtml_system_config_form_field_disabled_store_url_renderer</frontend_model>
+                        </domainsebsupport>
+                        <ebordernumber translate="label comment tooltip">
+                            <label>Extension Buffet Order #</label>
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[Introduce Order # of your purchase in <a href="http://www.extensionbuffet.com/" target="_blank">www.extesionbuffet.com</a>.]]></comment>
+                            <tooltip><![CDATA[Introduce Order # of your purchase in <a href="http://www.extensionbuffet.com/" target="_blank">www.extesionbuffet.com</a>.]]></tooltip>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <!--validate>validate-length maximum-length-12 minimum-length-9 validate-not-negative-number required-entry</validate-->
+                        </ebordernumber>
+
+                        <!-- CREDENTIALS AND BANK SETTINGS -->
+                        <heading1 translate="label">
+                            <label>Credentials and Bank Settings:</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </heading1>
+                        <bank translate="label comment tooltip">
+                            <label>Bank</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Select your bank.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4redsyspro/config_source_banks</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </bank>
+                        <merchantnumber translate="label comment tooltip">
+                            <label>Merchant Number (FUC)</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Merchant Number (FUC) provided by your bank.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </merchantnumber>
+                        <merchantterminal translate="label comment tooltip">
+                            <label>Terminal Number</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Terminal Number provided by your bank.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </merchantterminal>
+                        <merchantpassword translate="label comment tooltip">
+                            <label>Merchant Key (SHA1)</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>SHA1 Key provided by your bank (in order to encrypt).</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <signaturealgorithm>1</signaturealgorithm>
+                                <active>1</active>
+                            </depends>
+                        </merchantpassword>
+                        <devpassword translate="label comment tooltip">
+                            <label>Merchant Key (SHA1) for Dev/Test environment</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>SHA1 Key provided by your bank (in order to encrypt) for Dev/Test environment.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <signaturealgorithm>1</signaturealgorithm>
+                                <active>1</active>
+                            </depends>
+                        </devpassword>
+                        <merchantpassword256 translate="label comment tooltip">
+                            <label>Merchant Key (SHA256)</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>SHA256 Key provided by your bank (in order to encrypt).</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <signaturealgorithm>2</signaturealgorithm>
+                                <active>1</active>
+                            </depends>
+                        </merchantpassword256>
+                        <devpassword256 translate="label comment tooltip">
+                            <label>Merchant Key (SHA256) for Dev/Test environment</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>SHA256 Key provided by your bank (in order to encrypt) for Dev/Test environment.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                                <signaturealgorithm>2</signaturealgorithm>
+                            </depends>
+                        </devpassword256>
+
+                        <!-- CONFIG SETTINGS -->
+                        <heading2 translate="label">
+                            <label>General Settings:</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>199</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </heading2>
+                        <redsysenvironment translate="label comment tooltip">
+                            <label>Use Production Environment</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Select 'Yes' to use the production environment of your selected bank or 'No' to use the test environment.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </redsysenvironment>
+                        <signaturealgorithm translate="label comment tooltip">
+                            <label>Signature Algorithm</label>
+                            <comment>Algorithm to be used in order to encrypt signature.</comment>
+                            <tooltip>Should be 'SHA-256' to make compatible with last Redsys protocol update.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>210</sort_order>
+                            <source_model>i4redsyspro/config_source_signaturealgorithm</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </signaturealgorithm>
+                        <!--
+                        <sslversion translate="label comment tooltip">
+                            <label>Security Protocol for admin refunds</label>
+                            <comment>Compatible with TLS security protocol.</comment>
+                            <tooltip>Select the appropiate Security Protocol. It is hightly recommended to select TLS protocol.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4redsyspro/config_source_sslversion</source_model>
+                            <sort_order>215</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sslversion>
+                        -->
+                        <prefijo translate="label comment tooltip">
+                            <label>Reference Order Prefix</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>The prefix is used in order to set an identifier before the Order ID, thus it is possible to have the same terminal in the POS (TPV) system for differents stores. It must have up to 3 alphanumerics characters.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-length maximum-length-3</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </prefijo>
+                        <order_status translate="label comment tooltip">
+                            <label>Order Status after successful payment</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Select the status which the order has to be set after a successful payment. Note: it must be an status which respects your store order status flow.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </order_status>
+                        <sendmailorderconfirmation translate="label comment tooltip">
+                            <label>Send Order confirmation Email</label>
+                            <comment></comment>
+                            <tooltip>Applicable only if the payment was successful and the sending of the order confirmation enabled in the configuration: System->Configuration->Sales/Sales Emails->Order.</tooltip>
+                            <frontend_type>Select</frontend_type>
+                            <sort_order>240</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </sendmailorderconfirmation>
+                        <autoinvoice translate="label comment tooltip">
+                            <label>Automatic invoice generation</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Applicable only if the payment was successful.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </autoinvoice>
+                        <!--
+                        <error_status translate="label">
+                            <label>Estado para pedido cancelado por Redsys</label>
+                            <comment>Mensaje para mostrar en Resumen de tarjeta del Cliente</comment>
+                            <tooltip>Select the appropiate Security Protocol. It is hightly recommended to select TLS protocol.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </error_status>
+                        -->
+                        <carrito_vacio translate="label comment tooltip">
+                            <label>Empty Cart after denied payment</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Select 'No' in order to remains customer cart as it was before payment attempt.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </carrito_vacio>
+                        <allowspecific translate="label comment tooltip">>
+                            <label>Payment from Applicable Countries</label>
+                            <!-- <comment></comment> -->
+                            <!-- <tooltip></tooltip> -->
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>280</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </allowspecific>
+                        <specificcountry translate="label comment tooltip">>
+                            <label>Payment from Specific Countries</label>
+                            <!-- <comment></comment> -->
+                            <!-- <tooltip></tooltip> -->
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>290</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </specificcountry>
+
+                        <!-- FRONT SETTINGS -->
+                        <heading3 translate="label">
+                            <label>Front Settings:</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>299</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </heading3>
+                        <consumerlanguage translate="label comment tooltip">
+                            <label>Idioma del TPV</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Select the appropiate language you desire the POS (TPV) shows.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4redsyspro/config_source_consumerlanguage</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </consumerlanguage>
+                        <merchanttitular translate="label comment tooltip">
+                            <label>Merchant Titular</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Set the merchant name you desire the POS (TPV) shows.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>310</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </merchanttitular>
+                        <mensagen translate="label comment tooltip">
+                            <label>Generic Message</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Message to be shown in the Customer card Summary.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>320</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </mensagen>
+                        <title translate="label comment tooltip">>
+                            <label>Título para el método de pago Redsys Pro</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Título con el que se mostrará el método de pago.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </title>
+                        <checkoutmessage translate="label comment tooltip">
+                            <label>Message to be shown in checkout (during Payment Method selection)</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Message to be shown in checkout (when Redsys Pro choosen during Payment Method selection).</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>340</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </checkoutmessage>
+                        <placeholder translate="label comment tooltip">
+                            <label>Image to be shown in checkout (during Payment Method selection)</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Image to be shown in checkout (when Redsys Pro choosen during Payment Method selection).</tooltip>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">i4redsyspro</upload_dir>
+                            <base_url type="media" scope_info="1">i4redsyspro</base_url>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </placeholder>
+                        <redirectmsg translate="label comment tooltip">
+                            <label>Redirect Message</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Message to be shown in redirect page.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>360</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </redirectmsg>
+                        <redirecttimeout translate="label comment tooltip">
+                            <label>Redirection Timeout</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Miliseconds Timeout in order to start redirection.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>370</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-zero-or-greater validate-digits required-entry </validate>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </redirecttimeout>
+                        <redirectlogo translate="label comment tooltip">
+                            <label>Redirection Logo</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Logo to be shown in redirect page.</tooltip>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">i4redsyspro</upload_dir>
+                            <base_url type="media" scope_info="1">i4redsyspro</base_url>
+                            <sort_order>380</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </redirectlogo>
+                        <loadingimage translate="label comment tooltip">
+                            <label>'Loading...' Image</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Alternative image to be shown as 'progress' in redirect page.</tooltip>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">i4redsyspro</upload_dir>
+                            <base_url type="media" scope_info="1">i4redsyspro</base_url>
+                            <sort_order>390</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </loadingimage>
+                        <sort_order translate="label comment tooltip">
+                            <label>Sort Order</label>
+                            <!-- <comment></comment> -->
+                            <tooltip>Relative Sort Order to be shown in checkout respect other Payment Methods.</tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
+                            <depends>
+                                <active>1</active>
+                            </depends>
+                        </sort_order>
+                    </fields>
+                </i4redsyspro>
+                <i4redsysproemailnotification translate="label" module="i4redsyspro">
+                    <label>Redsys PRO by Interactiv4 [Email Notification Check Settings]</label>
+                    <comment><![CDATA[
+						<div style="margin-bottom:20px;">
+									<strong style="color:#EA7601;">Redsys PRO by Interactiv4 Email Notification Checking</strong>
+									<br />
+						</div>]]>
+                    </comment>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <checknotificationemail translate="label comment tooltip">
+                            <label>Check for bank email notification</label>
+                            <comment><![CDATA[Checks the specified mailbox to make sure the notification email was received from the bank for each successful transaction.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>i4redsyspro/config_data_testconnection</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </checknotificationemail>
+                        <checknotificationfrequency translate="label comment tooltip">
+                            <label>Frequency</label>
+                            <comment><![CDATA[Select the frequency with which you would like to check for notification emails.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>i4redsyspro/config_source_checknotificationfrequency</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <backend_model>i4redsyspro/config_data_frequency</backend_model>
+                        </checknotificationfrequency>
+                        <attempts translate="label comment tooltip">
+                            <label>Number of times to check</label>
+                            <comment><![CDATA[Enter the number of times to check for the notification email before giving up.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <validate>validate-greater-than-zero</validate>
+                        </attempts>
+                        <orderstatus translate="label comment tooltip">
+                            <label>Status of order if no email found</label>
+                            <comment><![CDATA[Enter the status to set the order to if no email is found.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-select</validate>
+                        </orderstatus>
+                        <protocol translate="label comment tooltip">
+                            <label>Protocol</label>
+                            <comment><![CDATA[Choose the protocol used to access the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>i4redsyspro/config_source_emailprotocols</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>   
+                        </protocol>
+                        <port translate="label comment tooltip">
+                            <label>Port</label>
+                            <comment><![CDATA[Enter the port on which to access the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                            <validate>validate-number</validate>
+                        </port>
+                        <mailboxhost translate="label comment tooltip">
+                            <label>Host</label>
+                            <comment><![CDATA[Enter the host IP or address of the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                        </mailboxhost>
+                        <mailboxusername translate="label comment tooltip">
+                            <label>Username</label>
+                            <comment><![CDATA[Enter username/email address required to access the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                        </mailboxusername>
+                        <mailboxpassword translate="label comment tooltip">
+                            <label>Password</label>
+                            <comment><![CDATA[Enter password required to access the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store> 
+                        </mailboxpassword>
+                        <security translate="label comment tooltip">
+                            <label>Security</label>
+                            <comment><![CDATA[Select a security option for accessing the mailbox where bank notification emails are received.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>100</sort_order>
+                            <source_model>i4redsyspro/config_source_emailsecurity</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>         
+                        </security>
+                        <expectedsenderemail translate="label comment tooltip">
+                            <label>Allowed sender email addresses/domains</label>
+                            <comment><![CDATA[Enter the list of possible email addresses or domains from which you expect to receive notification emails. Separate multiple email addresses with commas.]]></comment>
+                            <tooltip></tooltip>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                        </expectedsenderemail>
+                    </fields>
+                </i4redsysproemailnotification>
+            </groups>
+        </payment>
+    </sections>
+</config>

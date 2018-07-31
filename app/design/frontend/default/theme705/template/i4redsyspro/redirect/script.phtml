@@ -1,0 +1,84 @@
+<?php
+/**
+ *
+ * @category    design
+ * @package     base_default
+ * @author      Interactiv4
+ */
+?>
+<?php
+/**
+ * @see Interactiv4_RedsysPro_Block_Redirect
+ */
+?>
+
+<script type="text/javascript">
+
+    var urlOrderId = "<?php echo $this->getUrl('*/*/cancelRedirect'); ?>";
+    var domain = "<?php echo Mage::getStoreConfig('web/cookie/cookie_domain'); ?>";
+    var path = "<?php echo Mage::getStoreConfig('web/cookie/cookie_path'); ?>";
+    var httpOnlyFlag = "<?php echo Mage::getStoreConfig('web/cookie/cookie_httponly'); ?>";
+    var baseUrl = "<?php echo $this->getBaseUrl(); ?>";
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue) {
+        var d = new Date();
+        d.setTime(d.getTime() + (5*60*1000)); //5min
+        var expires = "expires="+d.toGMTString();
+        var httpOnly = "";
+        if (httpOnlyFlag == "1") {
+            httpOnly = " HttpOnly;";
+        }
+
+        finalBaseUrl = baseUrl.split('/');
+
+        if (domain == "" || domain == "NULL") {
+            domain = finalBaseUrl[2];
+        }
+
+        if (path == "" || path == "NULL") {
+            path = "/";
+        }
+
+        document.cookie = cname + "=" + cvalue + "; Domain=" + domain + "; Path=" + path + ";";
+    }
+
+    function deleteCookie(cname) {
+        finalBaseUrl = baseUrl.split('/');
+        if (domain == "" || domain == "NULL") {
+            domain = finalBaseUrl[2];
+        }
+
+        if (path == "" || path == "NULL") {
+            path = "/";
+        }
+
+        var expires = "expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = cname + "=0; " + expires + "; Domain=" + domain + "; Path=" + path + ";";
+    }
+
+    function checkI4RedsysProCookie() {
+        var i4redsysprocookie = getCookie("i4redsyspro");
+        if (i4redsysprocookie == 1) {
+            deleteCookie("i4redsyspro");
+            location.href = urlOrderId;
+
+        } else {
+            setCookie("i4redsyspro",1);
+            setTimeout(function(){ document.getElementById("i4redsyspro_standard_checkout").submit();  }, '<?php echo $this->getRedirectTimeOut() ?>');
+        }
+    }
+
+    checkI4RedsysProCookie();
+</script>
+

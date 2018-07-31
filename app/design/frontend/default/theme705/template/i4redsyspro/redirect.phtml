@@ -1,0 +1,38 @@
+<?php
+/**
+ *
+ * @category    design
+ * @package     base_default
+ * @author      Interactiv4
+ */
+?>
+<?php
+/**
+ * @see Interactiv4_RedsysPro_Block_Redirect
+ */
+?>
+
+<?php $imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'i4redsyspro/'; ?>
+<div class="i4redsyspro-container">
+    <?php if($img = $this->getRedirectLogo()) : ?>
+        <div class="i4redsyspro-logo-container">
+            <img src="<?php echo $imageUrl . $img ?>" class="i4redsyspro-redirect-logo" />
+        </div>
+    <?php endif; ?>
+    <p class="i4redsyspro-redirect-msg"><?php echo $this->_getHelper()->__($this->getRedirectMsg()) ?></p>
+    <?php
+        $img = $this->getRedirectSpinner();
+        if($img){
+            $img = $imageUrl . $img;
+        }
+        else{
+            $img = $this->getSkinUrl('images/ajax-loader-bar.gif');
+        }
+    ?>
+</div>
+<?php
+
+echo $this->getPostHtml();
+echo $this->getChildHtml('i4redsyspro.script');
+
+?>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <i4redsyspro_payment_redirect>
+        <reference name="root">
+            <action method="unsetChild">
+                <name>head</name>
+            </action>
+            <block type="page/html_head" name="head" as="head">
+                <action method="addJs">
+                    <script>prototype/prototype.js</script>
+                </action>
+                <action method="addJs">
+                    <script>prototype/validation.js</script>
+                </action>
+                <action method="addJs">
+                    <script>varien/js.js</script>
+                </action>
+                <action method="addJs">
+                    <script>varien/form.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/translate.js</script>
+                </action>
+                <action method="addJs">
+                    <script>mage/cookies.js</script>
+                </action>
+                <action method="addCss">
+                    <stylesheet>css/i4redsyspro.css</stylesheet>
+                </action>
+            </block>
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="i4redsyspro/redirect" name="i4redsyspro.redirect" template="i4redsyspro/redirect.phtml">
+                <block type="i4redsyspro/redirect" name="i4redsyspro.script" template="i4redsyspro/redirect/script.phtml"/>
+            </block>
+        </reference>
+
+    </i4redsyspro_payment_redirect>
+</layout>

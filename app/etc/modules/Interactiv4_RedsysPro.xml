@@ -1,0 +1,13 @@
+
+<config>
+    <modules>
+        <Interactiv4_RedsysPro>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment/>
+                <Interactiv4_EmailDownloader />
+            </depends>
+        </Interactiv4_RedsysPro>
+    </modules>
+</config>
