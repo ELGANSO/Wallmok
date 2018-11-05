@@ -32,13 +32,32 @@
                <input type="text" name="email" id="newsletter" title="<?php echo $this->__('Sign up for our newsletter') ?>" class="input-text required-entry validate-email" placeholder="<?php echo $this->__('Sign up for our newsletter') ?>"/>
             </div>
             <div class="actions">
-                <button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="subscribe_button"><span><?php echo $this->__('Subscribe') ?></span></button>
+                <button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="subscribe_button disabled" disabled><span><?php echo $this->__('Subscribe') ?></span></button>
             </div>
+            <input type="checkbox" id="privacidad" style="margin-top: 0;"/>
+            <label>Acepto la <a href="/politica-de-privacidad" target="_blank">Política de Privacidad</a> de Wallmok</label>
         </div>
     </form>
     <script type="text/javascript">
     //<![CDATA[
         var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
     //]]>
+
+        jQuery(".actions button").click(function(){
+           if(!jQuery("#privacidad").is(':checked')){
+               alert("Por favor revise la política de privacidad.");
+               return false;
+           }
+        });
+
+        jQuery("#privacidad").click(function(){
+            if(jQuery("#privacidad").is(':checked')){
+                jQuery(".actions button").prop("disabled",false);
+                jQuery(".actions button").removeClass("disabled");
+            }else{
+                jQuery(".actions button").prop("disabled",true);
+                jQuery(".actions button").addClass("disabled");
+            }
+        });
     </script>
 </div>

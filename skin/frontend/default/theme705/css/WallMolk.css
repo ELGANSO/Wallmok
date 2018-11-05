@@ -1339,6 +1339,21 @@ div#sidenav li a.btn:before {
 .postDetails-date{
 	display: none;
 }
+.footer-modals .block-subscribe .actions .disabled{
+    background: #a6b1af !important;
+}
+.messages{
+    z-index: 1000000000000000000000;
+    position: relative;
+}
+.modal-body ol {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.modal-body p{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 /****** MÓVIL **************/
 @media (max-width: 767px) {
     .main {
