@@ -19,10 +19,13 @@ $click_url = $this->getUrl('bannerslider/index/click');
     });
 </script>
 <div class="flexslider flexslider-7-<?php echo $blocks['bannerslider_id'] ?>">
-    <ul class="slides"> 
+    <ul class="slides">
+    <?php $i = 0;?> 
     <?php foreach ($banners as $banner): ?>
             <li>
+            	<?php if($i > 0):?>
             	<h1><?php echo $banner['name']; ?></h1>
+            <?php endif; $i++;?>
             	<h3><?php echo $banner['image_alt']; ?></h3>
                 <a href="<?php echo $banner['click_url']?>" target="<?php echo $this->getTarget($banner['tartget'])?>" onclick="bannerClicks('<?php echo $banner['banner_id'] ?>','<?php echo $blocks['bannerslider_id'] ?>')" style="display:block"><img alt="<?php echo $banner['image_alt'];?>" src="<?php echo $this->getBannerImage($banner['image']); ?>"/></a>
             </li>
