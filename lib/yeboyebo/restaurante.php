@@ -28,12 +28,12 @@ class Restaurante {
 
 			$pass =openssl_decrypt(  base64_decode($data["password"]), 'AES-256-CBC', "S0!0c0re99",0, "c0mb0c4l4d4c0mb0" );
 
-			$db = new PDO($data["driver"].':dbname='.$data["nombrebd"].';host='.$data["servidor"].';port='.$data["puerto"],$data["usuario"],$pass);
+			//$db = new PDO($data["driver"].':dbname='.$data["nombrebd"].';host='.$data["servidor"].';port='.$data["puerto"],$data["usuario"],$pass);
 
 		//Activo excepciones bd
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+		//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 		//Asigno datos
-		$this->conexion = $db;
+		//$this->conexion = $db;
 		$this->id = $data["id"];
 		$this->descripcion = $data['descripcion'];
 		$this->direccion = $data["direccion"];
@@ -58,6 +58,9 @@ class Restaurante {
 
 	public function isAvailable()
 	{
+		$online = true; //Si no esta cerrada
+		$this->online = "Abierto";
+		return $online;
 		try{
 			//Compruebo si la tienda esta cerrada
 			$res = $this->conexion->prepare("SELECT * FROM diascerrados WHERE fecha ='".date("Y-m-d")."' and cerrado = 'True';");

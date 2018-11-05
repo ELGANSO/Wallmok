@@ -1093,7 +1093,7 @@ img:first-child{
     position: relative;
 }
 .aw-blog-read-more{
-    color:#fff;
+    color:#fff !important;
 }
 .postContent {
     overflow: hidden;
